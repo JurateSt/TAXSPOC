@@ -10,6 +10,7 @@ import MainBar from '../components/MainBar.jsx';
 import MainArticle from '../components/MainArticle/MainArticle';
 import Article from '../components/Article/Article';
 import MainContainer from '../components/MainContainer.jsx';
+import HotTopicsSidebar from '../components/HotTopics/HotTopicsSidebar.jsx';
 
 const Spacer = styled('div')(({ theme }) => {
 	console.log('theme.mixins.toolbar', theme.mixins.toolbar);
@@ -80,9 +81,9 @@ const Home = () => {
 								))}
 						</Grid>
 					</Grid>
-					<Grid item xs={0} sm={0} md={4} lg={4} xl={4} sx={{ border: '1px solid green' }}>
-						Hot topics
-					</Grid>
+					
+						<HotTopicsSidebar />
+					
 				</Grid>
 			</StyledContainer>
 		</>
