@@ -1,0 +1,32 @@
+body {
+	/* margin: 0; */
+	/* background-color: #EFEBE6; */
+	background-color: #f5f5f5;
+}
+
+
+/* navigation */
+.MuiToolbar-root.navigation-bar {
+	/* min-height: 32px;
+	height: 32px; */
+	justify-content: center;
+	align-items: stretch;
+}
+
+.MuiBox-root.navigation-bar-box {
+	/* width: 100%; */
+	display: flex;
+	flex-direction: row;
+	/* gap: 8px; */
+}
+
+.MuiLink-root.navigation-link {
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+	padding: 16px;
+	border-bottom: 2px solid transparent;
+}
+
+
+

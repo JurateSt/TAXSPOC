@@ -1,0 +1,20 @@
+// MUI
+import { Grid, Button } from '@mui/material';
+
+const MainArticlePhoto = ({ article }) => {
+	return (
+		<Grid
+			item
+			xs={0}
+			sm={6}
+			md={8}
+			lg={8}
+			xl={8}
+			sx={{ border: '1px solid green', backgroundColor: 'lightblue', height: '210px' }}
+		>
+			<img src="/images/italy_plastic_tax.webp" height="210px" width="100%" alt="Main Article" />
+		</Grid>
+	);
+};
+
+export default MainArticlePhoto;
