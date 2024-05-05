@@ -1,3 +1,6 @@
+.env
+ui-web/.env
+
 # Logs
 logs
 *.log
