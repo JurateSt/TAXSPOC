@@ -13,6 +13,7 @@ const ArticleSchema = new Schema(
 		tags: { type: [String] },
 		categories: { type: [String] },
 		source: { type: String },
+		images: { type: Array },
 	},
 	{ timestamps: true }
 );

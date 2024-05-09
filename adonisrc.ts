@@ -29,7 +29,8 @@ export default defineConfig({
       environment: ['repl', 'test'],
     },
     () => import('#providers/mongo_provider'),
-    () => import('@adonisjs/cors/cors_provider')
+    () => import('@adonisjs/cors/cors_provider'),
+    () => import('@adonisjs/static/static_provider')
   ],
 
   /*
@@ -66,4 +67,8 @@ export default defineConfig({
     ],
     forceExit: false,
   },
+  metaFiles: [{
+    pattern: 'public/**',
+    reloadServer: false,
+  }]
 })

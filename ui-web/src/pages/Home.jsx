@@ -11,6 +11,7 @@ import MainArticle from '../components/MainArticle/MainArticle';
 import Article from '../components/Article/Article';
 import MainContainer from '../components/MainContainer.jsx';
 import HotTopicsSidebar from '../components/HotTopics/HotTopicsSidebar.jsx';
+import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
 
 const Spacer = styled('div')(({ theme }) => {
 	console.log('theme.mixins.toolbar', theme.mixins.toolbar);
@@ -44,7 +45,7 @@ const Home = () => {
 			<MainArticle articles={articles.filter((item) => item.featured === true)} />
 
 			<StyledContainer>
-				<Grid container sx={{ border: '1px solid blue' }}>
+				<Grid container sx={{ border: '1px solid blue' }} columnSpacing={2}>
 					<Grid
 						container
 						item
@@ -81,11 +82,12 @@ const Home = () => {
 								))}
 						</Grid>
 					</Grid>
-					
-						<HotTopicsSidebar />
-					
+
+					<HotTopicsSidebar />
 				</Grid>
 			</StyledContainer>
+
+			<BottomContainer />
 		</>
 	);
 };

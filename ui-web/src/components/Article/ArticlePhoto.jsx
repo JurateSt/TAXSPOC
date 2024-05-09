@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 const ArticlePhoto = ({ article }) => {
 	return (
 		<Grid item xs={12} sx={{ bgcolor: 'lightblue', height: '100px' }}>
-			{article?.photoUrl}
+			<img src={`http://localhost:3333/${article?.images[0]?.url}`} alt="Article" />
 		</Grid>
 	);
 };

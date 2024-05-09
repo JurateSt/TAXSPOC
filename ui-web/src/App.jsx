@@ -12,6 +12,7 @@ import Home from './pages/Home';
 import HotTopics from './pages/HotTopics.jsx';
 import Article from './pages/Article.jsx';
 import CreateArticle from './pages/CreateArticle';
+import EditArticle from './pages/EditArticle';
 
 function App() {
 	const [count, setCount] = useState(0);
@@ -25,7 +26,8 @@ function App() {
 						<Route path="/home" element={<Home />} />
 						<Route path="/articles/:id" element={<Article />} />
 						<Route path="/hot-topics" element={<HotTopics />} />
-						<Route path="/auth/create-article" element={<CreateArticle />} />
+						<Route path="/auth/create-article/" element={<CreateArticle />} />
+						<Route path="/auth/create-article/:id" element={<EditArticle />} />
 					</Routes>
 				</BrowserRouter>
 			</CssBaseline>

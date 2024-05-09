@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import dayjs from 'dayjs';
 // MUI
 import {
 	Container,
+	Box,
 	Grid,
 	TextField,
 	Typography,
@@ -15,7 +17,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import moment from 'moment';
 // Quill
 import ReactQuill from 'react-quill';
 import 'quill/dist/quill.snow.css';
@@ -23,8 +24,9 @@ import 'quill/dist/quill.bubble.css';
 // api
 import api from '../api/axios';
 
-const CreateArticle = () => {
+const EditArticle = () => {
 	const navigate = useNavigate();
+	const { id } = useParams();
 
 	const [articles, setArticles] = useState([]);
 	const [article, setArticle] = useState({
@@ -41,18 +43,17 @@ const CreateArticle = () => {
 	// snackbar
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState('');
-	// images
-	const [selectedFile, setSelectedFile] = useState(null);
-	const hiddenFileInput = useRef(null);
 
-	const getArticles = async () => {
-		const { data } = await api.get('/articles');
+	const getArticle = async () => {
+		const { data } = await api.get(`/articles/${id}`);
+		data.dateTag = data.dateTag ? dayjs(data.dateTag) : null;
+		console.log('getArticle', data, data.dateTag, typeof data.dateTag, data.dateTag === 'null');
 
-		setArticles(data);
+		setArticle(data);
 	};
 
 	useEffect(() => {
-		getArticles();
+		getArticle();
 	}, []);
 
 	const handleChange = (event) => {
@@ -76,11 +77,23 @@ const CreateArticle = () => {
 		}));
 	};
 
-	const handleFileChange = (event) => {
+	const handleFileChange = async (event) => {
+		console.log('handleFileChange', event.target.files, article);
 		setArticle((prev) => ({
 			...prev,
-			images: event.target.files,
+			images: [...prev.images, ...event.target.files],
 		}));
+	};
+
+	const handleFileDetele = async (url) => {
+		console.log('handleFileDetele', url);
+		if (window.confirm('Are you sure you want to delete this file?') === false) return;
+		const newImages = article.images.filter((item) => item.url !== url);
+		setArticle((prev) => ({
+			...prev,
+			images: newImages,
+		}));
+		const { data } = await api.put(`/articles/${id}`, { action: 'deleteFile', url: url });
 	};
 
 	const handleSubmit = async (event) => {
@@ -105,24 +118,15 @@ const CreateArticle = () => {
 		// }
 
 		try {
-			const { data } = await api.post('/articles', formData, {
+			const { data } = await api.put(`/articles/${id}`, formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},
 			});
-			setArticle({
-				dateTag: null,
-				tags: '',
-				categories: '',
-				subHeader: '',
-				header: '',
-				content: '',
-				source: '',
-				images: [],
-			});
-			setArticles([...articles, data]);
-			setSnackbarMessage('Article successfully created!');
+
+			setSnackbarMessage('Article successfully updated!');
 			setSnackbarOpen(true);
+			navigate(`/auth/create-article`);
 		} catch (error) {
 			console.error('handleSubmitArticle error', error);
 			setSnackbarMessage('Error creating article');
@@ -131,53 +135,26 @@ const CreateArticle = () => {
 	};
 
 	const handleCancel = () => {
-		console.log('handleCancel');
-		setArticle({
-			dateTag: null,
-			tags: '',
-			categories: '',
-			subHeader: '',
-			header: '',
-			content: '',
-			source: '',
-			images: [],
-		});
+		navigate(`/auth/create-article`);
 	};
 
-	const handleEdit = (id) => {
-		console.log('handleEdit', id);
-		// navigate new tab
-		navigate(`/auth/create-article/${id}`);
-		// window.open(`/auth/create-article/${id}`, '_blank');
-	};
-
-	const handleDelete = async (id) => {
-		if (!window.confirm('Are you sure you want to delete this article?')) {
-			return;
-		}
-		console.log('handleDelete', id);
-		try {
-			await api.delete(`/articles/${id}`);
-			//const newArticles = articles.filter((item) => item._id !== id);
-			setArticles((prev) => prev.filter((item) => item._id !== id));
-
-			setSnackbarMessage('Article successfully deleted!');
-			setSnackbarOpen(true);
-		} catch (error) {
-			console.error('handleDelete error', error);
-			setSnackbarMessage('Error deleting article');
-			setSnackbarOpen(true);
-		}
-	};
+	// const handleEdit = (article) => {
+	// 	console.log('handleEdit', article);
+	// 	navigate(`/auth/create-article/${article._id}`);
+	// };
 
 	const handleCloseSnackbar = () => {
 		setSnackbarOpen(false);
 	};
 
+	const handleNavigate = () => {
+		navigate('/auth/create-article');
+	};
+
 	return (
 		<Container>
 			<Typography variant="h3" align="center">
-				Create Article
+				Edit Article
 			</Typography>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
@@ -264,19 +241,38 @@ const CreateArticle = () => {
 						fullWidth
 					/>
 				</Grid>
+				<Grid item xs={12}>
+					<Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+						{article.images.map((item, index) => {
+							console.log('images', item.url);
+							return (
+								<Box
+									sx={{
+										display: 'flex',
+										// alignItems: 'center',
+										// flexDirection: 'row',
+										// gap: '8px',
+									}}
+								>
+									<img
+										key={index}
+										src={`http://localhost:3333/${item.url}`}
+										alt="article"
+										style={{ width: '200px' }}
+									/>
+									<Box>
+										<IconButton onClick={() => handleFileDetele(item.url)}>
+											<DeleteOutlineOutlinedIcon />
+										</IconButton>
+									</Box>
+								</Box>
+							);
+						})}
+					</Box>
+				</Grid>
 
 				<Grid item xs={12}>
 					<Input type="file" onChange={handleFileChange} inputProps={{ multiple: true }} />
-					{/* <Button variant="contained" onClick={handleSubmit}>
-						Upload Images
-					</Button>
-					<Input
-						type="file"
-						inputProps={{ multiple: true }}
-						onChange={handleFileChange}
-						style={{ display: 'none' }}
-						ref={hiddenFileInput}
-					/> */}
 				</Grid>
 
 				<Grid item xs={6}>
@@ -286,7 +282,7 @@ const CreateArticle = () => {
 				</Grid>
 				<Grid item container justifyContent="flex-end" xs={6}>
 					<Button variant="contained" onClick={handleSubmit}>
-						Save and Publish
+						Save and publish
 					</Button>
 				</Grid>
 			</Grid>
@@ -298,23 +294,23 @@ const CreateArticle = () => {
 				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
 			/>
 
-			<hr style={{ margin: '64px 0' }} />
+			<hr style={{ margin: '20px 0' }} />
 			<Grid container spacing={2}>
-				<Typography variant="h4">Articles</Typography>
 				{articles.map((item, index) => (
 					<Grid container item key={item._id}>
 						<Grid item xs={10}>
-							<div>{moment(item.dateTag).format('YYYY-MM-DD')}</div>
+							<div>{item.dateTag}</div>
 							<strong>{item.header}</strong>
-
+							<div>Tags: {JSON.stringify(item.tags)}</div>
+							<div>Categories: {JSON.stringify(item.categories)}</div>
 							<hr style={{ margin: '8px 0' }} />
 						</Grid>
 						<Grid item xs={2}>
-							<IconButton onClick={() => handleEdit(item._id)}>
+							<IconButton onClick={() => handleEdit(item)}>
 								<EditOutlinedIcon />
 							</IconButton>
 
-							<IconButton onClick={() => handleDelete(item._id)}>
+							<IconButton>
 								<DeleteOutlineOutlinedIcon />
 							</IconButton>
 						</Grid>
@@ -325,4 +321,4 @@ const CreateArticle = () => {
 	);
 };
 
-export default CreateArticle;
+export default EditArticle;
