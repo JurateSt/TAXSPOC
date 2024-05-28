@@ -2,7 +2,7 @@
 import { Grid, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
-const ArticleHeader = ({ article }) => {
+const ArticleCardHeader = ({ article }) => {
 	return (
 		<Grid item xs={12}>
 			<Typography
@@ -23,4 +23,4 @@ const ArticleHeader = ({ article }) => {
 	);
 };
 
-export default ArticleHeader;
+export default ArticleCardHeader;

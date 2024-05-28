@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 // MUI
 import { Grid, Link } from '@mui/material';
 
-const ArticleButtons = ({ article }) => {
+const ArticleCardButtons = ({ article }) => {
 	const navigate = useNavigate();
 	const { _id: id } = article;
 
@@ -20,4 +20,4 @@ const ArticleButtons = ({ article }) => {
 	);
 };
 
-export default ArticleButtons;
+export default ArticleCardButtons;

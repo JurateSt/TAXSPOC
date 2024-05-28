@@ -1,7 +1,7 @@
 // MUI
 import { Grid, Typography } from '@mui/material';
 
-const ArticleSupportingText = ({ article }) => {
+const ArticleCardSupportingText = ({ article }) => {
 	return (
 		<Grid item xs={12}>
 			<Typography
@@ -20,4 +20,4 @@ const ArticleSupportingText = ({ article }) => {
 	);
 };
 
-export default ArticleSupportingText;
+export default ArticleCardSupportingText;

@@ -8,7 +8,7 @@ import api from '../api/axios';
 // components
 import MainBar from '../components/MainBar.jsx';
 import MainArticle from '../components/MainArticle/MainArticle';
-import Article from '../components/Article/Article';
+import ArticleCard from '../components/Article/ArticleCard.jsx';
 import MainContainer from '../components/MainContainer.jsx';
 import HotTopics from '../components/HotTopics/HotTopics.jsx';
 import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
@@ -81,7 +81,7 @@ const Home = () => {
 										// sx={{ border: '1px solid orange' }}
 										key={index}
 									>
-										<Article key={item.id} article={item} />
+										<ArticleCard key={item.id} article={item} />
 									</Grid>
 								))}
 						</Grid>

@@ -7,13 +7,13 @@ import ShareIcon from '@mui/icons-material/Share';
 // api
 import api from '../../api/axios';
 // components
-import ArticlePhoto from './ArticlePhoto';
-import ArticleSubHeader from './ArticleSubHeader';
-import ArticleHeader from './ArticleHeader';
-import ArticleSupportingText from './ArticleSupportingText';
-import ArticleButtons from './ArticleButtons';
+import ArticleCardPhoto from './ArticleCardPhoto';
+import ArticleCardSubHeader from './ArticleCardSubHeader';
+import ArticleCardHeader from './ArticleCardHeader';
+import ArticleCardSupportingText from './ArticleCardSupportingText';
+import ArticleCardButtons from './ArticleCardButtons';
 
-const Article = ({ article }) => {
+const ArticleCard = ({ article }) => {
 	return (
 		<Box
 			sx={{
@@ -29,19 +29,19 @@ const Article = ({ article }) => {
 		>
 			<Box sx={{ flexGrow: 1, overflow: 'hidden' }}>
 				<Grid container>
-					<ArticlePhoto article={article} />
+					<ArticleCardPhoto article={article} />
 					<Grid container item sx={{ padding: '8px' }} rowSpacing={1}>
-						<ArticleSubHeader article={article} />
+						<ArticleCardSubHeader article={article} />
 
-						<ArticleHeader article={article} />
+						<ArticleCardHeader article={article} />
 
-						<ArticleSupportingText article={article} />
+						<ArticleCardSupportingText article={article} />
 					</Grid>
 				</Grid>
 			</Box>
 
 			<Box sx={{ padding: '8px' }}>
-				<ArticleButtons article={article} />
+				<ArticleCardButtons article={article} />
 			</Box>
 		</Box>
 
@@ -79,4 +79,4 @@ const Article = ({ article }) => {
 	);
 };
 
-export default Article;
+export default ArticleCard;

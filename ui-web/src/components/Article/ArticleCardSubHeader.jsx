@@ -1,7 +1,7 @@
 // MUI
 import { Grid, Typography } from '@mui/material';
 
-const ArticleSubHeader = ({ article }) => {
+const ArticleCardSubHeader = ({ article }) => {
 	return (
 		<Grid item xs={12}>
 			<Typography noWrap sx={{ fontWeight: '100', fontStyle: 'italic', fontSize: '13px' }}>
@@ -11,4 +11,4 @@ const ArticleSubHeader = ({ article }) => {
 	);
 };
 
-export default ArticleSubHeader;
+export default ArticleCardSubHeader;

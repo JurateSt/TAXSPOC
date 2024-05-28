@@ -1,7 +1,7 @@
 // MUI
 import { Grid } from '@mui/material';
 
-const ArticlePhoto = ({ article }) => {
+const ArticleCardPhoto = ({ article }) => {
 	const backendUrl = import.meta.env.VITE_BACKEND_URL;
 	console.log('backendUrl', `${backendUrl}/${article?.images[0]?.url}`);
 	return (
@@ -15,4 +15,4 @@ const ArticlePhoto = ({ article }) => {
 	);
 };
 
-export default ArticlePhoto;
+export default ArticleCardPhoto;

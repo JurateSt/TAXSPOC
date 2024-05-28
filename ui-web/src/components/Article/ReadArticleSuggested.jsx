@@ -1,7 +1,7 @@
 // MUI
 import { Grid, Typography, Box } from '@mui/material';
 // components
-import Article from './Article';
+import ArticleCard from './ArticleCard';
 
 const ReadArticleSuggested = ({ articles }) => {
 	return (
@@ -35,7 +35,7 @@ const ReadArticleSuggested = ({ articles }) => {
 								// sx={{ border: '1px solid orange' }}
 								key={index}
 							>
-								<Article key={item.id} article={item} />
+								<ArticleCard key={item.id} article={item} />
 							</Grid>
 						))}
 				</Grid>
