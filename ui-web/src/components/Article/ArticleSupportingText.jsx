@@ -14,7 +14,7 @@ const ArticleSupportingText = ({ article }) => {
 					fontSize: '14px',
 				}}
 			>
-				{article?.supportingText} <div dangerouslySetInnerHTML={{ __html: article?.content }} />
+				{article?.supportingText}
 			</Typography>
 		</Grid>
 	);

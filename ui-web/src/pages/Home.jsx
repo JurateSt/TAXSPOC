@@ -10,7 +10,7 @@ import MainBar from '../components/MainBar.jsx';
 import MainArticle from '../components/MainArticle/MainArticle';
 import Article from '../components/Article/Article';
 import MainContainer from '../components/MainContainer.jsx';
-import HotTopicsSidebar from '../components/HotTopics/HotTopicsSidebar.jsx';
+import HotTopics from '../components/HotTopics/HotTopics.jsx';
 import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
 
 const Spacer = styled('div')(({ theme }) => {
@@ -44,8 +44,12 @@ const Home = () => {
 			<MainBar />
 			<MainArticle articles={articles.filter((item) => item.featured === true)} />
 
-			<StyledContainer>
-				<Grid container sx={{ border: '1px solid blue' }} columnSpacing={2}>
+			<Container>
+				<Grid
+					container
+					// sx={{ border: '1px solid blue' }}
+					columnSpacing={2}
+				>
 					<Grid
 						container
 						item
@@ -54,9 +58,9 @@ const Home = () => {
 						md={8}
 						lg={8}
 						xl={8}
-						sx={{
-							border: '1px solid purple',
-						}}
+						// sx={{
+						// 	border: '1px solid purple',
+						// }}
 					>
 						<Grid
 							container
@@ -74,7 +78,7 @@ const Home = () => {
 										md={6}
 										lg={6}
 										xl={6}
-										sx={{ border: '1px solid orange' }}
+										// sx={{ border: '1px solid orange' }}
 										key={index}
 									>
 										<Article key={item.id} article={item} />
@@ -83,9 +87,9 @@ const Home = () => {
 						</Grid>
 					</Grid>
 
-					<HotTopicsSidebar />
+					<HotTopics />
 				</Grid>
-			</StyledContainer>
+			</Container>
 
 			<BottomContainer />
 		</>

@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 // MUI
 import {
 	Container,
-	Box,
 	Grid,
 	TextField,
 	Typography,
@@ -17,10 +15,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-// Quill
-import ReactQuill from 'react-quill';
-import 'quill/dist/quill.snow.css';
-import 'quill/dist/quill.bubble.css';
+import moment from 'moment';
 // TinyMCE
 import { Editor } from '@tinymce/tinymce-react';
 // api
@@ -28,16 +23,11 @@ import api from '../api/axios';
 // components
 import EditorTinyMCE from '../components/TinyMCE/EditorTinyMCE';
 
-const EditArticle = () => {
-	const backendUrl = import.meta.env.VITE_BACKEND_URL;
+const CreateArticleTinyMCE = () => {
 	const navigate = useNavigate();
-	const location = useLocation();
-	const { id } = useParams();
-	const searchParams = new URLSearchParams(location.search);
-	const editor = searchParams.get('editor');
 
 	const [articles, setArticles] = useState([]);
-	const [article, setArticle] = useState({
+	const initialArticleValues = {
 		dateTag: null,
 		tags: [],
 		categories: [],
@@ -47,27 +37,29 @@ const EditArticle = () => {
 		content: '',
 		source: '',
 		images: [],
-	});
+	};
+	const [article, setArticle] = useState(initialArticleValues);
 
 	// snackbar
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState('');
+	// images
+	// const [selectedFile, setSelectedFile] = useState(null);
+	// const hiddenFileInput = useRef(null);
 
-	const getArticle = async () => {
-		const { data } = await api.get(`/articles/${id}`);
-		data.dateTag = data.dateTag ? dayjs(data.dateTag) : null;
-		console.log('getArticle', data, editor);
+	const getArticles = async () => {
+		const { data } = await api.get('/articles');
 
-		setArticle(data);
+		setArticles(data);
 	};
 
 	useEffect(() => {
-		getArticle();
+		getArticles();
 	}, []);
 
 	const handleChange = (event) => {
 		const { name, value } = event.target;
-
+		console.log('handleChange', name, value);
 		setArticle((prev) => ({
 			...prev,
 			[name]: value,
@@ -86,28 +78,18 @@ const EditArticle = () => {
 		}));
 	};
 
-	const handleFileChange = async (event) => {
+	const handleFileChange = (event) => {
 		setArticle((prev) => ({
 			...prev,
-			images: [...prev.images, ...event.target.files],
+			images: event.target.files,
 		}));
-	};
-
-	const handleFileDetele = async (url) => {
-		console.log('handleFileDetele', url);
-		if (window.confirm('Are you sure you want to delete this file?') === false) return;
-		const newImages = article.images.filter((item) => item.url !== url);
-		setArticle((prev) => ({
-			...prev,
-			images: newImages,
-		}));
-		const { data } = await api.put(`/articles/${id}`, { action: 'deleteFile', url: url });
 	};
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		const formData = new FormData();
 		// add images to formData
+
 		Array.from(article.images).forEach((item) => {
 			formData.append('images[]', item);
 		});
@@ -115,25 +97,24 @@ const EditArticle = () => {
 		Object.keys(article).forEach((key) => {
 			if (key !== 'images') {
 				const value = article[key] === null ? '' : article[key];
-				console.log('EDIT ARTICLE FormData', key, value);
 				formData.append(key, value);
 			}
 		});
 
-		// for (let [key, value] of formData.entries()) {
-		// 	console.log('FormData', key, value, value === 'null');
-		// }
+		for (let [key, value] of formData.entries()) {
+			console.log('FormData', key, value);
+		}
 
 		try {
-			const { data } = await api.put(`/articles/${id}`, formData, {
+			const { data } = await api.post('/articles', formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},
 			});
-
-			setSnackbarMessage('Article successfully updated!');
+			setArticle(initialArticleValues);
+			setArticles([...articles, data]);
+			setSnackbarMessage('Article successfully created!');
 			setSnackbarOpen(true);
-			// navigate(`/auth/create-article`);
 		} catch (error) {
 			console.error('handleSubmitArticle error', error);
 			setSnackbarMessage('Error creating article');
@@ -142,26 +123,42 @@ const EditArticle = () => {
 	};
 
 	const handleCancel = () => {
-		navigate(`/auth/create-article`);
+		console.log('handleCancel');
+		setArticle(initialArticleValues);
 	};
 
-	// const handleEdit = (article) => {
-	// 	console.log('handleEdit', article);
-	// 	navigate(`/auth/create-article/${article._id}`);
-	// };
+	const handleEdit = (id) => {
+		navigate(`/auth/create-article/${id}`);
+		// window.open(`/auth/create-article/${id}`, '_blank');
+	};
+
+	const handleDelete = async (id) => {
+		if (!window.confirm('Are you sure you want to delete this article?')) {
+			return;
+		}
+		console.log('handleDelete', id);
+		try {
+			await api.delete(`/articles/${id}`);
+			//const newArticles = articles.filter((item) => item._id !== id);
+			setArticles((prev) => prev.filter((item) => item._id !== id));
+
+			setSnackbarMessage('Article successfully deleted!');
+			setSnackbarOpen(true);
+		} catch (error) {
+			console.error('handleDelete error', error);
+			setSnackbarMessage('Error deleting article');
+			setSnackbarOpen(true);
+		}
+	};
 
 	const handleCloseSnackbar = () => {
 		setSnackbarOpen(false);
 	};
 
-	const handleNavigate = () => {
-		navigate('/auth/create-article');
-	};
-
 	return (
 		<Container>
 			<Typography variant="h3" align="center">
-				Edit Article
+				Create Article
 			</Typography>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
@@ -233,7 +230,7 @@ const EditArticle = () => {
 							plugins:
 								'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
 							toolbar:
-								'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | checklist numlist bullist indent outdent | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | emoticons charmap | removeformat',
+								'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | checklist numlist bullist indent outdent | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight  | emoticons charmap | removeformat',
 							tinycomments_mode: 'embedded',
 							tinycomments_author: 'Author name',
 							mergetags_list: [
@@ -243,23 +240,9 @@ const EditArticle = () => {
 							ai_request: (request, respondWith) =>
 								respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
 						}}
-						// initialValue={article.content}
-						value={article.content}
+						// initialValue="Welcome to TinyMCE!"
 						onEditorChange={handleContentChange}
 					/> */}
-					{/* <ReactQuill
-							theme="snow"
-							modules={{
-								toolbar: [
-									['bold', 'italic', 'underline', 'strike'],
-									[{ list: 'ordered' }, { list: 'bullet' }],
-									['link', 'image', 'video'], // Additional features
-									['clean'],
-								],
-							}}
-							value={article.content}
-							onChange={handleContentChange}
-						/> */}
 				</Grid>
 				<Grid item xs={12}>
 					<TextField
@@ -271,38 +254,19 @@ const EditArticle = () => {
 						fullWidth
 					/>
 				</Grid>
-				<Grid item xs={12}>
-					<Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-						{article.images.map((item, index) => {
-							console.log('images', item.url);
-							return (
-								<Box
-									sx={{
-										display: 'flex',
-										// alignItems: 'center',
-										// flexDirection: 'row',
-										// gap: '8px',
-									}}
-								>
-									<img
-										key={index}
-										src={`${backendUrl}/${item.url}`}
-										alt="article"
-										style={{ width: '200px' }}
-									/>
-									<Box>
-										<IconButton onClick={() => handleFileDetele(item.url)}>
-											<DeleteOutlineOutlinedIcon />
-										</IconButton>
-									</Box>
-								</Box>
-							);
-						})}
-					</Box>
-				</Grid>
 
 				<Grid item xs={12}>
 					<Input type="file" onChange={handleFileChange} inputProps={{ multiple: true }} />
+					{/* <Button variant="contained" onClick={handleSubmit}>
+						Upload Images
+					</Button>
+					<Input
+						type="file"
+						inputProps={{ multiple: true }}
+						onChange={handleFileChange}
+						style={{ display: 'none' }}
+						ref={hiddenFileInput}
+					/> */}
 				</Grid>
 
 				<Grid item xs={6}>
@@ -312,7 +276,7 @@ const EditArticle = () => {
 				</Grid>
 				<Grid item container justifyContent="flex-end" xs={6}>
 					<Button variant="contained" onClick={handleSubmit}>
-						Save and publish
+						Save and Publish
 					</Button>
 				</Grid>
 			</Grid>
@@ -324,23 +288,23 @@ const EditArticle = () => {
 				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
 			/>
 
-			<hr style={{ margin: '20px 0' }} />
+			<hr style={{ margin: '64px 0' }} />
 			<Grid container spacing={2}>
+				<Typography variant="h4">Articles</Typography>
 				{articles.map((item, index) => (
 					<Grid container item key={item._id}>
 						<Grid item xs={10}>
-							<div>{item.dateTag}</div>
+							<div>{moment(item.dateTag).format('YYYY-MM-DD')}</div>
 							<strong>{item.header}</strong>
-							<div>Tags: {JSON.stringify(item.tags)}</div>
-							<div>Categories: {JSON.stringify(item.categories)}</div>
+
 							<hr style={{ margin: '8px 0' }} />
 						</Grid>
 						<Grid item xs={2}>
-							<IconButton onClick={() => handleEdit(item)}>
+							<IconButton onClick={() => handleEdit(item._id)}>
 								<EditOutlinedIcon />
 							</IconButton>
 
-							<IconButton>
+							<IconButton onClick={() => handleDelete(item._id)}>
 								<DeleteOutlineOutlinedIcon />
 							</IconButton>
 						</Grid>
@@ -351,4 +315,4 @@ const EditArticle = () => {
 	);
 };
 
-export default EditArticle;
+export default CreateArticleTinyMCE;

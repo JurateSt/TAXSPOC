@@ -18,8 +18,10 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import moment from 'moment';
 // Quill
 import ReactQuill from 'react-quill';
+import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
+
 // api
 import api from '../api/axios';
 
@@ -37,13 +39,15 @@ const CreateArticle = () => {
 		source: '',
 		images: [],
 	});
+	// Text Editor
+	const editorRef = useRef(null);
 
 	// snackbar
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState('');
 	// images
-	const [selectedFile, setSelectedFile] = useState(null);
-	const hiddenFileInput = useRef(null);
+	// const [selectedFile, setSelectedFile] = useState(null);
+	// const hiddenFileInput = useRef(null);
 
 	const getArticles = async () => {
 		const { data } = await api.get('/articles');
@@ -53,6 +57,16 @@ const CreateArticle = () => {
 
 	useEffect(() => {
 		getArticles();
+	}, []);
+
+	useEffect(() => {
+		if (!editorRef.current) return;
+
+		if (editorRef.current.children.length === 0) {
+			new Quill(editorRef.current, {
+				theme: 'snow',
+			});
+		}
 	}, []);
 
 	const handleChange = (event) => {
@@ -232,15 +246,7 @@ const CreateArticle = () => {
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					{/* <TextField
-						label="Content"
-						name="content"
-						value={article.content}
-						onChange={handleChange}
-						variant="outlined"
-						fullWidth
-					/> */}
-					<ReactQuill
+					{/* <ReactQuill
 						theme="snow"
 						modules={{
 							toolbar: [
@@ -252,7 +258,8 @@ const CreateArticle = () => {
 						}}
 						value={article.content}
 						onChange={handleContentChange}
-					/>
+					/> */}
+					<div ref={editorRef} style={{ height: '200px' }} />
 				</Grid>
 				<Grid item xs={12}>
 					<TextField

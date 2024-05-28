@@ -13,7 +13,9 @@ const ArticleButtons = ({ article }) => {
 
 	return (
 		<Grid item xs={12}>
-			<Link onClick={handleClick}> Read More </Link>
+			<Link onClick={handleClick} sx={{ cursor: 'pointer' }}>
+				Read More
+			</Link>
 		</Grid>
 	);
 };

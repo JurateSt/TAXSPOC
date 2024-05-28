@@ -4,7 +4,7 @@ import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
 import HotTopicsHeader from './HotTopicsHeader';
 import HotTopicsCardHolder from './HotTopicsCardHolder';
 
-const HotTopicsSidebar = () => {
+const HotTopics = () => {
 	return (
 		// align Boxes in container by vertical axis
 		<Grid
@@ -33,4 +33,4 @@ const HotTopicsSidebar = () => {
 	);
 };
 
-export default HotTopicsSidebar;
+export default HotTopics;

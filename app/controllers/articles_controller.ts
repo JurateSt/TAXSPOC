@@ -22,11 +22,12 @@ export default class ArticlesController {
 		const images = request.files('images');
 
 		const article = new Article(articleData);
+
 		// save images in public folder
 		const articleImages = [];
 		if (images) {
 			for (const image of images) {
-				const fileName = `${article._id}-${image.clientName}-${Date.now()}`;
+				const fileName = `${article._id}-${image.clientName}`;
 				await image.move(app.publicPath('images'), {
 					name: fileName,
 				});
@@ -46,9 +47,18 @@ export default class ArticlesController {
 
 	public async update({ request, response }: HttpContext) {
 		const { id } = request.params();
-		const { images: _images, ...articleData } = request.all();
+		const { images: _images, tags, categories, ...articleData } = request.all();
 		const images = request.files('images');
-		log('UPDATE', id, articleData);
+
+		if (typeof tags === 'string') {
+			articleData.tags = tags.split(',');
+			log('TAGS', articleData.tags);
+		}
+		if (typeof categories === 'string') {
+			articleData.categories = categories.split(',');
+		}
+
+		// log('UPDATE', id, articleData);
 
 		if (articleData.action === 'deleteFile') {
 			const article = await Article.findById(id);
@@ -71,10 +81,10 @@ export default class ArticlesController {
 
 		// save images in public folder
 		const articleImages = article?.images || [];
-		log('UPDATE', article, images, articleImages);
+		// log('UPDATE:', article, images, articleImages);
 		if (images) {
 			for (const image of images) {
-				const fileName = `${article?._id}-${image.clientName}-${Date.now()}`;
+				const fileName = `${article?._id}-${image.clientName}`;
 				await image.move(app.publicPath('images'), {
 					name: fileName,
 				});

@@ -10,9 +10,17 @@ const MainArticlePhoto = ({ article }) => {
 			md={8}
 			lg={8}
 			xl={8}
-			sx={{ border: '1px solid green', backgroundColor: 'lightblue', height: '210px' }}
+			sx={{
+				// border: '1px solid green',
+				backgroundColor: 'lightblue',
+				height: '210px',
+			}}
 		>
-			<img src="/images/italy_plastic_tax.webp" height="210px" width="100%" alt="Main Article" />
+			<img
+				src="/images/italy_plastic_tax.webp"
+				style={{ height: '210px', width: '100%', objectFit: 'cover' }}
+				alt="Main Article"
+			/>
 		</Grid>
 	);
 };
