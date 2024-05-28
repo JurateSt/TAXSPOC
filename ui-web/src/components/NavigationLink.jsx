@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { Typography, Link, Menu, MenuItem } from '@mui/material';
 
 const NavigationLink = ({ to, children, menuItems = [] }) => {
+	const location = useLocation();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
+	const isActive = location.pathname === to;
 
 	const handleClick = (event) => {
-		console.log('NavigationLink menuItems', menuItems.length, anchorEl);
 		menuItems.length > 0 && event.preventDefault();
 		if (menuItems.length === 0) {
 			return;
@@ -26,6 +27,8 @@ const NavigationLink = ({ to, children, menuItems = [] }) => {
 			onClick={handleClick}
 			sx={{
 				color: 'primary.main',
+				borderBottom: isActive ? '2px solid' : '2px solid transparent',
+				borderColor: isActive ? 'primary.main' : 'transparent',
 				'&:hover': {
 					borderColor: 'primary.main',
 				},

@@ -18,8 +18,15 @@ export default class ArticlesController {
 	}
 
 	public async store({ request, response }: HttpContext) {
-		const { images: _images, ...articleData } = request.all();
+		const { images: _images, tags, categories, ...articleData } = request.all();
 		const images = request.files('images');
+
+		if (typeof tags === 'string') {
+			articleData.tags = tags.split(',').map((item) => item.trim());
+		}
+		if (typeof categories === 'string') {
+			articleData.categories = categories.split(',').map((item) => item.trim());
+		}
 
 		const article = new Article(articleData);
 
@@ -51,11 +58,12 @@ export default class ArticlesController {
 		const images = request.files('images');
 
 		if (typeof tags === 'string') {
-			articleData.tags = tags.split(',');
+			// split and remove empty strings
+			articleData.tags = tags.split(',').map((item) => item.trim());
 			log('TAGS', articleData.tags);
 		}
 		if (typeof categories === 'string') {
-			articleData.categories = categories.split(',');
+			articleData.categories = categories.split(',').map((item) => item.trim());
 		}
 
 		// log('UPDATE', id, articleData);

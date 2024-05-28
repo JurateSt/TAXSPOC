@@ -1,51 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 // MUI
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
-import { styled } from '@mui/system';
 // api
 import api from '../api/axios';
 // components
 import MainBar from '../components/MainBar.jsx';
 import MainArticle from '../components/MainArticle/MainArticle';
-import ArticleCard from '../components/Article/ArticleCard.jsx';
-import MainContainer from '../components/MainContainer.jsx';
 import HotTopics from '../components/HotTopics/HotTopics.jsx';
 import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
+import ArticleCard from '../components/Article/ArticleCard.jsx';
 
-const Spacer = styled('div')(({ theme }) => {
-	console.log('theme.mixins.toolbar', theme.mixins.toolbar);
-	return {
-		...theme.mixins.toolbar,
-		height: `calc(${theme.mixins.toolbar.minHeight * 3 + 26}px)`,
-	};
-});
-
-const StyledContainer = styled(Container)(({ theme }) => ({
-	border: '2px solid red',
-	// height: '100vh',
-}));
-
-const Home = () => {
+const CategoryArticlesList = ({ category }) => {
 	const [articles, setArticles] = useState([]);
 
 	const getArticles = async () => {
 		const { data } = await api.get('/articles');
-
-		setArticles(data.sort((a, b) => b.dateTag - a.dateTag));
+		console.log('CategoryArticlesList', data, category);
+		// item.category is an array
+		setArticles(data.filter((item) => item?.categories.includes(category)));
 	};
 
 	useEffect(() => {
 		getArticles();
-	}, []);
-
-	//take the first article from the array
-	console.log('getArticles', articles.length, articles.slice(0, 1));
-
+	}, [category]);
 	return (
 		<>
 			<MainBar />
-			{/* TODO: carousel */}
+			<Box sx={{ display: 'flex', justifyContent: 'center', padding: '16px' }}>
+				<Typography variant="h4">{category}</Typography>
+			</Box>
 			<MainArticle articles={articles.slice(0, 1)} />
 			<Container>
 				<Grid
@@ -93,9 +76,10 @@ const Home = () => {
 					<HotTopics />
 				</Grid>
 			</Container>
+
 			<BottomContainer />
 		</>
 	);
 };
 
-export default Home;
+export default CategoryArticlesList;

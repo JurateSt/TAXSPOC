@@ -2,7 +2,8 @@
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
 // components
 import HotTopicsHeader from './HotTopicsHeader';
-import HotTopicsCardHolder from './HotTopicsCardHolder';
+import HotTopicsCardsHolder from './HotTopicsCardsHolder';
+import HotTopicsCard from './HotTopicsCard';
 
 const HotTopics = () => {
 	return (
@@ -15,19 +16,25 @@ const HotTopics = () => {
 			md={4}
 			lg={4}
 			xl={4}
-			// sx={{ border: '1px solid green', flexDirection: 'column' }}
+			sx={{
+				// border: '3px solid green',
+				flexDirection: 'column',
+			}}
 		>
 			<Box
 				sx={{
 					display: 'flex',
 					flexDirection: 'column',
-					flexGrow: 1,
-					// backgroundColor: 'blue',
+					alignItems: 'flex-start',
+					flexShrink: '0',
+					alignSelf: 'auto',
+					boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+					// border: '3px solid red',
 				}}
 			>
 				<HotTopicsHeader />
 
-				<HotTopicsCardHolder />
+				<HotTopicsCardsHolder />
 			</Box>
 		</Grid>
 	);

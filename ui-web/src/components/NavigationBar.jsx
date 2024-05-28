@@ -25,11 +25,11 @@ const NavigationBar = () => {
 				<NavigationLink to="/hot-topics" menuItems={hotTopicsMenuItems}>
 					Hot Topics
 				</NavigationLink>
-				<NavigationLink to="/indirect-tax">Indirect Tax</NavigationLink>
-				<NavigationLink to="/direct-tax">Direct Tax</NavigationLink>
-				<NavigationLink to="/transfer-pricing">Transfer Pricing</NavigationLink>
-				<NavigationLink to="/tax-technology">Tax Technology</NavigationLink>
-				<NavigationLink to="/customs">Customs</NavigationLink>
+				<NavigationLink to="/articles/indirect-tax">Indirect Tax</NavigationLink>
+				<NavigationLink to="/articles/direct-tax">Direct Tax</NavigationLink>
+				<NavigationLink to="/articles/transfer-pricing">Transfer Pricing</NavigationLink>
+				<NavigationLink to="/articles/tax-technology">Tax Technology</NavigationLink>
+				<NavigationLink to="/articles/customs">Customs</NavigationLink>
 			</Box>
 		</Toolbar>
 	);

@@ -6,13 +6,13 @@ const HotTopicsCard = ({ topic }) => {
 		<Box
 			sx={{
 				display: 'flex',
-				backgroundColor: '#FFFFFF',
-				border: '1px solid black',
 				flexDirection: 'row',
 				height: '96px',
 				paddingLeft: '16px',
 				alignItems: 'center',
 				gap: '16px',
+				// not solid but dashed
+				borderBottom: '1px dotted #000000',
 			}}
 		>
 			<Box

@@ -12,6 +12,7 @@ const HotTopicsHeader = () => {
 				backgroundColor: 'primary.midnightBlue800',
 				color: 'background.default',
 				padding: '16px',
+				width: '100%',
 			}}
 		>
 			Hot Topics

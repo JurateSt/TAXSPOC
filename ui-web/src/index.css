@@ -25,7 +25,7 @@ body {
 	display: flex;
 	align-items: center;
 	padding: 16px;
-	border-bottom: 2px solid transparent;
+	/* border-bottom: 2px solid transparent; */
 }
 /* .ql-editor li {
 	list-style-type: disc;

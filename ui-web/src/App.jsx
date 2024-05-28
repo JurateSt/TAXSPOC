@@ -9,6 +9,7 @@ import viteLogo from '/vite.svg';
 
 import Title from './pages/Title.jsx';
 import Home from './pages/Home';
+import CategoryArticlesList from './pages/CategoryArticlesList.jsx';
 import HotTopics from './pages/HotTopics.jsx';
 import Article from './pages/Article.jsx';
 import CreateArticle from './pages/CreateArticle';
@@ -25,6 +26,26 @@ function App() {
 					<Routes>
 						<Route path="/" element={<Home />} />
 						<Route path="/home" element={<Home />} />
+						<Route
+							path="/articles/indirect-tax"
+							element={<CategoryArticlesList category={'Indirect Tax'} />}
+						/>
+						<Route
+							path="/articles/direct-tax"
+							element={<CategoryArticlesList category={'Direct Tax'} />}
+						/>
+						<Route
+							path="/articles/transfer-pricing"
+							element={<CategoryArticlesList category={'Transfer Pricing'} />}
+						/>
+						<Route
+							path="/articles/tax-technology"
+							element={<CategoryArticlesList category={'Tax Technology'} />}
+						/>
+						<Route
+							path="/articles/customs"
+							element={<CategoryArticlesList category={'Customs'} />}
+						/>
 						<Route path="/articles/:id" element={<Article />} />
 						<Route path="/hot-topics" element={<HotTopics />} />
 						{/* <Route path="/auth/create-article/" element={<CreateArticle />} /> */}
