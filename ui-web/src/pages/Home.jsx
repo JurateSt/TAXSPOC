@@ -9,7 +9,6 @@ import api from '../api/axios';
 import MainBar from '../components/MainBar.jsx';
 import MainArticle from '../components/MainArticle/MainArticle';
 import ArticleCard from '../components/Article/ArticleCard.jsx';
-import MainContainer from '../components/MainContainer.jsx';
 import HotTopics from '../components/HotTopics/HotTopics.jsx';
 import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
 
@@ -52,6 +51,7 @@ const Home = () => {
 					container
 					// sx={{ border: '1px solid blue' }}
 					columnSpacing={2}
+					minHeight="100vh"
 				>
 					<Grid
 						container

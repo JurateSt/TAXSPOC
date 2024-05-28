@@ -35,6 +35,7 @@ const CategoryArticlesList = ({ category }) => {
 					container
 					// sx={{ border: '1px solid blue' }}
 					columnSpacing={2}
+					minHeight="100vh"
 				>
 					<Grid
 						container
