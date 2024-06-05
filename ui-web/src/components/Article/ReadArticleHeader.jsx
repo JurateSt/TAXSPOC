@@ -13,7 +13,7 @@ const ReadArticleHeader = ({ article }) => {
 				alignItems: 'flex-start',
 				gap: '24px',
 				alignSelf: 'stretch',
-				backgroundColor: 'rgba(0, 128, 0, 0.5)', // Set the background color to green with 50% transparency
+				// backgroundColor: 'rgba(0, 128, 0, 0.5)', // Set the background color to green with 50% transparency
 			}}
 		>
 			<Box
@@ -23,7 +23,7 @@ const ReadArticleHeader = ({ article }) => {
 					justifyContent: 'space-between',
 					alignItems: 'flex-start',
 					alignSelf: 'stretch',
-					backgroundColor: 'yellow',
+					// backgroundColor: 'yellow',
 				}}
 			>
 				<Typography>{article?.subHeader}</Typography>

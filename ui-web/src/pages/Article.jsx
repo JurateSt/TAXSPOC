@@ -72,7 +72,7 @@ const Article = () => {
 						lg={8}
 						xl={8}
 						sx={{
-							border: '1px solid red',
+							// border: '1px solid red',
 							direction: 'column',
 						}}
 					>
