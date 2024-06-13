@@ -2,12 +2,6 @@
 import { Grid, Button } from '@mui/material';
 
 const MainArticlePhoto = ({ article }) => {
-	const backendUrl = import.meta.env.VITE_BACKEND_URL;
-	console.log(
-		'MainArticlePhoto: backendUrl:',
-		backendUrl,
-		`${backendUrl}/${article?.images[0]?.url}`
-	);
 	return (
 		<Grid
 			item
@@ -28,7 +22,7 @@ const MainArticlePhoto = ({ article }) => {
 				alt="Main Article"
 			/> */}
 			<img
-				src={`${backendUrl}/${article?.images[0]?.url}`}
+				src={article?.images[0]?.url}
 				style={{ width: '100%', height: '100%', objectFit: 'cover' }}
 				alt="Main Article"
 			/>

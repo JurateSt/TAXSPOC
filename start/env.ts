@@ -18,4 +18,9 @@ export default await Env.create(new URL('../', import.meta.url), {
 	HOST: Env.schema.string({ format: 'host' }),
 	LOG_LEVEL: Env.schema.string(),
 	MONGO_CONNECTION_STRING: Env.schema.string(),
+	AWS_REGION: Env.schema.string(),
+	AWS_ENDPOINT: Env.schema.string(),
+	AWS_BUCKET_NAME: Env.schema.string(),
+	AWS_ACCESS_KEY_ID: Env.schema.string(),
+	AWS_SECRET_ACCESS_KEY: Env.schema.string(),
 });
