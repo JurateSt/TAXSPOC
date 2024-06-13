@@ -284,12 +284,7 @@ const EditArticle = () => {
 										// gap: '8px',
 									}}
 								>
-									<img
-										key={index}
-										src={`${backendUrl}/${item.url}`}
-										alt="article"
-										style={{ width: '200px' }}
-									/>
+									<img key={index} src={item.url} alt="article" style={{ width: '600px' }} />
 									<Box>
 										<IconButton onClick={() => handleFileDetele(item.url)}>
 											<DeleteOutlineOutlinedIcon />
