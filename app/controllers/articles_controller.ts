@@ -2,8 +2,6 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 import Article from '#models/Article';
 import { log } from 'console';
-import app from '@adonisjs/core/services/app';
-import fs from 'fs';
 import FileService from '#services/FileService';
 
 export default class ArticlesController {
