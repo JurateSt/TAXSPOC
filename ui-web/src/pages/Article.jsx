@@ -38,9 +38,10 @@ const Article = () => {
 	return (
 		<>
 			<MainBar />
-			<Container>
+			<Container sx={{ marginTop: '32px' }}>
 				<Grid
 					container
+					// sx={{ border: '3px solid green' }}
 					// sx={{ padding: '8px 0px' }}
 				>
 					<Box

@@ -13,9 +13,6 @@ import {
 
 import { styled } from '@mui/material/styles';
 import MainBar from '../components/MainBar.jsx';
-import pic1 from '../assets/images/pic1.jpeg';
-import pic2 from '../assets/images/pic2.jpeg';
-import pic3 from '../assets/images/pic3.jpeg';
 
 const Item = styled(Paper)(({ theme }) => ({
 	backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -33,7 +30,7 @@ const HotTopics = () => {
 				<Grid container spacing={2}>
 					<Grid item xs={4}>
 						<Card sx={{ maxWidth: 345 }}>
-							<CardMedia sx={{ height: 140 }} image={pic1} />
+							<CardMedia sx={{ height: 140 }} image={''} />
 							<CardContent>
 								<Typography gutterBottom variant="h5" component="div">
 									Dolor sit amet
@@ -56,7 +53,7 @@ const HotTopics = () => {
 					</Grid>
 					<Grid item xs={4}>
 						<Card sx={{ maxWidth: 345 }}>
-							<CardMedia sx={{ height: 140 }} image={pic2} />
+							<CardMedia sx={{ height: 140 }} image={''} />
 							<CardContent>
 								<Typography gutterBottom variant="h5" component="div">
 									Fusce euismod
@@ -81,7 +78,7 @@ const HotTopics = () => {
 					</Grid>
 					<Grid item xs={4}>
 						<Card sx={{ maxWidth: 345 }}>
-							<CardMedia sx={{ height: 140 }} image={pic3} />
+							<CardMedia sx={{ height: 140 }} image={''} />
 							<CardContent>
 								<Typography gutterBottom variant="h5" component="div">
 									Cras laoreet
