@@ -18,15 +18,9 @@ const ArticleCard = ({ article, index }) => {
 	const navigate = useNavigate();
 	const { _id: id } = article;
 	const handleClick = () => {
-		console.log('READ ARTICLE CLICK');
 		if (index === 0 || index === 1) return;
 		navigate(`/articles/${id}`);
-		// window.scrollTo(0, 0);
-		// window reload
-		// window.location.reload();
 	};
-
-	// console.log('SUGGESTED ARTICLE', article);
 
 	return (
 		<Box
