@@ -71,22 +71,20 @@ const Home = () => {
 							spacing={2}
 							// sx={{ backgroundColor: 'lightgrey' }}
 						>
-							{articles
-								.sort((a, b) => b.articleDate - a.articleDate)
-								.map((item, index) => (
-									<Grid
-										item
-										xs={12}
-										sm={6}
-										md={6}
-										lg={6}
-										xl={6}
-										// sx={{ border: '1px solid orange' }}
-										key={index}
-									>
-										<ArticleCard key={item.id} article={item} />
-									</Grid>
-								))}
+							{articles.slice(1).map((item, index) => (
+								<Grid
+									item
+									xs={12}
+									sm={6}
+									md={6}
+									lg={6}
+									xl={6}
+									// sx={{ border: '1px solid orange' }}
+									key={index}
+								>
+									<ArticleCard key={item.id} article={item} index={index} />
+								</Grid>
+							))}
 						</Grid>
 					</Grid>
 

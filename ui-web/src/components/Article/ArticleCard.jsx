@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 // MUI
 import { Container, Box, Grid } from '@mui/material';
 // MUI icons
@@ -13,7 +14,14 @@ import ArticleCardHeader from './ArticleCardHeader';
 import ArticleCardSupportingText from './ArticleCardSupportingText';
 import ArticleCardButtons from './ArticleCardButtons';
 
-const ArticleCard = ({ article }) => {
+const ArticleCard = ({ article, index }) => {
+	const navigate = useNavigate();
+	const { _id: id } = article;
+	const handleClick = () => {
+		if (index === 0 || index === 1) return;
+		navigate(`/articles/${id}`);
+	};
+
 	return (
 		<Box
 			sx={{
@@ -22,10 +30,12 @@ const ArticleCard = ({ article }) => {
 				flexDirection: 'column',
 				height: '320px',
 				boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+				cursor: index === 0 || index === 1 ? 'default' : 'pointer',
 				// minHeight: '320px',
 				// maxHeight: '400px',
 				// overflow: 'hidden',
 			}}
+			onClick={handleClick}
 		>
 			<Box sx={{ flexGrow: 1, overflow: 'hidden' }}>
 				<Grid container>

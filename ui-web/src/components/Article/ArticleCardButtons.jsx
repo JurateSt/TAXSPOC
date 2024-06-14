@@ -7,7 +7,6 @@ const ArticleCardButtons = ({ article }) => {
 	const { _id: id } = article;
 
 	const handleClick = () => {
-		console.log('Read More', id);
 		navigate(`/articles/${id}`);
 	};
 
