@@ -7,7 +7,6 @@ import MainLogo from '../assets/MainLogo.png';
 // MUI Icons
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import NavigationLink from './NavigationLink';
-import { on } from 'events';
 
 const NavigationBar = () => {
 	const navigate = useNavigate();
