@@ -56,7 +56,7 @@ const Article = () => {
 						}}
 					>
 						<img
-							src={`${backendUrl}/${article?.images?.[0]?.url}`}
+							src={article?.images?.[0]?.url}
 							style={{ width: '100%', height: '284px', objectFit: 'cover' }}
 							alt={article?.header}
 						/>
