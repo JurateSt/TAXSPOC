@@ -3,8 +3,6 @@ import { Typography, Box, Button, Chip } from '@mui/material';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 
 const ReadArticleCategories = ({ article }) => {
-	console.log('ReadArticleHeader', article);
-
 	return (
 		<Box
 			name="categories-and-share-icons"

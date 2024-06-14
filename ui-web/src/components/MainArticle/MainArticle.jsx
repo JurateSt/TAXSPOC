@@ -10,7 +10,6 @@ import MainArticleButtons from './MainArticleButtons';
 import MainArticleRotate from './MainArticleRotate';
 
 const MainArticle = ({ articles }) => {
-	console.log('MAIN ARTICLEs', articles);
 	return (
 		<Container
 			sx={{

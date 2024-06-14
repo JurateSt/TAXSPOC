@@ -31,9 +31,13 @@ const Article = () => {
 	};
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [id]);
+
+	useEffect(() => {
 		getArticle();
 		getArticles();
-	}, []);
+	}, [id]);
 
 	return (
 		<>

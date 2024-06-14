@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 // MUI
 import { Typography, Box, Button, Chip } from '@mui/material';
 // components
@@ -19,10 +20,12 @@ const ReadArticle = ({ articles, article }) => {
 				alignSelf: 'stretch',
 			}}
 		>
-			<ReadArticleHeader article={article} />
-			<ReadArticleSupportingText article={article} />
-			<ReadArticleContent article={article} />
-			<ReadArticleCategories article={article} />
+			<Box sx={{ backgroundColor: '#FFFFFF' }}>
+				<ReadArticleHeader article={article} />
+				<ReadArticleSupportingText article={article} />
+				<ReadArticleContent article={article} />
+				<ReadArticleCategories article={article} />
+			</Box>
 			<ReadArticleSuggested articles={articles} />
 		</Box>
 	);

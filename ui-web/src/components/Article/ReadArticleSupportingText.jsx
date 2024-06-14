@@ -14,7 +14,7 @@ const ReadArticleSupportingText = ({ article }) => {
 				alignSelf: 'stretch',
 			}}
 		>
-			<Typography>{article?.supportingText}</Typography>
+			<Typography variant="h6">{article?.supportingText}</Typography>
 		</Box>
 	);
 };
