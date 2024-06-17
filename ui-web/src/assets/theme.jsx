@@ -36,6 +36,8 @@ const theme = createTheme({
 			midnightBlue200: '#A8BBCC',
 			midnightBlue100: '#c6d7e4',
 			midnightBlue50: '#E6EFFA',
+			// NOT MUI
+			midnightBlue25: '#F5F9FD',
 		},
 		complementary: {
 			main: '#3c2a1c',

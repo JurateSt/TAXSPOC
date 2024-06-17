@@ -15,7 +15,7 @@ const HotTopicsHeader = () => {
 				width: '100%',
 			}}
 		>
-			Hot Topics
+			<Typography variant="h6">Hot Topics</Typography>
 		</Box>
 	);
 };

@@ -23,7 +23,7 @@ const ArticleCardHeader = ({ article }) => {
 					// lineHeight: '1.2em',
 				}}
 			>
-				{article?.header} {dayjs(article?.articleDate).format('MMM D, YYYY')}
+				{article?.header}
 			</Typography>
 		</Grid>
 	);
