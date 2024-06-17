@@ -16,10 +16,10 @@ const NavigationBar = () => {
 	};
 
 	const hotTopicsMenuItems = [
-		{ label: 'OECD/G20: BEPS', path: '/hot-topics' },
-		{ label: 'E-invoicing', path: '/hot-topics' },
-		{ label: 'Brazil Tax Reform', path: '/hot-topics' },
-		{ label: 'UAE CIT', path: '/hot-topics' },
+		{ label: 'OECD/G20: BEPS', path: '/hot-topics/1' },
+		{ label: 'E-invoicing', path: '/hot-topics/2' },
+		{ label: 'Brazil Tax Reform', path: '/hot-topics/3' },
+		{ label: 'UAE CIT', path: '/hot-topics/4' },
 	];
 	return (
 		<Toolbar
