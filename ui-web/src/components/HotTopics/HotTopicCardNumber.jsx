@@ -1,7 +1,7 @@
 // MUI
 import { Box } from '@mui/material';
 
-const HotTopicsCardNumber = ({ number }) => {
+const HotTopicCardNumber = ({ number }) => {
 	return (
 		<Box
 			sx={{
@@ -21,4 +21,4 @@ const HotTopicsCardNumber = ({ number }) => {
 	);
 };
 
-export default HotTopicsCardNumber;
+export default HotTopicCardNumber;
