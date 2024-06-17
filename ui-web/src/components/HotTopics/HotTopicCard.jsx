@@ -1,11 +1,14 @@
+import { useNavigate } from 'react-router-dom';
 // MUI
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
 // components
 import HotTopicCardNumber from './HotTopicCardNumber';
 
 const HotTopicCard = ({ topic }) => {
+	const navigate = useNavigate();
+
 	const handleClick = () => {
-		console.log('clicked');
+		navigate(`/hot-topics/${topic.number}`);
 	};
 	return (
 		<Box

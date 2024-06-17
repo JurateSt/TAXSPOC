@@ -14,7 +14,8 @@ const HotTopics = () => {
 		{
 			number: 2,
 			header: 'E-invoicing',
-			supportingText: 'Over 140 countries are implementing 15 Actions.',
+			supportingText:
+				'Electronic invoicing, commonly referred to as e-invoicing, is quickly becoming obligatory on a global scale.',
 		},
 		{
 			number: 3,
