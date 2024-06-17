@@ -2,12 +2,33 @@
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
 // components
 import HotTopicsHeader from './HotTopicsHeader';
-import HotTopicsCardsHolder from './HotTopicsCardsHolder';
 import HotTopicsCard from './HotTopicsCard';
 
 const HotTopics = () => {
+	const hotTopicsData = [
+		{
+			number: 1,
+			header: 'OECD/G20: BEPS',
+			supportingText: 'Over 140 countries are implementing 15 Actions.',
+		},
+		{
+			number: 2,
+			header: 'E-invoicing',
+			supportingText: 'Over 140 countries are implementing 15 Actions.',
+		},
+		{
+			number: 3,
+			header: 'Brazil Tax Reform',
+			supportingText:
+				'Brazil is finally adopting numerous Tax changes concerning Transfer Pricing and Indirect Taxes.',
+		},
+		{
+			number: 4,
+			header: 'UAE CIT',
+			supportingText: 'UAE introduces a federal Corporate Tax.',
+		},
+	];
 	return (
-		// align Boxes in container by vertical axis
 		<Grid
 			container
 			item
@@ -34,7 +55,18 @@ const HotTopics = () => {
 			>
 				<HotTopicsHeader />
 
-				<HotTopicsCardsHolder />
+				<Box
+					sx={{
+						display: 'flex',
+						backgroundColor: '#FFFFFF',
+						flexDirection: 'column',
+						padding: '0px 16px 8px 16px',
+					}}
+				>
+					{hotTopicsData.map((item, index) => (
+						<HotTopicsCard key={index} topic={item} />
+					))}
+				</Box>
 			</Box>
 		</Grid>
 	);
