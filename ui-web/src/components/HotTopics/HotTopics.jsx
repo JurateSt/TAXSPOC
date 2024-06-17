@@ -2,7 +2,7 @@
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
 // components
 import HotTopicsHeader from './HotTopicsHeader';
-import HotTopicsCard from './HotTopicsCard';
+import HotTopicCard from './HotTopicCard';
 
 const HotTopics = () => {
 	const hotTopicsData = [
@@ -64,7 +64,7 @@ const HotTopics = () => {
 					}}
 				>
 					{hotTopicsData.map((item, index) => (
-						<HotTopicsCard key={index} topic={item} />
+						<HotTopicCard key={index} topic={item} />
 					))}
 				</Box>
 			</Box>

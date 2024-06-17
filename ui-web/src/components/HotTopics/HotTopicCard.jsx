@@ -1,9 +1,9 @@
 // MUI
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
 // components
-import HotTopicsCardNumber from './HotTopicsCardNumber';
+import HotTopicCardNumber from './HotTopicCardNumber';
 
-const HotTopicsCard = ({ topic }) => {
+const HotTopicCard = ({ topic }) => {
 	const handleClick = () => {
 		console.log('clicked');
 	};
@@ -25,7 +25,7 @@ const HotTopicsCard = ({ topic }) => {
 			}}
 			onClick={handleClick}
 		>
-			<HotTopicsCardNumber number={topic.number} />
+			<HotTopicCardNumber number={topic.number} />
 			<Box>
 				<Box
 					sx={{
@@ -40,4 +40,4 @@ const HotTopicsCard = ({ topic }) => {
 	);
 };
 
-export default HotTopicsCard;
+export default HotTopicCard;
