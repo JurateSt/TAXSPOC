@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 // MUI Components
 import { Box, Toolbar } from '@mui/material';
 // Logo
-import MainLogo from '../assets/MainLogo.png';
+import LogoMain from '../assets/LogoMain.png';
 // MUI Icons
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import NavigationLink from './NavigationLink';
@@ -40,7 +40,7 @@ const NavigationBar = () => {
 				}}
 				onClick={handleClick}
 			>
-				<img src={MainLogo} alt="TaxSpoc Logo" />
+				<img src={LogoMain} alt="TaxSpoc Logo" />
 			</Box>
 
 			<NavigationLink to="/home">
