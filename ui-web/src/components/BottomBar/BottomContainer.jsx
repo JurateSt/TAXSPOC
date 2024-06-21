@@ -6,6 +6,7 @@ import XIcon from '@mui/icons-material/X';
 import FacebookIcon from '@mui/icons-material/Facebook';
 // Logo
 import LogoBottom from '../../assets/LogoBottom.png';
+import LogoBottomLarger from '../../assets/Logo-bottom-larger-10x.png';
 const BottomContainer = () => {
 	//move to boottom of the page
 	return (
@@ -33,9 +34,9 @@ const BottomContainer = () => {
 						<Grid item md={6} xs={12} sm={12}>
 							<Box>
 								<img
-									src={LogoBottom}
+									src={LogoBottomLarger}
 									alt="TaxSpoc Logo"
-									style={{ maxWidth: '100%', height: 'auto' }}
+									style={{ maxWidth: '100%', height: '48px' }}
 								/>
 							</Box>
 						</Grid>
