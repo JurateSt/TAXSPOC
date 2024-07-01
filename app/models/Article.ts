@@ -11,7 +11,7 @@ const ArticleSchema = new Schema(
 		supportingText: { type: String },
 		content: { type: String },
 		tags: { type: [String] },
-		categories: { type: [String] },
+		categories: { type: [Object] },
 		source: { type: String },
 		images: { type: Array },
 	},
