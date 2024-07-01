@@ -12,6 +12,7 @@ import {
 	Snackbar,
 	Input,
 	IconButton,
+	Autocomplete,
 } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
@@ -34,13 +35,15 @@ const EditArticle = () => {
 	const location = useLocation();
 	const { id } = useParams();
 	const searchParams = new URLSearchParams(location.search);
-	const editor = searchParams.get('editor');
+	// const editor = searchParams.get('editor');
 
 	const [articles, setArticles] = useState([]);
 	const [article, setArticle] = useState({
 		dateTag: null,
 		tags: [],
-		categories: [],
+		regions: [],
+		countries: [],
+		otherCategories: [],
 		subHeader: '',
 		header: '',
 		supportingText: '',
@@ -49,6 +52,12 @@ const EditArticle = () => {
 		images: [],
 	});
 
+	// categories
+	const [regions, setRegions] = useState([]);
+	const [countries, setCountries] = useState([]);
+	const [regionCountries, setRegionCountries] = useState([]);
+	const [otherCategories, setOtherCategories] = useState([]);
+
 	// snackbar
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -56,13 +65,31 @@ const EditArticle = () => {
 	const getArticle = async () => {
 		const { data } = await api.get(`/articles/${id}`);
 		data.dateTag = data.dateTag ? dayjs(data.dateTag) : null;
-		console.log('getArticle', data, editor);
+		data.regions = data.categories?.filter((item) => item.type === 'region');
+		data.countries = data.categories?.filter((item) => item.type === 'country');
+		data.otherCategories = data.categories?.filter((item) => item.type === 'other');
+		console.log('getArticle', data);
 
 		setArticle(data);
+	};
+	const getRegions = async () => {
+		const { data } = await api.get('/regions');
+		setRegions(data);
+	};
+	const getCountries = async () => {
+		try {
+			const { data } = await api.get('/countries');
+			setCountries(data);
+			setRegionCountries(data);
+		} catch (error) {
+			console.error('getCountries error', error);
+		}
 	};
 
 	useEffect(() => {
 		getArticle();
+		getRegions();
+		getCountries();
 	}, []);
 
 	const handleChange = (event) => {
@@ -104,25 +131,54 @@ const EditArticle = () => {
 		const { data } = await api.put(`/articles/${id}`, { action: 'deleteFile', url: url });
 	};
 
+	const handleRegionChange = async (event, value) => {
+		console.log('handleRegionChange', value);
+		setArticle((prev) => ({
+			...prev,
+			regions: value,
+		}));
+	};
+
+	const handleCountryChange = (event, value) => {
+		console.log('handleCountryChange', value);
+		setArticle((prev) => ({
+			...prev,
+			countries: value,
+		}));
+	};
+
+	const handleOtherCategoryChange = (event, value) => {
+		console.log('handleOtherCategoryChange', value);
+		setArticle((prev) => ({
+			...prev,
+			otherCategories: value,
+		}));
+	};
+
+	// actions
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		const formData = new FormData();
-		// add images to formData
+
+		formData.append('regions', JSON.stringify(article.regions));
+		formData.append('countries', JSON.stringify(article.countries));
+		formData.append('otherCategories', JSON.stringify(article.otherCategories));
+
 		Array.from(article.images).forEach((item) => {
 			formData.append('images[]', item);
 		});
 
 		Object.keys(article).forEach((key) => {
-			if (key !== 'images') {
+			if (!['images', 'regions', 'countries', 'otherCategories'].includes(key)) {
 				const value = article[key] === null ? '' : article[key];
-				console.log('EDIT ARTICLE FormData', key, value);
+				// console.log('EDIT ARTICLE FormData', key, value);
 				formData.append(key, value);
 			}
 		});
 
-		// for (let [key, value] of formData.entries()) {
-		// 	console.log('FormData', key, value, value === 'null');
-		// }
+		for (let [key, value] of formData.entries()) {
+			console.log('FormData', key, value);
+		}
 
 		try {
 			const { data } = await api.put(`/articles/${id}`, formData, {
@@ -184,15 +240,40 @@ const EditArticle = () => {
 						fullWidth
 					/>
 				</Grid>
-
-				<Grid item xs={12}>
-					<TextField
-						label="Categories"
-						name="categories"
-						value={article.categories}
-						onChange={handleChange}
-						variant="outlined"
-						fullWidth
+				<Grid item xs={4}>
+					<Autocomplete
+						options={regions}
+						getOptionLabel={(option) => option.name}
+						value={article?.regions}
+						onChange={handleRegionChange}
+						renderInput={(params) => (
+							<TextField {...params} label="Region" variant="outlined" fullWidth required />
+						)}
+						multiple
+					/>
+				</Grid>
+				<Grid item xs={4}>
+					<Autocomplete
+						options={countries}
+						getOptionLabel={(option) => option.name}
+						value={article?.countries}
+						onChange={handleCountryChange}
+						renderInput={(params) => (
+							<TextField {...params} label="Region" variant="outlined" fullWidth required />
+						)}
+						multiple
+					/>
+				</Grid>
+				<Grid item xs={4}>
+					<Autocomplete
+						options={otherCategories}
+						getOptionLabel={(option) => option.name}
+						value={article.otherCategories}
+						onChange={handleOtherCategoryChange}
+						renderInput={(params) => (
+							<TextField {...params} label="Other" variant="outlined" fullWidth required />
+						)}
+						multiple
 					/>
 				</Grid>
 				<Grid item xs={12}>
@@ -227,39 +308,6 @@ const EditArticle = () => {
 				</Grid>
 				<Grid item xs={12}>
 					<EditorTinyMCE value={article.content} onChange={handleContentChange} />
-					{/* <Editor
-						apiKey="rk2aip84g35omv0hc2cscaxth7rtdo001kbuxl6ndao4f68b"
-						init={{
-							plugins:
-								'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
-							toolbar:
-								'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | checklist numlist bullist indent outdent | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | emoticons charmap | removeformat',
-							tinycomments_mode: 'embedded',
-							tinycomments_author: 'Author name',
-							mergetags_list: [
-								{ value: 'First.Name', title: 'First Name' },
-								{ value: 'Email', title: 'Email' },
-							],
-							ai_request: (request, respondWith) =>
-								respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-						}}
-						// initialValue={article.content}
-						value={article.content}
-						onEditorChange={handleContentChange}
-					/> */}
-					{/* <ReactQuill
-							theme="snow"
-							modules={{
-								toolbar: [
-									['bold', 'italic', 'underline', 'strike'],
-									[{ list: 'ordered' }, { list: 'bullet' }],
-									['link', 'image', 'video'], // Additional features
-									['clean'],
-								],
-							}}
-							value={article.content}
-							onChange={handleContentChange}
-						/> */}
 				</Grid>
 				<Grid item xs={12}>
 					<TextField

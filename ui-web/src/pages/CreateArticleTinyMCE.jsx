@@ -10,6 +10,9 @@ import {
 	Snackbar,
 	Input,
 	IconButton,
+	Autocomplete,
+	FormControl,
+	FormHelperText,
 } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
@@ -30,7 +33,9 @@ const CreateArticleTinyMCE = () => {
 	const initialArticleValues = {
 		dateTag: null,
 		tags: [],
-		categories: [],
+		regions: [],
+		countries: [],
+		otherCategories: [],
 		subHeader: '',
 		header: '',
 		supportingText: '',
@@ -39,10 +44,18 @@ const CreateArticleTinyMCE = () => {
 		images: [],
 	};
 	const [article, setArticle] = useState(initialArticleValues);
+	// categories
+	const [regions, setRegions] = useState([]);
+	const [countries, setCountries] = useState([]);
+	const [regionCountries, setRegionCountries] = useState([]);
+	const [otherCategories, setOtherCategories] = useState([]);
 
 	// snackbar
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState('');
+
+	// errors
+	const [error, setError] = useState({ isError: false, message: '' });
 	// images
 	// const [selectedFile, setSelectedFile] = useState(null);
 	// const hiddenFileInput = useRef(null);
@@ -52,9 +65,30 @@ const CreateArticleTinyMCE = () => {
 
 		setArticles(data);
 	};
+	const getRegions = async () => {
+		const { data } = await api.get('/regions');
+		setRegions(data);
+	};
+	const getCountries = async () => {
+		try {
+			const { data } = await api.get('/countries');
+			setCountries(data);
+			setRegionCountries(data);
+		} catch (error) {
+			console.error('getCountries error', error);
+		}
+	};
+
+	const getOtherCategories = async () => {
+		const { data } = await api.get('/other-categories');
+		setOtherCategories(data);
+	};
 
 	useEffect(() => {
 		getArticles();
+		getRegions();
+		getCountries();
+		getOtherCategories();
 	}, []);
 
 	const handleChange = (event) => {
@@ -85,17 +119,68 @@ const CreateArticleTinyMCE = () => {
 		}));
 	};
 
+	const handleRegionChange = async (event, value) => {
+		setArticle((prev) => ({
+			...prev,
+			regions: value,
+		}));
+		// console.log('handleRegionChange', value);
+		// if (value) {
+		// 	setArticle((prev) => ({
+		// 		...prev,
+		// 		regions: value,
+		// 		countries: [],
+		// 	}));
+		// 	const regionIds = value.map((item) => item._id);
+		// 	const { data } = await api.get(`/countries?regions=${regionIds.join(',')}`);
+		// 	setRegionCountries(data);
+		// } else {
+		// 	setArticle((prev) => ({
+		// 		...prev,
+		// 		regions: [],
+		// 		countries: [],
+		// 	}));
+
+		// 	setRegionCountries(countries);
+		// }
+	};
+
+	const handleCountryChange = (event, value) => {
+		console.log('handleCountryChange', value);
+		setArticle((prev) => ({
+			...prev,
+			countries: value,
+		}));
+	};
+
+	const handleOtherCategoryChange = (event, value) => {
+		console.log('handleOtherCategoryChange', value);
+		setArticle((prev) => ({
+			...prev,
+			otherCategories: value,
+		}));
+	};
+
+	// actions
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		if (article.regions.length === 0 || article.countries.length === 0) {
+			setError({ isError: true, message: 'Field is required' });
+			return;
+		}
 		const formData = new FormData();
-		// add images to formData
+		// console.log('HANDLE SUBMIT REGION', article);
+
+		formData.append('regions', JSON.stringify(article.regions));
+		formData.append('countries', JSON.stringify(article.countries));
+		formData.append('otherCategories', JSON.stringify(article.otherCategories));
 
 		Array.from(article.images).forEach((item) => {
 			formData.append('images[]', item);
 		});
 
 		Object.keys(article).forEach((key) => {
-			if (key !== 'images') {
+			if (!['images', 'regions', 'countries', 'otherCategories'].includes(key)) {
 				const value = article[key] === null ? '' : article[key];
 				formData.append(key, value);
 			}
@@ -182,14 +267,56 @@ const CreateArticleTinyMCE = () => {
 					/>
 				</Grid>
 
-				<Grid item xs={12}>
-					<TextField
+				<Grid item xs={4}>
+					{/* <TextField
 						label="Categories"
 						name="categories"
 						value={article.categories}
 						onChange={handleChange}
 						variant="outlined"
 						fullWidth
+					/> */}
+
+					{/* <FormControl fullWidth error={error.isError}> */}
+					<Autocomplete
+						options={regions}
+						getOptionLabel={(option) => option.name}
+						value={article.regions}
+						onChange={handleRegionChange}
+						renderInput={(params) => (
+							<TextField {...params} label="Region" variant="outlined" fullWidth required />
+						)}
+						multiple
+					/>
+					{/* <FormHelperText>{error.message}</FormHelperText>
+					</FormControl> */}
+				</Grid>
+				<Grid item xs={4}>
+					{/* <FormControl fullWidth error={error.isError}> */}
+					<Autocomplete
+						options={regionCountries}
+						getOptionLabel={(option) => option.name}
+						value={article.countries}
+						onChange={handleCountryChange}
+						renderInput={(params) => (
+							<TextField {...params} label="Countries" variant="outlined" fullWidth required />
+						)}
+						multiple
+						disabled={article.regions.length === 0}
+					/>
+					{/* <FormHelperText>{error.message}</FormHelperText>
+					</FormControl> */}
+				</Grid>
+				<Grid item xs={4}>
+					<Autocomplete
+						options={otherCategories}
+						getOptionLabel={(option) => option.name}
+						value={article.otherCategories}
+						onChange={handleOtherCategoryChange}
+						renderInput={(params) => (
+							<TextField {...params} label="Other" variant="outlined" fullWidth required />
+						)}
+						multiple
 					/>
 				</Grid>
 				<Grid item xs={12}>

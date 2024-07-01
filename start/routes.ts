@@ -10,6 +10,9 @@ import router from '@adonisjs/core/services/router';
 
 import UsersController from '#controllers/users_controller';
 import ArticlesController from '#controllers/articles_controller';
+import RegionsController from '#controllers/regions_controller';
+import CountriesController from '#controllers/countries_controller';
+import OtherCategoriesController from '#controllers/other_categories_controller';
 
 router.get('/', async () => 'It works!');
 
@@ -19,5 +22,9 @@ router.get('/test', [UsersController, 'index']);
 router
 	.group(() => {
 		router.resource('articles', ArticlesController);
+
+		router.resource('regions', RegionsController);
+		router.resource('countries', CountriesController);
+		router.resource('other-categories', OtherCategoriesController);
 	})
 	.prefix('api');
