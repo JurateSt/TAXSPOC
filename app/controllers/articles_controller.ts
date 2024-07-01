@@ -100,20 +100,20 @@ export default class ArticlesController {
 		const parsedCountries = JSON.parse(countries || '[]');
 		const parsedOtherCategories = JSON.parse(otherCategories || '[]');
 
-		const mappedRegions = parsedRegions?.map((item) => ({
+		const mappedRegions = parsedRegions?.map((item: any) => ({
 			_id: item._id,
 			name: item.name,
 			type: 'region',
 		}));
 
-		const mappedCountries = parsedCountries?.map((item) => ({
+		const mappedCountries = parsedCountries?.map((item: any) => ({
 			_id: item._id,
 			name: item.name,
 			code: item.code,
 			region: item.region,
 			type: 'country',
 		}));
-		const mappedOtherCategories = parsedOtherCategories?.map((item) => ({
+		const mappedOtherCategories = parsedOtherCategories?.map((item: any) => ({
 			_id: item._id,
 			name: item.name,
 			type: 'other',
