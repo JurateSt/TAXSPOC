@@ -1,9 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 // MUI
 import { Grid, Typography } from '@mui/material';
 
 const MainArticleHeader = ({ article }) => {
+	const navigate = useNavigate();
+	console.log('MainArticlePhoto article:', article);
+	const { _id: id } = article || {};
+
+	const handleClick = () => {
+		navigate(`/articles/${id}`);
+	};
 	return (
-		<Grid item xs={12}>
+		<Grid item xs={12} sx={{ cursor: 'pointer' }} onClick={handleClick}>
 			<Typography
 				variant="h5"
 				sx={{
