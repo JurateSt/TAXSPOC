@@ -19,7 +19,9 @@ import {
 	TableRow,
 	TableCell,
 	TableBody,
+	TableSortLabel,
 	Paper,
+	Tab,
 } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
@@ -66,6 +68,9 @@ const CreateArticleTinyMCE = () => {
 	// images
 	// const [selectedFile, setSelectedFile] = useState(null);
 	// const hiddenFileInput = useRef(null);
+	// sorting
+	const [order, setOrder] = React.useState('desc');
+	const [orderBy, setOrderBy] = React.useState('dateTag');
 
 	const getArticles = async () => {
 		const { data } = await api.get('/articles');
@@ -212,6 +217,19 @@ const CreateArticleTinyMCE = () => {
 			setSnackbarMessage('Error creating article');
 			setSnackbarOpen(true);
 		}
+	};
+
+	const handleRequestSort = () => {
+		const newOrder = order === 'asc' ? 'desc' : 'asc';
+
+		const sortedArticles = [...articles].sort((a, b) => {
+			const comparison = new Date(a.dateTag) - new Date(b.dateTag);
+			return newOrder === 'asc' ? comparison : -comparison;
+		});
+
+		setArticles(sortedArticles);
+		setOrder(newOrder);
+		setOrderBy('dateTag');
 	};
 
 	const handleCancel = () => {
@@ -415,12 +433,18 @@ const CreateArticleTinyMCE = () => {
 					<Table size="small" sx={{ tableLayout: 'fixed' }}>
 						<TableHead>
 							<TableRow>
-								<TableCell>Date Tag</TableCell>
-								<TableCell>Header</TableCell>
-								<TableCell>Pircture count</TableCell>
-								<TableCell>Region</TableCell>
-								<TableCell>Country</TableCell>
-								<TableCell>Other</TableCell>
+								<TableCell sx={{ width: '10%' }}>
+									<TableSortLabel active={true} direction={order} onClick={handleRequestSort}>
+										Date Tag
+									</TableSortLabel>
+								</TableCell>
+								<TableCell sx={{ width: '30%' }}>Header</TableCell>
+								<TableCell sx={{ width: '10%' }}>Picture count</TableCell>
+								<TableCell sx={{ width: '13%' }}>Region</TableCell>
+								<TableCell sx={{ width: '13%' }}>Country</TableCell>
+								<TableCell sx={{ width: '13%' }}>Other</TableCell>
+								<TableCell sx={{ width: '5%' }}></TableCell>
+								<TableCell sx={{ width: '5%' }}></TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -448,6 +472,16 @@ const CreateArticleTinyMCE = () => {
 											.filter((item) => item.type === 'other')
 											.map((item) => item.name)
 											.join(', ')}
+									</TableCell>
+									<TableCell>
+										<IconButton onClick={() => handleEdit(item._id)}>
+											<EditOutlinedIcon />
+										</IconButton>
+									</TableCell>
+									<TableCell>
+										<IconButton onClick={() => handleDelete(item._id)}>
+											<DeleteOutlineOutlinedIcon />
+										</IconButton>
 									</TableCell>
 								</TableRow>
 							))}
