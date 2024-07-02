@@ -3,6 +3,7 @@ import { Typography, Box, Button, Chip } from '@mui/material';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 
 const ReadArticleCategories = ({ article }) => {
+	console.log('ReadArticleCategories: ', article.categories);
 	return (
 		<Box
 			name="categories-and-share-icons"
@@ -35,7 +36,7 @@ const ReadArticleCategories = ({ article }) => {
 			>
 				<Box name="categories" sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
 					{article?.categories?.map((item, index) => (
-						<Chip key={index} label={item} />
+						<Chip key={index} label={item?.name} />
 					))}
 				</Box>
 				<Box
