@@ -22,6 +22,7 @@ const MainArticlePhoto = ({ article }) => {
 				// border: '1px solid green',
 				backgroundColor: 'lightblue',
 				height: '210px',
+				cursor: 'pointer',
 			}}
 		>
 			<a href={url} style={{ textDecoration: 'none', color: 'inherit' }}>
