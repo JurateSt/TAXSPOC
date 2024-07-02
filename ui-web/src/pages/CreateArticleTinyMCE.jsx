@@ -443,7 +443,7 @@ const CreateArticleTinyMCE = () => {
 								<TableCell sx={{ width: '13%' }}>Region</TableCell>
 								<TableCell sx={{ width: '13%' }}>Country</TableCell>
 								<TableCell sx={{ width: '13%' }}>Other</TableCell>
-								<TableCell sx={{ width: '5%' }}></TableCell>
+								<TableCell sx={{ width: '3%' }}></TableCell>
 								<TableCell sx={{ width: '5%' }}></TableCell>
 							</TableRow>
 						</TableHead>
