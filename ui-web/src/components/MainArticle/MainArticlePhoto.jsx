@@ -5,9 +5,10 @@ import { Grid, Button } from '@mui/material';
 const MainArticlePhoto = ({ article }) => {
 	const navigate = useNavigate();
 	const { _id: id } = article || {};
+	const url = `/articles/${id}`;
 
 	const handleClick = () => {
-		navigate(`/articles/${id}`);
+		navigate(url);
 	};
 	return (
 		<Grid
@@ -24,17 +25,14 @@ const MainArticlePhoto = ({ article }) => {
 				cursor: 'pointer',
 			}}
 		>
-			{/* <img
-				src="/images/italy_plastic_tax.webp"
-				style={{ height: '210px', width: '100%', objectFit: 'cover' }}
-				alt="Main Article"
-			/> */}
-			<img
-				src={article?.images[0]?.url}
-				style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-				alt="Main Article"
-				onClick={handleClick}
-			/>
+			<a href={url} style={{ textDecoration: 'none', color: 'inherit' }}>
+				<img
+					src={article?.images[0]?.url}
+					style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+					alt="Main Article"
+					onClick={handleClick}
+				/>
+			</a>
 		</Grid>
 	);
 };
