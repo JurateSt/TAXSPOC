@@ -1,7 +1,14 @@
+import { useNavigate } from 'react-router-dom';
 // MUI
 import { Grid, Button } from '@mui/material';
 
 const MainArticlePhoto = ({ article }) => {
+	const navigate = useNavigate();
+	const { _id: id } = article || {};
+
+	const handleClick = () => {
+		navigate(`/articles/${id}`);
+	};
 	return (
 		<Grid
 			item
@@ -14,6 +21,7 @@ const MainArticlePhoto = ({ article }) => {
 				// border: '1px solid green',
 				backgroundColor: 'lightblue',
 				height: '210px',
+				cursor: 'pointer',
 			}}
 		>
 			{/* <img
@@ -25,6 +33,7 @@ const MainArticlePhoto = ({ article }) => {
 				src={article?.images[0]?.url}
 				style={{ width: '100%', height: '100%', objectFit: 'cover' }}
 				alt="Main Article"
+				onClick={handleClick}
 			/>
 		</Grid>
 	);
