@@ -85,11 +85,16 @@ const EditArticle = () => {
 			console.error('getCountries error', error);
 		}
 	};
+	const getOtherCategories = async () => {
+		const { data } = await api.get('/other-categories');
+		setOtherCategories(data);
+	};
 
 	useEffect(() => {
 		getArticle();
 		getRegions();
 		getCountries();
+		getOtherCategories();
 	}, []);
 
 	const handleChange = (event) => {
