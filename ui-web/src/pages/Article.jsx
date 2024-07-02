@@ -20,6 +20,7 @@ const Article = () => {
 
 	const getArticle = async () => {
 		const { data } = await api.get(`/articles/${id}`);
+		console.log('ARTICLE: ', data);
 
 		setArticle(data);
 	};
