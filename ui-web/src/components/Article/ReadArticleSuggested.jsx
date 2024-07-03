@@ -3,7 +3,9 @@ import { Grid, Typography, Box } from '@mui/material';
 // components
 import ArticleCard from './ArticleCard';
 
-const ReadArticleSuggested = ({ articles }) => {
+const ReadArticleSuggested = ({ currentArticle, articles }) => {
+	const currentArticleId = currentArticle._id;
+	console.log('currentArticleId:', currentArticleId);
 	return (
 		<Box
 			name="suggested-articles-header"
@@ -22,20 +24,23 @@ const ReadArticleSuggested = ({ articles }) => {
 				display={{ display: 'flex', flexDirection: 'column', padding: 0 }}
 			>
 				<Grid container spacing={2}>
-					{articles.slice(0, 6).map((item, index) => (
-						<Grid
-							item
-							xs={12}
-							sm={6}
-							md={6}
-							lg={6}
-							xl={6}
-							// sx={{ border: '1px solid orange' }}
-							key={index}
-						>
-							<ArticleCard key={item.id} article={item} />
-						</Grid>
-					))}
+					{articles
+						.filter((item) => item._id !== currentArticleId)
+						.slice(0, 6)
+						.map((item, index) => (
+							<Grid
+								item
+								xs={12}
+								sm={6}
+								md={6}
+								lg={6}
+								xl={6}
+								// sx={{ border: '1px solid orange' }}
+								key={index}
+							>
+								<ArticleCard key={item.id} article={item} />
+							</Grid>
+						))}
 				</Grid>
 			</Box>
 		</Box>

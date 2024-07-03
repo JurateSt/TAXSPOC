@@ -26,7 +26,7 @@ const ReadArticle = ({ articles, article }) => {
 				<ReadArticleContent article={article} />
 				<ReadArticleCategories article={article} />
 			</Box>
-			<ReadArticleSuggested articles={articles} />
+			<ReadArticleSuggested currentArticle={article} articles={articles} />
 		</Box>
 	);
 };
