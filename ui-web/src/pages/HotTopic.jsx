@@ -16,7 +16,7 @@ import {
 
 import { styled } from '@mui/material/styles';
 // css
-import '../Timeline.css';
+// import '../Timeline.css';
 // components
 import MainBar from '../components/MainBar.jsx';
 import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
