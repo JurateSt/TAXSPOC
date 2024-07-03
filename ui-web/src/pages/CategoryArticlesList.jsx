@@ -54,6 +54,7 @@ const CategoryArticlesList = ({ category }) => {
 							// sx={{ backgroundColor: 'lightgrey' }}
 						>
 							{articles
+								.slice(1)
 								.sort((a, b) => b.articleDate - a.articleDate)
 								.map((item, index) => (
 									<Grid
