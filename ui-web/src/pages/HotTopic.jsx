@@ -242,6 +242,17 @@ const HotTopics = () => {
 					// sx={{ border: '3px solid green' }}
 				>
 					<Grid item xs={12} sm={12}>
+						<Typography variant="h4">
+							{number === '1'
+								? 'OECD BEPS'
+								: number === '2'
+									? 'E-Invoicing'
+									: number === '3'
+										? 'Brazil Tax Reform'
+										: 'UAE CIT'}
+						</Typography>
+					</Grid>
+					<Grid item xs={12} sm={12}>
 						<Box
 							sx={{
 								// backgroundColor: 'lightblue',
