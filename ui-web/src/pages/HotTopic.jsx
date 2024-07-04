@@ -12,7 +12,20 @@ import {
 	Grid,
 	Paper,
 	Container,
+	IconButton,
+	List,
+	ListItem,
 } from '@mui/material';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import CircleIcon from '@mui/icons-material/Circle';
+import {
+	Timeline,
+	TimelineItem,
+	TimelineSeparator,
+	TimelineConnector,
+	TimelineContent,
+	TimelineDot,
+} from '@mui/lab';
 
 import { styled } from '@mui/material/styles';
 // css
@@ -29,132 +42,227 @@ const Item = styled(Paper)(({ theme }) => ({
 	color: theme.palette.text.secondary,
 }));
 
-const TimelineSection = () => (
-	<>
-		<section className="section intro">
-			<div className="container">
-				<h1>Timeline</h1>
-			</div>
-		</section>
+const HorizontalTimeline = () => {
+	const data = [
+		{
+			year: '2024',
+			model: 'Clearance Model',
+			countries: ['Italy', 'Ghana', 'Philippines', 'Bolivia', 'Paraguay', 'Saudi Arabia', 'Kenya'],
+			position: 'above',
+		},
+		{
+			year: '2024',
+			model: 'Post-Audit Model',
+			countries: ['Denmark (Optional)'],
+			position: 'below',
+		},
+		{
+			year: '2024',
+			model: 'Other',
+			countries: [
+				'Dominican Republic',
+				'Israel',
+				'Romania',
+				'Mauritius',
+				'Zambia',
+				'Malaysia',
+				'Botswana',
+				'Greece (B2G)',
+			],
+			position: 'above',
+		},
+		{
+			year: '2024',
+			model: 'Post-Audit Model',
+			countries: ['Denmark (Optional)'],
+			position: 'below',
+		},
+		{ year: '2025', model: 'Clearance Model', countries: ['Uruguay'], position: 'above' },
+		{
+			year: '2025',
+			model: 'Post-Audit Model',
+			countries: ['Germany***', 'Slovakia'],
+			position: 'below',
+		},
+		{ year: '2025', model: 'Other', countries: ['Spain - Biscaya'], position: 'above' },
+		{ year: '2026 January', model: 'Other', countries: ['Belgium', 'Croatia'], position: 'below' },
+		{ year: '2026 February', model: 'Clearance Model', countries: ['Poland'], position: 'above' },
+		{ year: '2026 July', model: 'Other', countries: ['UAE'], position: 'below' },
+		{
+			year: '2026 September',
+			model: 'Post-Audit Model',
+			countries: ['Germany'],
+			position: 'above',
+		},
+		{ year: '2028-2030** January', model: 'VIDA', countries: ['EU'], position: 'below' },
+	];
 
-		<section className="timeline">
-			<div className="info">
-				<img width="50" height="50" src="https://assets.codepen.io/210284/face.svg" alt="" />
-				<h2>Company History</h2>
-				<p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium</p>
-				<p>
-					<a href="">Learn more &gt;</a>
-				</p>
-			</div>
+	return (
+		<Box
+			sx={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				padding: 2,
+				fontSize: 12,
+			}}
+		>
+			{data.map((item, index) => (
+				<Box
+					key={index}
+					sx={{
+						width: 200,
+						textAlign: 'center',
+						position: 'relative',
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+					}}
+				>
+					{/* Card positioned based on item position */}
+					<Card
+						sx={{
+							mb: item.position === 'above' ? 36 : 0,
+							mt: item.position === 'below' ? 24 : 0,
+							zIndex: 1,
+						}}
+					>
+						<CardContent>
+							<Typography color="text.secondary" sx={{ fontSize: 12 }}>
+								{item.year}
+							</Typography>
+							<Typography variant="h6" component="div" gutterBottom sx={{ fontSize: 14 }}>
+								{item.model}
+							</Typography>
+							<List dense sx={{ fontSize: 12 }}>
+								{item.countries.map((country, idx) => (
+									<ListItem key={idx} sx={{ padding: '0 8px' }}>
+										<Typography variant="body2">{country}</Typography>
+									</ListItem>
+								))}
+							</List>
+						</CardContent>
+					</Card>
 
-			<ol>
-				<li>
-					<div>
-						<time>1934</time> At vero eos et accusamus et iusto odio dignissimos ducimus qui
-						blanditiis praesentium At vero eos et accusamus et iusto odio dignissimos.
-					</div>
-				</li>
-				<li>
-					<div>
-						<time>1937</time> Proin quam velit, efficitur vel neque vitae, rhoncus commodo mi.
-						Suspendisse finibus mauris et bibendum molestie. Aenean ex augue, varius et pulvinar in,
-						pretium non nisi.
-					</div>
-				</li>
-				<li>
-					<div>
-						<time>1940</time> Proin iaculis, nibh eget efficitur varius, libero tellus porta dolor,
-						at pulvinar tortor ex eget ligula. Integer eu dapibus arcu, sit amet sollicitudin eros.
-					</div>
-				</li>
-				<li>
-					<div>
-						<time>1943</time> In mattis elit vitae odio posuere, nec maximus massa varius.
-						Suspendisse varius volutpat mattis. Vestibulum id magna est.
-					</div>
-				</li>
-				<li>
-					<div>
-						<time>1946</time> In mattis elit vitae odio posuere, nec maximus massa varius.
-						Suspendisse varius volutpat mattis. Vestibulum id magna est.
-					</div>
-				</li>
-				<li>
-					<div>
-						<time>1956</time> In mattis elit vitae odio posuere, nec maximus massa varius.
-						Suspendisse varius volutpat mattis. Vestibulum id magna est.
-					</div>
-				</li>
-				<li>
-					<div>
-						<time>1957</time> In mattis elit vitae odio posuere, nec maximus massa varius.
-						Suspendisse varius volutpat mattis. Vestibulum id magna est.
-					</div>
-				</li>
-				<li>
-					<div>
-						<time>1967</time> Aenean condimentum odio a bibendum rhoncus. Ut mauris felis, volutpat
-						eget porta faucibus, euismod quis ante.
-					</div>
-				</li>
-				<li>
-					<div>
-						<time>1977</time> Vestibulum porttitor lorem sed pharetra dignissim. Nulla maximus, dui
-						a tristique iaculis, quam dolor convallis enim, non dignissim ligula ipsum a turpis.
-					</div>
-				</li>
-				<li>
-					<div>
-						<time>1985</time> In mattis elit vitae odio posuere, nec maximus massa varius.
-						Suspendisse varius volutpat mattis. Vestibulum id magna est.
-					</div>
-				</li>
-				<li>
-					<div>
-						<time>2000</time> In mattis elit vitae odio posuere, nec maximus massa varius.
-						Suspendisse varius volutpat mattis. Vestibulum id magna est.
-					</div>
-				</li>
-				<li>
-					<div>
-						<time>2005</time> In mattis elit vitae odio posuere, nec maximus massa varius.
-						Suspendisse varius volutpat mattis. Vestibulum id magna est.
-					</div>
-				</li>
-				<li></li>
-			</ol>
-		</section>
+					{/* Vertical connector from card to dot */}
+					{item.position === 'above' ? (
+						<Box
+							sx={{
+								position: 'absolute',
+								top: '0',
+								bottom: '50%', // Extend from the card to the dot
+								left: '50%',
+								width: '2px',
+								bgcolor: 'primary.main',
+								zIndex: 0,
+							}}
+						/>
+					) : (
+						<Box
+							sx={{
+								position: 'absolute',
+								top: '50%', // Start from the dot to the card
+								bottom: '0',
+								left: '50%',
+								width: '2px',
+								bgcolor: 'primary.main',
+								zIndex: 0,
+							}}
+						/>
+					)}
 
-		<footer className="page-footer">
-			<span>made by </span>
-			<a href="https://georgemartsoukos.com/" target="_blank">
-				<img
-					width="24"
-					height="24"
-					src="https://assets.codepen.io/162656/george-martsoukos-small-logo.svg"
-					alt="George Martsoukos logo"
-				/>
-			</a>
-		</footer>
-	</>
-);
+					<IconButton
+						color="primary"
+						sx={{
+							position: 'absolute',
+							top: '50%', // Center the icon vertically
+							transform: 'translateY(-50%)', // Ensure it is exactly centered regardless of the card position
+							zIndex: 2,
+						}}
+					>
+						{/* <EventNoteIcon /> */}
+						<CircleIcon fontSize="small" />
+						{/* <Typography
+							variant="caption"
+							sx={{
+								position: 'absolute',
+								top: '100%',
+								width: '100%',
+								left: '50%',
+								transform: 'translateX(-50%)',
+							}}
+						>
+							{item.year}
+						</Typography> */}
+					</IconButton>
+					{/* Connector line */}
+					{index < data.length - 1 && (
+						<Box
+							sx={{
+								position: 'absolute',
+								top: '50%',
+								left: '50%',
+								width: '100%',
+								height: 2,
+								bgcolor: 'primary.main',
+								zIndex: 0,
+							}}
+						/>
+					)}
+				</Box>
+			))}
+		</Box>
+	);
+};
 
 const HotTopics = () => {
 	const { number } = useParams();
+
+	// const years = [2024, 2023, 2022, 2021];
+
+	const events = [
+		{ year: '2024', position: 'top' },
+		{ year: '2023', position: 'bottom' },
+		{ year: '2022', position: 'top' },
+		{ year: '2021', position: 'bottom' },
+	];
 	return (
 		<>
 			<MainBar />
 			<Container
 				sx={{
 					marginTop: '32px',
+					overflowX: 'auto',
+					minHeight: '100vh',
 					// border: '1px solid red'
 				}}
-				minHeight="100vh"
 			>
-				<Grid container sx={{ border: '3px solid green' }}>
+				<Grid
+					container
+					// sx={{ border: '3px solid green' }}
+				>
 					<Grid item xs={12} sm={12}>
-						<Box sx={{ backgroundColor: 'lightblue', height: '800px' }}>
-							<TimelineSection />
+						<Typography variant="h4">
+							{number === '1'
+								? 'OECD BEPS'
+								: number === '2'
+									? 'E-Invoicing'
+									: number === '3'
+										? 'Brazil Tax Reform'
+										: 'UAE CIT'}
+						</Typography>
+					</Grid>
+					<Grid item xs={12} sm={12}>
+						<Box
+							sx={{
+								// backgroundColor: 'lightblue',
+								width: '100%',
+								overflowX: 'auto',
+							}}
+						>
+							<Box sx={{ display: 'inline-flex' }}>
+								<HorizontalTimeline />
+							</Box>
 						</Box>
 					</Grid>
 					<Grid item xs={12} sm={12}>
