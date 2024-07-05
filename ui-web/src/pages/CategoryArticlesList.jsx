@@ -15,9 +15,7 @@ const CategoryArticlesList = ({ category }) => {
 
 	const getArticles = async () => {
 		const { data } = await api.get('/articles');
-		console.log('CategoryArticlesList', data, category);
-		// item.category is an array
-		setArticles(data.filter((item) => item?.categories.includes(category)));
+		setArticles(data.filter((item) => item?.categories.some((cat) => cat.name === category)));
 	};
 
 	useEffect(() => {
@@ -56,6 +54,7 @@ const CategoryArticlesList = ({ category }) => {
 							// sx={{ backgroundColor: 'lightgrey' }}
 						>
 							{articles
+								.slice(1)
 								.sort((a, b) => b.articleDate - a.articleDate)
 								.map((item, index) => (
 									<Grid

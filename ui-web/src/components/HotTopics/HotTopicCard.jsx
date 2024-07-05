@@ -6,9 +6,10 @@ import HotTopicCardNumber from './HotTopicCardNumber';
 
 const HotTopicCard = ({ topic }) => {
 	const navigate = useNavigate();
+	const url = `/hot-topics/${topic.number}`;
 
 	const handleClick = () => {
-		navigate(`/hot-topics/${topic.number}`);
+		navigate(url);
 	};
 	return (
 		<Box
@@ -28,6 +29,7 @@ const HotTopicCard = ({ topic }) => {
 			}}
 			onClick={handleClick}
 		>
+			{/* <a href={url} style={{ textDecoration: 'none', color: 'inherit' }}> */}
 			<HotTopicCardNumber number={topic.number} />
 			<Box>
 				<Box
@@ -39,6 +41,7 @@ const HotTopicCard = ({ topic }) => {
 				</Box>
 				<Box>{topic.supportingText}</Box>
 			</Box>
+			{/* </a> */}
 		</Box>
 	);
 };
