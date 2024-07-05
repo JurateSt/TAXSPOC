@@ -15,6 +15,12 @@ import Article from './pages/Article.jsx';
 import CreateArticle from './pages/CreateArticle';
 import CreateArticleTinyMCE from './pages/CreateArticleTinyMCE';
 import EditArticle from './pages/EditArticle';
+import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
+import TermesOfUse from './pages/TermesOfUse';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import CookiesPolicy from './pages/CookiesPolicy';
+import AdvertiseWithUs from './pages/AdvertiseWithUs';
 
 function App() {
 	const [count, setCount] = useState(0);
@@ -51,6 +57,13 @@ function App() {
 						{/* <Route path="/auth/create-article/" element={<CreateArticle />} /> */}
 						<Route path="/auth/create-article" element={<CreateArticleTinyMCE />} />
 						<Route path="/auth/create-article/:id" element={<EditArticle />} />
+
+						<Route path="/about-us" element={<AboutUs />} />
+						<Route path="/contact-us" element={<ContactUs />} />
+						<Route path="/termes-of-use" element={<TermesOfUse />} />
+						<Route path="/privacy-policy" element={<PrivacyPolicy />} />
+						<Route path="/cookies-policy" element={<CookiesPolicy />} />
+						<Route path="/advertise-with-us" element={<AdvertiseWithUs />} />
 					</Routes>
 				</BrowserRouter>
 			</CssBaseline>

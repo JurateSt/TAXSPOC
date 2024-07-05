@@ -1,5 +1,7 @@
+// React
+import { Link } from 'react-router-dom';
 // MUI
-import { Container, Box, Grid, AppBar, Typography, Link } from '@mui/material';
+import { Container, Box, Grid, AppBar, Typography } from '@mui/material';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import XIcon from '@mui/icons-material/X';
@@ -84,50 +86,50 @@ const BottomContainer = () => {
 							}}
 						>
 							<Link
-								href="https://www.example.com"
+								to="/about-us"
 								target="_blank"
 								rel="noopener noreferrer"
-								color="inherit"
+								style={{ color: 'inherit' }}
 							>
 								<Typography>About us</Typography>
 							</Link>
 							<Link
-								href="https://www.example.com"
+								to="/contact-us"
 								target="_blank"
 								rel="noopener noreferrer"
-								color="inherit"
+								style={{ color: 'inherit' }}
 							>
 								<Typography>Contact us</Typography>
 							</Link>
 							<Link
-								href="https://www.example.com"
+								to="/termes-of-use"
 								target="_blank"
 								rel="noopener noreferrer"
-								color="inherit"
+								style={{ color: 'inherit' }}
 							>
-								<Typography>Terme of use</Typography>
+								<Typography>Termes of use</Typography>
 							</Link>
 							<Link
-								href="https://www.example.com"
+								to="/cookies-policy"
 								target="_blank"
 								rel="noopener noreferrer"
-								color="inherit"
+								style={{ color: 'inherit' }}
 							>
 								<Typography>Cookies policy</Typography>
 							</Link>
 							<Link
-								href="https://www.example.com"
+								to="/privacy-policy"
 								target="_blank"
 								rel="noopener noreferrer"
-								color="inherit"
+								style={{ color: 'inherit' }}
 							>
 								<Typography>Privacy Policy</Typography>
 							</Link>
 							<Link
-								href="https://www.example.com"
+								to="/advertise-with-us"
 								target="_blank"
 								rel="noopener noreferrer"
-								color="inherit"
+								style={{ color: 'inherit' }}
 							>
 								<Typography>Advertise with us</Typography>
 							</Link>
