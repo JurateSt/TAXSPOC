@@ -21,8 +21,8 @@ const MainArticlePhoto = ({ article }) => {
 			sx={{
 				// border: '1px solid green',
 				// backgroundColor: 'lightblue',
-				height: '180px',
-				// height: '210px',
+				// height: '180px',
+				height: '210px',
 				// cursor: 'pointer',
 				'&:hover a': {
 					opacity: 0.7,
