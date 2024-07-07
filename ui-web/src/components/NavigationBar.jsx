@@ -8,21 +8,26 @@ import {
 	IconButton,
 	Drawer,
 	List,
-	ListItem,
+	ListItemButton,
 	ListItemText,
+	Collapse,
 } from '@mui/material';
 // Logo
 import LogoMain from '../assets/LogoMain.png';
 // MUI Icons
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 // components
 import NavigationLink from './NavigationLink';
 
 const NavigationBar = () => {
 	const navigate = useNavigate();
 	const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+
 	const [drawerOpen, setDrawerOpen] = useState(false);
+	const [openMenuItems, setOpenMenuItems] = useState(false);
 
 	console.log('is MOBILE', isMobile);
 
@@ -42,6 +47,16 @@ const NavigationBar = () => {
 		{ label: 'Brazil Tax Reform', path: '/hot-topics/3' },
 		{ label: 'UAE CIT', path: '/hot-topics/4' },
 	];
+	const navigationItems = [
+		{ label: <HomeOutlinedIcon />, path: '/home', menuItems: [] },
+		{ label: 'Hot Topics', path: '/hot-topics', menuItems: hotTopicsMenuItems },
+		{ label: 'Indirect Tax', path: '/articles/indirect-tax', menuItems: [] },
+		{ label: 'Direct Tax', path: '/articles/direct-tax', menuItems: [] },
+		{ label: 'Transfer Pricing', path: '/articles/transfer-pricing', menuItems: [] },
+		{ label: 'Tax Technology', path: '/articles/tax-technology', menuItems: [] },
+		{ label: 'Customs', path: '/articles/customs', menuItems: [] },
+	];
+
 	return (
 		<Toolbar
 			sx={{
@@ -60,9 +75,16 @@ const NavigationBar = () => {
 						sx={{ mr: 2 }}
 						onClick={handleDrawerOpen}
 					>
-						<MenuIcon />
+						<MenuIcon fontSize="large" />
 					</IconButton>
-					<Drawer anchor="left" open={drawerOpen} onClose={handleDrawerClose}>
+					<Drawer
+						anchor="left"
+						open={drawerOpen}
+						onClose={handleDrawerClose}
+						PaperProps={{
+							sx: { bgcolor: 'primary.midnightBlue200' },
+						}}
+					>
 						<Box
 							sx={{ width: 250 }}
 							role="presentation"
@@ -70,16 +92,60 @@ const NavigationBar = () => {
 							onKeyDown={handleDrawerClose}
 						>
 							<List>
-								{hotTopicsMenuItems.map((item) => (
-									<ListItem button key={item.label} onClick={() => navigate(item.path)}>
-										<ListItemText primary={item.label} />
-									</ListItem>
-								))}
+								{navigationItems.map((item, index) =>
+									item.menuItems.length > 0 ? (
+										<>
+											<ListItemButton
+												key={index}
+												onClick={(e) => {
+													e.stopPropagation();
+													setOpenMenuItems(!openMenuItems);
+												}}
+											>
+												{/* {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>} */}
+												<ListItemText primary={item.label} />
+												{openMenuItems ? <ExpandLess /> : <ExpandMore />}
+											</ListItemButton>
+											<Collapse in={openMenuItems} timeout="auto" unmountOnExit>
+												<List component="div" disablePadding>
+													{item.menuItems.map((menuItem, index) => (
+														<ListItemButton
+															key={index}
+															onClick={() => {
+																navigate(menuItem.path);
+															}}
+															sx={{ pl: 4 }}
+														>
+															<ListItemText primary={menuItem.label} />
+														</ListItemButton>
+													))}
+												</List>
+											</Collapse>
+										</>
+									) : (
+										<ListItemButton
+											key={index}
+											onClick={() => {
+												navigate(item.path);
+												handleDrawerClose();
+											}}
+										>
+											{/* {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>} */}
+											<ListItemText primary={item.label} />
+										</ListItemButton>
+									)
+								)}
 							</List>
 						</Box>
 					</Drawer>
 					<Box
-						sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', cursor: 'pointer' }}
+						sx={{
+							flexGrow: 1,
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							cursor: 'pointer',
+						}}
 						onClick={handleClick}
 					>
 						<img src={LogoMain} alt="TaxSpoc Logo" />
@@ -99,8 +165,13 @@ const NavigationBar = () => {
 					>
 						<img src={LogoMain} alt="TaxSpoc Logo" />
 					</Box>
+					{navigationItems.map((item, index) => (
+						<NavigationLink key={index} to={item.path} menuItems={item.menuItems}>
+							{item.label}
+						</NavigationLink>
+					))}
 
-					<NavigationLink to="/home">
+					{/* <NavigationLink to="/home">
 						<HomeOutlinedIcon />
 					</NavigationLink>
 					<NavigationLink to="/hot-topics" menuItems={hotTopicsMenuItems}>
@@ -110,7 +181,7 @@ const NavigationBar = () => {
 					<NavigationLink to="/articles/direct-tax">Direct Tax</NavigationLink>
 					<NavigationLink to="/articles/transfer-pricing">Transfer Pricing</NavigationLink>
 					<NavigationLink to="/articles/tax-technology">Tax Technology</NavigationLink>
-					<NavigationLink to="/articles/customs">Customs</NavigationLink>
+					<NavigationLink to="/articles/customs">Customs</NavigationLink> */}
 				</>
 			)}
 		</Toolbar>
