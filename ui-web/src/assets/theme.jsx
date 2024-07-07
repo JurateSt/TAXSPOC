@@ -52,7 +52,8 @@ const theme = createTheme({
 					props: { variant: 'navigationText' },
 					style: {
 						// fontFamily: 'Roboto, sans-serif',
-						fontSize: 16,
+						fontSize: 14,
+						lineHeight: '20px',
 						fontWeight: 500,
 					},
 				},
