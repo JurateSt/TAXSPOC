@@ -9,6 +9,7 @@ const LogoBar = () => {
 				minHeight: '32px !important',
 				height: '32px !important',
 				userSelect: 'none',
+				bgcolor: 'primary.main',
 			}}
 		>
 			{/* <img
