@@ -37,7 +37,7 @@ const MainArticle = ({ articles }) => {
 					container
 					item
 					xs={12}
-					sm={12}
+					sm={6}
 					md={4}
 					lg={4}
 					xl={4}
@@ -50,7 +50,7 @@ const MainArticle = ({ articles }) => {
 						// height: '180px',
 						height: '210px',
 						marginBottom: '32px',
-						order: { xs: 2, sm: 2, md: 1 },
+						order: { xs: 2, sm: 1 },
 					}}
 				>
 					<Box sx={{ display: 'flex', flexDirection: 'column' }}>
