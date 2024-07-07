@@ -47,6 +47,7 @@ const MainArticle = ({ articles }) => {
 							color: 'background.default',
 							padding: '16px',
 							gap: '8px',
+							// height: '180px',
 							height: '210px',
 						}}
 					>
