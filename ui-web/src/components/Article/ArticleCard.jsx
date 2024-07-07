@@ -28,7 +28,8 @@ const ArticleCard = ({ article, index }) => {
 				bgcolor: 'white',
 				display: 'flex',
 				flexDirection: 'column',
-				height: '320px',
+				// height: '320px',
+				height: '290px',
 				boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
 				cursor: index === 0 || index === 1 ? 'default' : 'pointer',
 				// minHeight: '320px',
@@ -50,9 +51,9 @@ const ArticleCard = ({ article, index }) => {
 				</Grid>
 			</Box>
 
-			<Box sx={{ padding: '8px' }}>
+			{/* <Box sx={{ padding: '8px' }}>
 				<ArticleCardButtons article={article} />
-			</Box>
+			</Box> */}
 		</Box>
 
 		// <Card>

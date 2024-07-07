@@ -47,7 +47,8 @@ const MainArticle = ({ articles }) => {
 							color: 'background.default',
 							padding: '16px',
 							gap: '8px',
-							height: '210px',
+							height: '180px',
+							// height: '210px',
 						}}
 					>
 						<Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -55,9 +56,9 @@ const MainArticle = ({ articles }) => {
 								<MainArticleHeader article={articles[0]} />
 								<MainArticleSupportingText article={articles[0]} />
 							</Box>
-							<Box>
+							{/* <Box>
 								<MainArticleButtons article={articles[0]} />
-							</Box>
+							</Box> */}
 						</Box>
 					</Grid>
 

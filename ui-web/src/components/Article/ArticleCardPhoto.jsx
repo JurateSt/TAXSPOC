@@ -10,7 +10,19 @@ const ArticleCardPhoto = ({ article }) => {
 		navigate(url);
 	};
 	return (
-		<Grid item xs={12} sx={{ bgcolor: 'lightblue', height: '100px' }} onClick={handleClick}>
+		<Grid
+			item
+			xs={12}
+			sx={{
+				// bgcolor: 'lightblue',
+				height: '100px',
+				'&:hover a': {
+					opacity: 0.7,
+					// transition: 'opacity 0.3s ease-in-out',
+				},
+			}}
+			onClick={handleClick}
+		>
 			<a href={url} style={{ textDecoration: 'none', color: 'inherit' }}>
 				<img
 					src={article?.images[0]?.url}
