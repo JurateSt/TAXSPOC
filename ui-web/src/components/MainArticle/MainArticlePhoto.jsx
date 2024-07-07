@@ -20,9 +20,14 @@ const MainArticlePhoto = ({ article }) => {
 			xl={8}
 			sx={{
 				// border: '1px solid green',
-				backgroundColor: 'lightblue',
+				// backgroundColor: 'lightblue',
+				// height: '180px',
 				height: '210px',
-				cursor: 'pointer',
+				// cursor: 'pointer',
+				'&:hover a': {
+					opacity: 0.7,
+					// transition: 'opacity 0.3s ease-in-out',
+				},
 			}}
 		>
 			<a href={url} style={{ textDecoration: 'none', color: 'inherit' }}>
