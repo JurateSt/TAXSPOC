@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 // MUI Components
 import {
+	Typography,
 	Box,
 	Toolbar,
 	useMediaQuery,
@@ -35,7 +36,7 @@ const NavigationBar = () => {
 	const [drawerOpen, setDrawerOpen] = useState(false);
 	const [openMenuItems, setOpenMenuItems] = useState(false);
 
-	console.log('is MOBILE', isMobile);
+	console.log('is MOBILE', isMobile, location.pathname);
 
 	const handleClick = () => {
 		navigate('/home');
@@ -46,6 +47,21 @@ const NavigationBar = () => {
 	const handleDrawerClose = () => {
 		setDrawerOpen(false);
 	};
+
+	const currentSection =
+		location.pathname === '/home'
+			? 'Home'
+			: location.pathname === '/articles/indirect-tax'
+				? 'Indirect Tax'
+				: location.pathname === '/articles/direct-tax'
+					? 'Direct Tax'
+					: location.pathname === '/articles/transfer-pricing'
+						? 'Transfer Pricing'
+						: location.pathname === '/articles/tax-technology'
+							? 'Tax Technology'
+							: location.pathname === '/articles/customs'
+								? 'Customs'
+								: 'Hot Topics';
 
 	const hotTopicsMenuItems = [
 		{ label: 'OECD/G20: BEPS', path: '/hot-topics/1' },
@@ -74,15 +90,17 @@ const NavigationBar = () => {
 		>
 			{isMobile ? (
 				<>
+					{/* <Box sx={{ borderRight: '1px solid', borderColor: 'primary.main' }}> */}
 					<IconButton
 						edge="start"
 						color="primary.main"
 						aria-label="menu"
-						sx={{ mr: 2 }}
+						sx={{ mr: 4 }}
 						onClick={handleDrawerOpen}
 					>
 						<MenuIcon fontSize="large" />
 					</IconButton>
+					{/* </Box> */}
 					<Drawer
 						anchor="left"
 						open={drawerOpen}
@@ -190,17 +208,29 @@ const NavigationBar = () => {
 						sx={{
 							flexGrow: 1,
 							display: 'flex',
-							justifyContent: 'center',
+							justifyContent: 'left',
 							alignItems: 'center',
 							cursor: 'pointer',
 						}}
 						onClick={handleClick}
 					>
 						{isOld ? (
-							<img src={LogoOld} style={{ height: '28px', width: 'auto' }} alt="TaxSpoc Logo" />
+							<img src={LogoOld} style={{ height: '18px', width: 'auto' }} alt="TaxSpoc Logo" />
 						) : (
-							<img src={LogoMain} style={{ height: '42px', width: 'auto' }} alt="TaxSpoc Logo" />
+							<img src={LogoMain} style={{ height: '24px', width: 'auto' }} alt="TaxSpoc Logo" />
 						)}
+					</Box>
+					{/* current section */}
+					<Box
+						sx={{
+							flexGrow: 1,
+							display: 'flex',
+							justifyContent: 'left',
+							alignItems: 'center',
+							color: 'primary.main',
+						}}
+					>
+						<Typography>{currentSection}</Typography>
 					</Box>
 				</>
 			) : (
