@@ -13,8 +13,8 @@ const MainArticlePhoto = ({ article }) => {
 	return (
 		<Grid
 			item
-			xs={0}
-			sm={6}
+			xs={12}
+			sm={12}
 			md={8}
 			lg={8}
 			xl={8}
@@ -28,6 +28,7 @@ const MainArticlePhoto = ({ article }) => {
 					opacity: 0.7,
 					// transition: 'opacity 0.3s ease-in-out',
 				},
+				order: { xs: 1, sm: 1, md: 2 },
 			}}
 		>
 			<a href={url} style={{ textDecoration: 'none', color: 'inherit' }}>

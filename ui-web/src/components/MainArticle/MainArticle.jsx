@@ -21,9 +21,9 @@ const MainArticle = ({ articles }) => {
 				container
 				// sx={{ border: '1px solid blue' }}
 			>
-				<Box
+				{/* <Box
 					sx={{
-						// border: '3px solid green',
+						border: '3px solid red',
 						display: 'flex',
 						justifyContent: 'center',
 						alignItems: 'flex-start',
@@ -32,38 +32,40 @@ const MainArticle = ({ articles }) => {
 						boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
 						marginBottom: '32px',
 					}}
+				> */}
+				<Grid
+					container
+					item
+					xs={12}
+					sm={12}
+					md={4}
+					lg={4}
+					xl={4}
+					sx={{
+						// border: '1px solid green',
+						backgroundColor: 'primary.midnightBlue800',
+						color: 'background.default',
+						padding: '16px',
+						gap: '8px',
+						// height: '180px',
+						height: '210px',
+						marginBottom: '32px',
+						order: { xs: 2, sm: 2, md: 1 },
+					}}
 				>
-					<Grid
-						container
-						item
-						xs={12}
-						sm={6}
-						md={4}
-						lg={4}
-						xl={4}
-						sx={{
-							// border: '1px solid green',
-							backgroundColor: 'primary.midnightBlue800',
-							color: 'background.default',
-							padding: '16px',
-							gap: '8px',
-							// height: '180px',
-							height: '210px',
-						}}
-					>
-						<Box sx={{ display: 'flex', flexDirection: 'column' }}>
-							<Box sx={{ flexGrow: 1, overflow: 'hidden' }}>
-								<MainArticleHeader article={articles[0]} />
-								<MainArticleSupportingText article={articles[0]} />
-							</Box>
-							<Box>
-								<MainArticleButtons article={articles[0]} />
-							</Box>
+					<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+						<Box sx={{ flexGrow: 1, overflow: 'hidden' }}>
+							<MainArticleHeader article={articles[0]} />
+							<MainArticleSupportingText article={articles[0]} />
 						</Box>
-					</Grid>
+						<Box>
+							<MainArticleButtons article={articles[0]} />
+						</Box>
+					</Box>
+				</Grid>
 
-					<MainArticlePhoto article={articles[0]} />
-				</Box>
+				<MainArticlePhoto article={articles[0]} />
+				{/* </Box> */}
 
 				{/* <MainArticleRotate /> */}
 			</Grid>
