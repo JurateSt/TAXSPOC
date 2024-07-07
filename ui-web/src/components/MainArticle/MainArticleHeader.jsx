@@ -4,9 +4,10 @@ import { Grid, Typography } from '@mui/material';
 
 const MainArticleHeader = ({ article }) => {
 	const navigate = useNavigate();
-	console.log('MainArticlePhoto article:', article);
 	const { _id: id } = article || {};
 	const url = `/articles/${id}`;
+
+	// console.log('MainArticlePhoto article:', article);
 
 	const handleClick = () => {
 		navigate(url);
