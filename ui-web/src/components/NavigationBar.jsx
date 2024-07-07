@@ -12,6 +12,7 @@ import {
 	ListItemButton,
 	ListItemText,
 	Collapse,
+	Container,
 } from '@mui/material';
 // Logo
 import LogoMain from '../assets/LogoMain.svg';
@@ -83,9 +84,14 @@ const NavigationBar = () => {
 		<Toolbar
 			sx={{
 				bgcolor: 'primary.midnightBlue200',
-				// display: { xs: 'none', md: 'flex' },
-				justifyContent: 'center',
+				// vertical stretch
 				alignItems: 'stretch',
+				// display: { xs: 'none', md: 'flex' },
+				// justifyContent: 'center',
+				// padding by screen size
+				// padding: { xs: 0, md: 0 },
+				// justifyContent: 'space-between',
+				// alignItems: 'center',
 			}}
 		>
 			{isMobile ? (
@@ -235,27 +241,47 @@ const NavigationBar = () => {
 				</>
 			) : (
 				<>
-					<Box
+					<Container
 						sx={{
 							display: 'flex',
-							alignItems: 'center', // Ensures logo is vertically centered
-							marginRight: '128px', // Space between logo and navigation links
-							userSelect: 'none',
-							cursor: 'pointer',
+							flexDirection: 'row',
+							justifyContent: 'space-between',
 						}}
-						onClick={handleClick}
 					>
-						{isOld ? (
-							<img src={LogoOld} style={{ height: '28px', width: 'auto' }} alt="TaxSpoc Logo" />
-						) : (
-							<img src={LogoMain} style={{ height: '42px', width: 'auto' }} alt="TaxSpoc Logo" />
-						)}
-					</Box>
-					{navigationItems.map((item, index) => (
-						<NavigationLink key={index} to={item.path} menuItems={item.menuItems}>
-							{item.label}
-						</NavigationLink>
-					))}
+						<Box
+							sx={{
+								display: 'flex',
+								alignItems: 'center', // Ensures logo is vertically centered
+								marginRight: '32px', // Space between logo and navigation links
+								userSelect: 'none',
+								cursor: 'pointer',
+							}}
+							onClick={handleClick}
+						>
+							{isOld ? (
+								<img src={LogoOld} style={{ height: '28px', width: 'auto' }} alt="TaxSpoc Logo" />
+							) : (
+								<img src={LogoMain} style={{ height: '42px', width: 'auto' }} alt="TaxSpoc Logo" />
+							)}
+						</Box>
+
+						<Box
+							sx={{
+								display: 'flex',
+								alignItems: 'stretch',
+								justifyContent: 'space-between',
+								// marginRight: '128px',
+								// userSelect: 'none',
+								// cursor: 'pointer',
+							}}
+						>
+							{navigationItems.map((item, index) => (
+								<NavigationLink key={index} to={item.path} menuItems={item.menuItems}>
+									{item.label}
+								</NavigationLink>
+							))}
+						</Box>
+					</Container>
 
 					{/* <NavigationLink to="/home">
 						<HomeOutlinedIcon />
