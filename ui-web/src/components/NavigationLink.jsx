@@ -26,11 +26,12 @@ const NavigationLink = ({ to, children, menuItems = [] }) => {
 			to={to}
 			onClick={handleClick}
 			sx={{
-				color: 'primary.main',
-				borderBottom: isActive ? '2px solid' : '2px solid transparent',
-				borderColor: isActive ? 'primary.main' : 'transparent',
+				color: 'primary.text',
+				borderBottom: isActive ? '3px solid' : '3px solid transparent',
+				borderColor: isActive ? 'primary.deepOrange500' : 'transparent',
 				'&:hover': {
-					borderColor: 'primary.main',
+					borderColor: 'primary.deepOrange500',
+					//'primary.main',
 				},
 			}}
 		>

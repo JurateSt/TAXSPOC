@@ -25,12 +25,14 @@ const ArticleCard = ({ article, index }) => {
 	return (
 		<Box
 			sx={{
-				bgcolor: 'white',
+				// bgcolor: 'white',
 				display: 'flex',
 				flexDirection: 'column',
 				// height: '320px',
-				height: '290px',
-				boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+				height: '264px',
+				border: '1px solid',
+				borderColor: 'primary.divider',
+				// boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
 				cursor: index === 0 || index === 1 ? 'default' : 'pointer',
 				// minHeight: '320px',
 				// maxHeight: '400px',

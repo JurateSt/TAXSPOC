@@ -9,8 +9,8 @@ const HotTopicsHeader = () => {
 				justifyContent: 'center',
 				alignItems: 'center',
 				height: '64px',
-				backgroundColor: 'primary.midnightBlue800',
-				color: 'background.default',
+				backgroundColor: 'primary.deepOrange400',
+				color: 'primary.lightText',
 				padding: '16px',
 				width: '100%',
 			}}

@@ -83,7 +83,7 @@ const NavigationBar = () => {
 	return (
 		<Toolbar
 			sx={{
-				bgcolor: 'primary.midnightBlue200',
+				// bgcolor: 'primary.midnightBlue200',
 				// vertical stretch
 				alignItems: 'stretch',
 				// display: { xs: 'none', md: 'flex' },
@@ -270,6 +270,7 @@ const NavigationBar = () => {
 								display: 'flex',
 								alignItems: 'stretch',
 								justifyContent: 'space-between',
+
 								// marginRight: '128px',
 								// userSelect: 'none',
 								// cursor: 'pointer',

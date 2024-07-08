@@ -43,8 +43,9 @@ const MainArticle = ({ articles }) => {
 					xl={4}
 					sx={{
 						// border: '1px solid green',
-						backgroundColor: 'primary.midnightBlue800',
-						color: 'background.default',
+						// backgroundColor: 'primary.midnightBlue800',
+						// color: 'background.default',
+						bgcolor: 'primary.grey200',
 						padding: '16px',
 						gap: '8px',
 						// height: '180px',

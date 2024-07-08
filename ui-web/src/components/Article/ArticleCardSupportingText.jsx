@@ -9,9 +9,10 @@ const ArticleCardSupportingText = ({ article }) => {
 					overflow: 'hidden',
 					textOverflow: 'ellipsis',
 					display: '-webkit-box',
-					WebkitLineClamp: 4,
+					WebkitLineClamp: 3,
 					WebkitBoxOrient: 'vertical',
 					fontSize: '14px',
+					color: 'primary.darkText',
 				}}
 			>
 				{article?.supportingText}
