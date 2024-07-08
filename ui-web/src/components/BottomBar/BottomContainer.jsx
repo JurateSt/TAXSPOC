@@ -1,7 +1,7 @@
 // React
 import { Link } from 'react-router-dom';
 // MUI
-import { Container, Box, Grid, AppBar, Typography } from '@mui/material';
+import { Container, Box, Grid, AppBar, Typography, Icon, IconButton } from '@mui/material';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import XIcon from '@mui/icons-material/X';
@@ -9,15 +9,19 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 // Logo
 import LogoBottom from '../../assets/LogoBottom.png';
 import LogoBottomLarger from '../../assets/Logo-bottom-larger-10x.png';
+import LogoMain from '../../assets/LogoMain.svg';
 const BottomContainer = () => {
 	//move to boottom of the page
 	return (
 		<Container
 			maxWidth={false}
 			sx={{
-				backgroundColor: 'primary.main',
-				color: 'background.default',
+				// backgroundColor: 'primary.main',
+				// color: 'background.default',
 				// height: '300px',
+				borderTop: '1px solid',
+				borderTopColor: 'primary.divider',
+				color: 'primary.darkText',
 				marginTop: '32px',
 			}}
 		>
@@ -32,13 +36,13 @@ const BottomContainer = () => {
 					// 	border: '1px solid red',
 					// }}
 				>
-					<Grid container item sx={{ padding: '48px 0' }}>
+					<Grid container item sx={{ padding: '24px 0' }}>
 						<Grid item md={6} xs={12} sm={12}>
 							<Box>
 								<img
-									src={LogoBottomLarger}
+									src={LogoMain}
 									alt="TaxSpoc Logo"
-									style={{ maxWidth: '100%', height: '48px' }}
+									style={{ maxWidth: '100%', height: '42px', width: 'auto' }}
 								/>
 							</Box>
 						</Grid>
@@ -66,11 +70,16 @@ const BottomContainer = () => {
 											alignSelf: 'stretch',
 										}}
 									>
+										{/* <IconButton> */}
 										<LinkedInIcon />
-										<YouTubeIcon />
+										{/* </IconButton> */}
+										{/* <IconButton> */}
+										<XIcon />
+										{/* </IconButton> */}
+										{/* <YouTubeIcon />
 										<XIcon fontSize="small" />
 
-										<FacebookIcon />
+										<FacebookIcon /> */}
 									</Box>
 								</Box>
 							</Box>
@@ -87,57 +96,32 @@ const BottomContainer = () => {
 						>
 							<Link
 								to="/about-us"
-								target="_blank"
+								// target="_blank"
 								rel="noopener noreferrer"
 								style={{ color: 'inherit' }}
 							>
-								<Typography>About us</Typography>
+								<Typography variant="bottomNavigationText">About us</Typography>
 							</Link>
-							<Link
-								to="/contact-us"
-								target="_blank"
-								rel="noopener noreferrer"
-								style={{ color: 'inherit' }}
-							>
-								<Typography>Contact us</Typography>
+							<Link to="/contact-us" rel="noopener noreferrer" style={{ color: 'inherit' }}>
+								<Typography variant="bottomNavigationText">Contact us</Typography>
 							</Link>
-							<Link
-								to="/termes-of-use"
-								target="_blank"
-								rel="noopener noreferrer"
-								style={{ color: 'inherit' }}
-							>
-								<Typography>Termes of use</Typography>
+							<Link to="/termes-of-use" rel="noopener noreferrer" style={{ color: 'inherit' }}>
+								<Typography variant="bottomNavigationText">Termes of use</Typography>
 							</Link>
-							<Link
-								to="/cookies-policy"
-								target="_blank"
-								rel="noopener noreferrer"
-								style={{ color: 'inherit' }}
-							>
-								<Typography>Cookies policy</Typography>
+							<Link to="/cookies-policy" rel="noopener noreferrer" style={{ color: 'inherit' }}>
+								<Typography variant="bottomNavigationText">Cookies policy</Typography>
 							</Link>
-							<Link
-								to="/privacy-policy"
-								target="_blank"
-								rel="noopener noreferrer"
-								style={{ color: 'inherit' }}
-							>
-								<Typography>Privacy Policy</Typography>
+							<Link to="/privacy-policy" rel="noopener noreferrer" style={{ color: 'inherit' }}>
+								<Typography variant="bottomNavigationText">Privacy Policy</Typography>
 							</Link>
-							<Link
-								to="/advertise-with-us"
-								target="_blank"
-								rel="noopener noreferrer"
-								style={{ color: 'inherit' }}
-							>
-								<Typography>Advertise with us</Typography>
+							<Link to="/advertise-with-us" rel="noopener noreferrer" style={{ color: 'inherit' }}>
+								<Typography variant="bottomNavigationText">Advertise with us</Typography>
 							</Link>
 						</Box>
 					</Grid>
 
-					<Grid item xs={12} sx={{ padding: '4px 0' }}>
-						<Typography>
+					<Grid item xs={12} sx={{ padding: '4px 0 24px' }}>
+						<Typography sx={{ fontSize: '12px' }}>
 							Copyright © Taxspoc, UAB 2024. All rights reserved. The Taxspoc is not responsible
 							for the content of external sites. The material on this site may not be reproduced,
 							distributed, transmitted, cached or otherwise used, except with the prior written

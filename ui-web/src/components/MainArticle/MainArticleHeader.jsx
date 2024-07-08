@@ -14,7 +14,13 @@ const MainArticleHeader = ({ article }) => {
 	};
 	return (
 		<Grid item xs={12} onClick={handleClick}>
-			<a href={url} style={{ textDecoration: 'none', color: 'inherit' }}>
+			<a
+				href={url}
+				style={{
+					textDecoration: 'none',
+					// color: 'inherit'
+				}}
+			>
 				<Typography
 					variant="h5"
 					sx={{
@@ -24,6 +30,7 @@ const MainArticleHeader = ({ article }) => {
 						WebkitLineClamp: 2,
 						WebkitBoxOrient: 'vertical',
 						fontWeight: 'fontWeightBold',
+						color: 'primary.darkText',
 						'&:hover': {
 							textDecoration: 'underline',
 						},

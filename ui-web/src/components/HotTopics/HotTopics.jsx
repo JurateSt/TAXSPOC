@@ -50,7 +50,7 @@ const HotTopics = () => {
 					alignItems: 'flex-start',
 					flexShrink: '0',
 					alignSelf: 'auto',
-					boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+					// boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
 					// border: '3px solid red',
 				}}
 			>
