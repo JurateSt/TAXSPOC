@@ -7,6 +7,7 @@ import '@fontsource/roboto/700.css';
 // import '@fontsource/indie-flower';
 import { blueGrey } from '@mui/material/colors';
 import { grey } from '@mui/material/colors';
+import { deepOrange } from '@mui/material/colors';
 
 const theme = createTheme({
 	typography: {
@@ -24,6 +25,7 @@ const theme = createTheme({
 			default: '#f5f5f5',
 			// paper: blueGrey[50],
 		},
+		// this is old theme as of 2024-07-08 23:53:00
 		primary: {
 			main: '#1c2e3c',
 			midnightBlue900: '#1c2e3c',
