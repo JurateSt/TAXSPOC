@@ -37,8 +37,6 @@ const NavigationBar = () => {
 	const [drawerOpen, setDrawerOpen] = useState(false);
 	const [openMenuItems, setOpenMenuItems] = useState(false);
 
-	console.log('is MOBILE', isMobile, location.pathname);
-
 	const handleClick = () => {
 		navigate('/home');
 	};
@@ -65,7 +63,7 @@ const NavigationBar = () => {
 								: 'Hot Topics';
 
 	const hotTopicsMenuItems = [
-		{ label: 'OECD/G20: BEPS', path: '/hot-topics/1' },
+		{ label: 'OECD BEPS', path: '/hot-topics/1' },
 		{ label: 'E-invoicing', path: '/hot-topics/2' },
 		{ label: 'Brazil Tax Reform', path: '/hot-topics/3' },
 		{ label: 'UAE CIT', path: '/hot-topics/4' },
