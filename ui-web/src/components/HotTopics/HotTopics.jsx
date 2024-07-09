@@ -8,7 +8,7 @@ const HotTopics = () => {
 	const hotTopicsData = [
 		{
 			number: 1,
-			header: 'OECD/G20: BEPS',
+			header: 'OOECD BEPS',
 			supportingText: 'Over 140 countries are implementing 15 Actions.',
 		},
 		{
