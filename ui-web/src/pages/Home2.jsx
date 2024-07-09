@@ -1,32 +1,50 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 // MUI
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
+import { styled } from '@mui/system';
 // api
 import api from '../api/axios';
 // components
 import MainBar from '../components/MainBar.jsx';
 import MainArticle from '../components/MainArticle/MainArticle';
+import ArticleCard from '../components/Article/ArticleCard.jsx';
 import HotTopics from '../components/HotTopics/HotTopics.jsx';
 import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
-import ArticleCard from '../components/Article/ArticleCard.jsx';
 
-const CategoryArticlesList = ({ category }) => {
+const Spacer = styled('div')(({ theme }) => {
+	console.log('theme.mixins.toolbar', theme.mixins.toolbar);
+	return {
+		...theme.mixins.toolbar,
+		height: `calc(${theme.mixins.toolbar.minHeight * 3 + 26}px)`,
+	};
+});
+
+const StyledContainer = styled(Container)(({ theme }) => ({
+	border: '2px solid red',
+	// height: '100vh',
+}));
+
+const Home2 = () => {
 	const [articles, setArticles] = useState([]);
 
 	const getArticles = async () => {
 		const { data } = await api.get('/articles');
-		setArticles(data.filter((item) => item?.categories.some((cat) => cat.name === category)));
+
+		setArticles(data.sort((a, b) => b.dateTag - a.dateTag));
 	};
 
 	useEffect(() => {
 		getArticles();
-	}, [category]);
+	}, []);
+
+	//take the first article from the array
+	console.log('getArticles', articles.length, articles.slice(0, 1));
+
 	return (
 		<>
 			<MainBar />
-			<Box sx={{ display: 'flex', justifyContent: 'center', padding: '16px' }}>
-				<Typography variant="h4">{category}</Typography>
-			</Box>
+			{/* TODO: carousel */}
 			<MainArticle articles={articles.slice(0, 1)} />
 			<Container>
 				<Grid
@@ -53,33 +71,29 @@ const CategoryArticlesList = ({ category }) => {
 							spacing={2}
 							// sx={{ backgroundColor: 'lightgrey' }}
 						>
-							{articles
-								.slice(1)
-								.sort((a, b) => b.articleDate - a.articleDate)
-								.map((item, index) => (
-									<Grid
-										item
-										xs={12}
-										sm={6}
-										md={6}
-										lg={6}
-										xl={6}
-										// sx={{ border: '1px solid orange' }}
-										key={index}
-									>
-										<ArticleCard key={item.id} article={item} />
-									</Grid>
-								))}
+							{articles.slice(1).map((item, index) => (
+								<Grid
+									item
+									xs={12}
+									sm={6}
+									md={6}
+									lg={6}
+									xl={6}
+									// sx={{ border: '1px solid orange' }}
+									key={index}
+								>
+									<ArticleCard key={item.id} article={item} index={index} />
+								</Grid>
+							))}
 						</Grid>
 					</Grid>
 
 					<HotTopics />
 				</Grid>
 			</Container>
-
 			<BottomContainer />
 		</>
 	);
 };
 
-export default CategoryArticlesList;
+export default Home2;

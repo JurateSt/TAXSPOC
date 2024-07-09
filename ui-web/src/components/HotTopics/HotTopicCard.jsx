@@ -6,9 +6,10 @@ import HotTopicCardNumber from './HotTopicCardNumber';
 
 const HotTopicCard = ({ topic }) => {
 	const navigate = useNavigate();
+	const url = `/hot-topics/${topic.number}`;
 
 	const handleClick = () => {
-		navigate(`/hot-topics/${topic.number}`);
+		navigate(url);
 	};
 	return (
 		<Box
@@ -19,15 +20,18 @@ const HotTopicCard = ({ topic }) => {
 				paddingLeft: '16px',
 				alignItems: 'center',
 				gap: '16px',
-				borderBottom: '1px dotted #000000',
+				borderBottom: '1px dotted', // #000000,
+				borderBottomColor: 'primary.darkText',
+				color: 'primary.darkText',
 				cursor: 'pointer',
 				// border: '1px solid red',
 				'&:hover': {
-					backgroundColor: 'primary.midnightBlue25',
+					backgroundColor: 'primary.grey200',
 				},
 			}}
 			onClick={handleClick}
 		>
+			{/* <a href={url} style={{ textDecoration: 'none', color: 'inherit' }}> */}
 			<HotTopicCardNumber number={topic.number} />
 			<Box>
 				<Box
@@ -39,6 +43,7 @@ const HotTopicCard = ({ topic }) => {
 				</Box>
 				<Box>{topic.supportingText}</Box>
 			</Box>
+			{/* </a> */}
 		</Box>
 	);
 };

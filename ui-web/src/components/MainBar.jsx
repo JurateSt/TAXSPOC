@@ -9,7 +9,15 @@ import NavigationBar from './NavigationBar';
 
 const MainBar = () => {
 	return (
-		<AppBar position="sticky">
+		<AppBar
+			position="sticky"
+			// remove shadow
+			elevation={0}
+			sx={{
+				borderBottom: '1px solid',
+				borderBottomColor: 'primary.divider',
+			}}
+		>
 			<LogoBar />
 			<NavigationBar />
 		</AppBar>

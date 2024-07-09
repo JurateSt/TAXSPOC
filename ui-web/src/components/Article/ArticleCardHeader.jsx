@@ -6,25 +6,33 @@ import dayjs from 'dayjs';
 const ArticleCardHeader = ({ article }) => {
 	const navigate = useNavigate();
 	const { _id: id } = article;
+	const url = `/articles/${id}`;
 	const handleClick = () => {
-		navigate(`/articles/${id}`);
+		navigate(url);
 	};
 	return (
-		<Grid item xs={12} sx={{ cursor: 'pointer' }} onClick={handleClick}>
-			<Typography
-				sx={{
-					overflow: 'hidden',
-					textOverflow: 'ellipsis',
-					display: '-webkit-box',
-					WebkitLineClamp: 2,
-					WebkitBoxOrient: 'vertical',
-					fontWeight: 'bold',
-					fontSize: '15px',
-					// lineHeight: '1.2em',
-				}}
-			>
-				{article?.header}
-			</Typography>
+		<Grid item xs={12}>
+			<a href={url} style={{ textDecoration: 'none', color: 'inherit' }}>
+				<Typography
+					sx={{
+						overflow: 'hidden',
+						textOverflow: 'ellipsis',
+						display: '-webkit-box',
+						WebkitLineClamp: 2,
+						WebkitBoxOrient: 'vertical',
+						fontSize: '18px',
+						fontWeight: '700',
+						lineHeight: '26px',
+						color: 'primary.darkText',
+						// on hover underline
+						'&:hover': {
+							textDecoration: 'underline',
+						},
+					}}
+				>
+					{article?.header}
+				</Typography>
+			</a>
 		</Grid>
 	);
 };

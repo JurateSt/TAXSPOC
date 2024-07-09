@@ -9,12 +9,19 @@ import viteLogo from '/vite.svg';
 
 import Title from './pages/Title.jsx';
 import Home from './pages/Home';
+import Home2 from './pages/Home2';
 import CategoryArticlesList from './pages/CategoryArticlesList.jsx';
 import HotTopic from './pages/HotTopic.jsx';
 import Article from './pages/Article.jsx';
 import CreateArticle from './pages/CreateArticle';
 import CreateArticleTinyMCE from './pages/CreateArticleTinyMCE';
 import EditArticle from './pages/EditArticle';
+import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
+import TermesOfUse from './pages/TermesOfUse';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import CookiesPolicy from './pages/CookiesPolicy';
+import AdvertiseWithUs from './pages/AdvertiseWithUs';
 
 function App() {
 	const [count, setCount] = useState(0);
@@ -26,6 +33,7 @@ function App() {
 					<Routes>
 						<Route path="/" element={<Home />} />
 						<Route path="/home" element={<Home />} />
+						<Route path="/home2" element={<Home2 />} />
 						<Route
 							path="/articles/indirect-tax"
 							element={<CategoryArticlesList category={'Indirect Tax'} />}
@@ -51,6 +59,13 @@ function App() {
 						{/* <Route path="/auth/create-article/" element={<CreateArticle />} /> */}
 						<Route path="/auth/create-article" element={<CreateArticleTinyMCE />} />
 						<Route path="/auth/create-article/:id" element={<EditArticle />} />
+
+						<Route path="/about-us" element={<AboutUs />} />
+						<Route path="/contact-us" element={<ContactUs />} />
+						<Route path="/termes-of-use" element={<TermesOfUse />} />
+						<Route path="/privacy-policy" element={<PrivacyPolicy />} />
+						<Route path="/cookies-policy" element={<CookiesPolicy />} />
+						<Route path="/advertise-with-us" element={<AdvertiseWithUs />} />
 					</Routes>
 				</BrowserRouter>
 			</CssBaseline>

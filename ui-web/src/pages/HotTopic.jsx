@@ -1,23 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 // MUI
-import {
-	Box,
-	Card,
-	CardActions,
-	CardContent,
-	CardMedia,
-	Button,
-	Typography,
-	Grid,
-	Paper,
-	Container,
-} from '@mui/material';
-
+import { Box, Typography, Grid, Paper, Container } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // components
 import MainBar from '../components/MainBar.jsx';
-import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
+import BottomContainer from '../components/BottomBar/BottomContainer';
+import HorizontalTimeline from '../components/Timeline/HorizontalTimeline';
 
 const Item = styled(Paper)(({ theme }) => ({
 	backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -34,14 +23,26 @@ const HotTopics = () => {
 			<MainBar />
 			<Container
 				sx={{
-					marginTop: '32px',
+					mt: 4,
+					overflowX: 'auto',
+					minHeight: '100vh',
 					// border: '1px solid red'
 				}}
-				minHeight="100vh"
 			>
 				<Grid container sx={{ border: '3px solid green' }}>
 					<Grid item xs={12} sm={12}>
-						<Box sx={{ backgroundColor: 'lightblue', height: '128px' }}>TIMELINE</Box>
+						<Typography variant="h4">
+							{number === '1'
+								? 'OECD BEPS'
+								: number === '2'
+									? 'E-Invoicing'
+									: number === '3'
+										? 'Brazil Tax Reform'
+										: 'UAE CIT'}
+						</Typography>
+					</Grid>
+					<Grid item xs={12} sm={12}>
+						<HorizontalTimeline />
 					</Grid>
 					<Grid item xs={12} sm={12}>
 						<Box

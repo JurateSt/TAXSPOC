@@ -18,17 +18,52 @@ export default class ArticlesController {
 	}
 
 	public async store({ request, response }: HttpContext) {
-		const { images: _images, tags, categories, ...articleData } = request.all();
+		const {
+			images: _images,
+			tags,
+			categories,
+			regions,
+			countries,
+			otherCategories,
+			...articleData
+		} = request.all();
 		const images = request.files('images');
-		console.log('IMAGES', images);
-		// return;
 
+		const parsedRegions = JSON.parse(regions || '[]');
+		const parsedCountries = JSON.parse(countries || '[]');
+		const parsedOtherCategories = JSON.parse(otherCategories || '[]');
+
+		const mappedRegions = parsedRegions?.map((item: any) => ({
+			_id: item._id,
+			name: item.name,
+			type: 'region',
+		}));
+
+		const mappedCountries = parsedCountries?.map((item: any) => ({
+			_id: item._id,
+			name: item.name,
+			code: item.code,
+			region: item.region,
+			type: 'country',
+		}));
+		const mappedOtherCategories = parsedOtherCategories?.map((item: any) => ({
+			_id: item._id,
+			name: item.name,
+			type: 'other',
+		}));
+		console.log(
+			'STORE regions:',
+			parsedRegions,
+			mappedRegions,
+			'countries',
+			parsedCountries,
+			mappedCountries
+		);
 		if (typeof tags === 'string') {
 			articleData.tags = tags.split(',').map((item) => item.trim());
 		}
-		if (typeof categories === 'string') {
-			articleData.categories = categories.split(',').map((item) => item.trim());
-		}
+		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
+		console.log('STORE CATEGORIES', articleData.categories);
 
 		const article = new Article(articleData);
 
@@ -37,7 +72,7 @@ export default class ArticlesController {
 		if (images.length > 0) {
 			articleImages = await FileService.upload(images, article);
 		}
-		log('ARTICLE STORE', request.body(), 'IMAGES', images, 'articleImages', articleImages);
+
 		article.images = articleImages;
 
 		await article.save();
@@ -46,18 +81,53 @@ export default class ArticlesController {
 
 	public async update({ request, response }: HttpContext) {
 		const { id } = request.params();
-		const { images: _images, tags, categories, ...articleData } = request.all();
+		const {
+			images: _images,
+			tags,
+			categories,
+			regions,
+			countries,
+			otherCategories,
+			...articleData
+		} = request.all();
 		const images = request.files('images');
 
 		if (typeof tags === 'string') {
 			articleData.tags = tags.split(',').map((item) => item.trim());
 			log('TAGS', articleData.tags);
 		}
-		if (typeof categories === 'string') {
-			articleData.categories = categories.split(',').map((item) => item.trim());
-		}
+		const parsedRegions = JSON.parse(regions || '[]');
+		const parsedCountries = JSON.parse(countries || '[]');
+		const parsedOtherCategories = JSON.parse(otherCategories || '[]');
 
-		// log('UPDATE', id, articleData);
+		const mappedRegions = parsedRegions?.map((item: any) => ({
+			_id: item._id,
+			name: item.name,
+			type: 'region',
+		}));
+
+		const mappedCountries = parsedCountries?.map((item: any) => ({
+			_id: item._id,
+			name: item.name,
+			code: item.code,
+			region: item.region,
+			type: 'country',
+		}));
+		const mappedOtherCategories = parsedOtherCategories?.map((item: any) => ({
+			_id: item._id,
+			name: item.name,
+			type: 'other',
+		}));
+		console.log(
+			'UPDATE regions:',
+			parsedRegions,
+			mappedRegions,
+			'countries',
+			parsedCountries,
+			mappedCountries
+		);
+
+		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
 
 		if (articleData.action === 'deleteFile') {
 			const article = await Article.findById(id);
