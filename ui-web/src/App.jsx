@@ -9,6 +9,7 @@ import viteLogo from '/vite.svg';
 
 import Title from './pages/Title.jsx';
 import Home from './pages/Home';
+import Home2 from './pages/Home2';
 import CategoryArticlesList from './pages/CategoryArticlesList.jsx';
 import HotTopic from './pages/HotTopic.jsx';
 import Article from './pages/Article.jsx';
@@ -32,6 +33,7 @@ function App() {
 					<Routes>
 						<Route path="/" element={<Home />} />
 						<Route path="/home" element={<Home />} />
+						<Route path="/home2" element={<Home2 />} />
 						<Route
 							path="/articles/indirect-tax"
 							element={<CategoryArticlesList category={'Indirect Tax'} />}

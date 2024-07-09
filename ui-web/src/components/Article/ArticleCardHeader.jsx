@@ -20,9 +20,10 @@ const ArticleCardHeader = ({ article }) => {
 						display: '-webkit-box',
 						WebkitLineClamp: 2,
 						WebkitBoxOrient: 'vertical',
-						fontWeight: 'bold',
-						fontSize: '15px',
-						// lineHeight: '1.2em',
+						fontSize: '18px',
+						fontWeight: '700',
+						lineHeight: '26px',
+						color: 'primary.darkText',
 						// on hover underline
 						'&:hover': {
 							textDecoration: 'underline',

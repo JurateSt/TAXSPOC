@@ -14,13 +14,21 @@ const MainArticleButtons = ({ article }) => {
 		<Grid item xs={12}>
 			<Button
 				sx={{
-					backgroundColor: 'complementary.mainArticleButton',
+					// backgroundColor: 'complementary.mainArticleButton',
+					// '&:hover': {
+					// 	backgroundColor: 'complementary.mainArticleButtonHover',
+					// },
+					// borderRadius: 0,
+					backgroundColor: 'primary.deepOrange400',
+					// on hover change opacity
 					'&:hover': {
-						backgroundColor: 'complementary.mainArticleButtonHover',
+						backgroundColor: 'primary.deepOrange400',
+						opacity: 0.8,
 					},
 					textTransform: 'none',
-					color: 'background.default',
+					color: 'primary.lightText',
 					width: '100%',
+					// height: '64px',
 				}}
 				onClick={handleClick}
 			>
