@@ -79,13 +79,13 @@ const CreateArticleTinyMCE = () => {
 	};
 	const getRegions = async () => {
 		const { data } = await api.get('/regions');
-		setRegions(data);
+		setRegions(data.sort((a, b) => a.name.localeCompare(b.name)));
 	};
 	const getCountries = async () => {
 		try {
 			const { data } = await api.get('/countries');
-			setCountries(data);
-			setRegionCountries(data);
+			setCountries(data.sort((a, b) => a.name.localeCompare(b.name)));
+			setRegionCountries(data.sort((a, b) => a.name.localeCompare(b.name)));
 		} catch (error) {
 			console.error('getCountries error', error);
 		}
@@ -93,7 +93,7 @@ const CreateArticleTinyMCE = () => {
 
 	const getOtherCategories = async () => {
 		const { data } = await api.get('/other-categories');
-		setOtherCategories(data);
+		setOtherCategories(data.sort((a, b) => a.name.localeCompare(b.name)));
 	};
 
 	useEffect(() => {
@@ -314,7 +314,7 @@ const CreateArticleTinyMCE = () => {
 						value={article.regions}
 						onChange={handleRegionChange}
 						renderInput={(params) => (
-							<TextField {...params} label="Region" variant="outlined" fullWidth required />
+							<TextField {...params} label="Region" variant="outlined" fullWidth />
 						)}
 						multiple
 					/>
@@ -329,7 +329,7 @@ const CreateArticleTinyMCE = () => {
 						value={article.countries}
 						onChange={handleCountryChange}
 						renderInput={(params) => (
-							<TextField {...params} label="Countries" variant="outlined" fullWidth required />
+							<TextField {...params} label="Countries" variant="outlined" fullWidth />
 						)}
 						multiple
 						disabled={article.regions.length === 0}
@@ -344,7 +344,7 @@ const CreateArticleTinyMCE = () => {
 						value={article.otherCategories}
 						onChange={handleOtherCategoryChange}
 						renderInput={(params) => (
-							<TextField {...params} label="Other" variant="outlined" fullWidth required />
+							<TextField {...params} label="Other" variant="outlined" fullWidth />
 						)}
 						multiple
 					/>
