@@ -17,6 +17,9 @@ const theme = createTheme({
 		fontWeightRegular: 400,
 		fontWeightMedium: 500,
 		fontWeightBold: 700,
+		allVariants: {
+			color: '#404040',
+		},
 		// h1: {
 		// 	fontFamily: 'Indie Flower, cursive',
 		// },
@@ -41,7 +44,8 @@ const theme = createTheme({
 			// midnightBlue50: '#E6EFFA',
 			// // NOT MUI
 			// midnightBlue25: '#F5F9FD',
-			main: '#ffffff',
+			main: '#404040',
+			//'#ffffff',
 			lightText: '#ffffff',
 			text: '#404040',
 			darkText: '#404040',

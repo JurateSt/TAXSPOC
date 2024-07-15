@@ -10,8 +10,8 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import LogoBottom from '../../assets/LogoBottom.png';
 import LogoBottomLarger from '../../assets/Logo-bottom-larger-10x.png';
 import LogoMain from '../../assets/LogoMain.svg';
+
 const BottomContainer = () => {
-	//move to boottom of the page
 	return (
 		<Container
 			maxWidth={false}
@@ -27,7 +27,7 @@ const BottomContainer = () => {
 		>
 			<Container
 			// sx={{
-			// 	border: '1px solid yellow',
+			// 	border: '1px solid red',
 			// }}
 			>
 				<Grid
@@ -37,50 +37,49 @@ const BottomContainer = () => {
 					// }}
 				>
 					<Grid container item sx={{ padding: '24px 0' }}>
-						<Grid item md={6} xs={12} sm={12}>
-							<Box>
-								<img
-									src={LogoMain}
-									alt="TaxSpoc Logo"
-									style={{ maxWidth: '100%', height: '42px', width: 'auto' }}
-								/>
-							</Box>
+						<Grid item xs={6}>
+							<img
+								src={LogoMain}
+								alt="TaxSpoc Logo"
+								style={{ height: '42px', width: 'auto', maxWidth: '100%' }}
+							/>
 						</Grid>
-
-						<Grid item md={6} xs={12} sm={12}>
-							<Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-								<Box
-									sx={{
-										display: 'flex',
-										flexDirection: 'column',
-										justifyContent: 'center',
-										alignItems: 'flex-start',
-										gap: '10px',
-									}}
-								>
-									<Typography>Follow Us:</Typography>
-									<Box
+						<Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+							<Box sx={{ textAlign: 'center' }}>
+								<Typography>Follow Us:</Typography>
+								<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+									{/* <Box
 										sx={{
 											display: 'flex',
-											padding: '4px 0px',
-											flexDirection: 'row',
 											justifyContent: 'center',
-											alignItems: 'flex-start',
-											gap: '10px',
-											alignSelf: 'stretch',
+											alignItems: 'center',
+											width: 24,
+											height: 24,
+											border: '1px solid',
+											borderColor: 'primary.divider',
+											m: 1,
 										}}
-									>
-										{/* <IconButton> */}
+									> */}
+									<IconButton>
 										<LinkedInIcon />
-										{/* </IconButton> */}
-										{/* <IconButton> */}
-										<XIcon />
-										{/* </IconButton> */}
-										{/* <YouTubeIcon />
+									</IconButton>
+									{/* </Box> */}
+									{/* <Box
+										sx={{
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center',
+											width: 24,
+											height: 24,
+											border: '1px solid',
+											borderColor: 'primary.divider',
+											m: 1,
+										}}
+									> */}
+									<IconButton>
 										<XIcon fontSize="small" />
-
-										<FacebookIcon /> */}
-									</Box>
+									</IconButton>
+									{/* </Box> */}
 								</Box>
 							</Box>
 						</Grid>
@@ -92,6 +91,7 @@ const BottomContainer = () => {
 								display: 'flex',
 								flexDirection: 'row',
 								gap: '24px',
+								flexWrap: 'wrap',
 							}}
 						>
 							<Link
