@@ -74,20 +74,20 @@ const EditArticle = () => {
 	};
 	const getRegions = async () => {
 		const { data } = await api.get('/regions');
-		setRegions(data);
+		setRegions(data.sort((a, b) => a.name.localeCompare(b.name)));
 	};
 	const getCountries = async () => {
 		try {
 			const { data } = await api.get('/countries');
-			setCountries(data);
-			setRegionCountries(data);
+			setCountries(data.sort((a, b) => a.name.localeCompare(b.name)));
+			setRegionCountries(data.sort((a, b) => a.name.localeCompare(b.name)));
 		} catch (error) {
 			console.error('getCountries error', error);
 		}
 	};
 	const getOtherCategories = async () => {
 		const { data } = await api.get('/other-categories');
-		setOtherCategories(data);
+		setOtherCategories(data.sort((a, b) => a.name.localeCompare(b.name)));
 	};
 
 	useEffect(() => {
@@ -252,7 +252,7 @@ const EditArticle = () => {
 						value={article?.regions}
 						onChange={handleRegionChange}
 						renderInput={(params) => (
-							<TextField {...params} label="Region" variant="outlined" fullWidth required />
+							<TextField {...params} label="Region" variant="outlined" fullWidth />
 						)}
 						multiple
 					/>
@@ -264,7 +264,7 @@ const EditArticle = () => {
 						value={article?.countries}
 						onChange={handleCountryChange}
 						renderInput={(params) => (
-							<TextField {...params} label="Region" variant="outlined" fullWidth required />
+							<TextField {...params} label="Region" variant="outlined" fullWidth />
 						)}
 						multiple
 					/>
@@ -276,7 +276,7 @@ const EditArticle = () => {
 						value={article.otherCategories}
 						onChange={handleOtherCategoryChange}
 						renderInput={(params) => (
-							<TextField {...params} label="Other" variant="outlined" fullWidth required />
+							<TextField {...params} label="Other" variant="outlined" fullWidth />
 						)}
 						multiple
 					/>
