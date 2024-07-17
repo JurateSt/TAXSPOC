@@ -81,7 +81,7 @@ const NavigationBar = () => {
 	return (
 		<Toolbar
 			sx={{
-				// bgcolor: 'primary.midnightBlue200',
+				bgcolor: 'background.default',
 				// vertical stretch
 				alignItems: 'stretch',
 				// display: { xs: 'none', md: 'flex' },
@@ -116,7 +116,7 @@ const NavigationBar = () => {
 						<LogoBar />
 						<Toolbar
 							sx={{
-								bgcolor: 'primary.midnightBlue200',
+								bgcolor: 'background.default',
 								// display: { xs: 'none', md: 'flex' },
 								// justifyContent: 'center',
 								alignItems: 'stretch',

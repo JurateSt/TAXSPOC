@@ -44,8 +44,8 @@ const theme = createTheme({
 			// midnightBlue50: '#E6EFFA',
 			// // NOT MUI
 			// midnightBlue25: '#F5F9FD',
-			// main: '#404040',
-			main: '#ffffff',
+			main: '#404040',
+			// main: '#ffffff',
 			lightText: '#ffffff',
 			text: '#404040',
 			darkText: '#404040',
