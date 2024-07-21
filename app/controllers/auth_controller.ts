@@ -6,11 +6,12 @@ import jwt from 'jsonwebtoken';
 import User from '#models/User';
 
 export default class AuthController {
-	public async redirect({ ally, response }: HttpContext) {
+	public async redirect({ response }: HttpContext) {
 		console.log('GOOGLE REDIRECT BEFORE');
-		const url = await ally.use('google').redirectUrl();
-		console.log('GOOGLE URL', url);
-		return response.json({ url });
+		response.send('GOOGLE REDIRECT BEFORE');
+		// const url = await ally.use('google').redirectUrl();
+		// console.log('GOOGLE URL', url);
+		// return response.json({ url });
 	}
 
 	public async callback({ ally, response }: HttpContext) {
