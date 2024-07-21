@@ -23,4 +23,17 @@ export default await Env.create(new URL('../', import.meta.url), {
 	AWS_BUCKET_NAME: Env.schema.string(),
 	AWS_ACCESS_KEY_ID: Env.schema.string(),
 	AWS_SECRET_ACCESS_KEY: Env.schema.string(),
+
+	/*
+  |----------------------------------------------------------
+  | Variables for configuring ally package
+  |----------------------------------------------------------
+  */
+	GOOGLE_CLIENT_ID: Env.schema.string(),
+	GOOGLE_CLIENT_SECRET: Env.schema.string(),
+
+	// environment variables
+	APP_URL: Env.schema.string(),
+	FRONTEND_URL: Env.schema.string(),
+	JWT_SECRET: Env.schema.string(),
 });
