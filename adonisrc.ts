@@ -30,7 +30,8 @@ export default defineConfig({
     },
     () => import('#providers/mongo_provider'),
     () => import('@adonisjs/cors/cors_provider'),
-    () => import('@adonisjs/static/static_provider')
+    () => import('@adonisjs/static/static_provider'),
+    () => import('@adonisjs/ally/ally_provider')
   ],
 
   /*
