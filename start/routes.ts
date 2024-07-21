@@ -19,7 +19,7 @@ router.get('/', async () => 'It works!');
 
 router.get('/test', [UsersController, 'index']);
 
-router.get('/auth/google/callback', [AuthController, 'callback']);
+router.get('auth/google/callback', [AuthController, 'callback']);
 
 router
 	.group(() => {
