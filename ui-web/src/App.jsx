@@ -6,6 +6,7 @@ import theme from './assets/theme.jsx';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 //import './App.css'
+// copy of master branch 2024-07-21-19:51
 
 import Title from './pages/Title.jsx';
 import Home from './pages/Home';
