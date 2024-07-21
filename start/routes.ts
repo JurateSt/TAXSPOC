@@ -23,7 +23,7 @@ router.get('/auth/google/callback', [AuthController, 'callback']);
 
 router
 	.group(() => {
-		router.get('/google/redirect', [AuthController, 'redirect']);
+		router.get('google/redirect', [AuthController, 'redirect']);
 
 		router.resource('articles', ArticlesController);
 
