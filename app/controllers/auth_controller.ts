@@ -14,7 +14,9 @@ export default class AuthController {
 	}
 
 	public async callback({ ally, response }: HttpContext) {
+		console.log('GOOGLE CALLBACK BEFORE');
 		const googleUser = await ally.use('google').user();
+		console.log('GOOGLE CALLBACK USER', googleUser);
 		const { email, name, avatarUrl } = googleUser;
 
 		let user = await User.findOne({ email });
