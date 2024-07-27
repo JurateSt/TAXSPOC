@@ -55,6 +55,7 @@
 		"@adonisjs/static": "^1.1.1",
 		"aws-sdk": "^2.1638.0",
 		"axios": "^1.6.8",
+		"https": "^1.0.0",
 		"jsonwebtoken": "^9.0.2",
 		"mongoose": "^8.2.3",
 		"reflect-metadata": "^0.2.1"
