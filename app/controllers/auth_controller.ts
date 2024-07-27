@@ -7,16 +7,16 @@ import User from '#models/User';
 
 export default class AuthController {
 	public async redirect({ ally, response }: HttpContext) {
-		console.log('GOOGLE REDIRECT BEFORE');
+		// console.log('GOOGLE REDIRECT BEFORE');
 		const url = await ally.use('google').redirectUrl();
-		console.log('GOOGLE URL', url);
+		// console.log('GOOGLE URL', url);
 		return response.json({ url });
 	}
 
 	public async callback({ ally, response }: HttpContext) {
 		console.log('GOOGLE CALLBACK BEFORE');
 		const googleUser = await ally.use('google').user();
-		console.log('GOOGLE CALLBACK USER', googleUser);
+		// console.log('GOOGLE CALLBACK USER', googleUser);
 		const { email, name, avatarUrl } = googleUser;
 
 		let user = await User.findOne({ email });
@@ -29,6 +29,9 @@ export default class AuthController {
 				avatarUrl,
 			});
 			user = await newUser.save();
+			return response.redirect(`${env.get('FRONTEND_URL')}/no-permission`);
+		}
+		if (user && user.role === '') {
 			return response.redirect(`${env.get('FRONTEND_URL')}/no-permission`);
 		}
 

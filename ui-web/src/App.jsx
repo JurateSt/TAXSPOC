@@ -36,10 +36,10 @@ function App() {
 				<BrowserRouter>
 					<AuthProvider>
 						<Routes>
-							{/* <Route element={<ProtectedRoute />}> */}
-							<Route path="/auth/create-article" element={<CreateArticleTinyMCE />} />
-							<Route path="/auth/create-article/:id" element={<EditArticle />} />
-							{/* </Route> */}
+							<Route element={<ProtectedRoute />}>
+								<Route path="/auth/create-article" element={<CreateArticleTinyMCE />} />
+								<Route path="/auth/create-article/:id" element={<EditArticle />} />
+							</Route>
 
 							<Route path="/login" element={<Login />} />
 							<Route path="/no-permission" element={<NoPermission />} />
