@@ -12,6 +12,7 @@
 import 'reflect-metadata';
 import { Ignitor, prettyPrintError } from '@adonisjs/core';
 import env from '#start/env';
+import http from 'http';
 import https from 'https';
 import fs from 'fs';
 
@@ -20,9 +21,6 @@ import fs from 'fs';
  * paths to file and directories for scaffolding commands
  */
 const APP_ROOT = new URL('../', import.meta.url);
-
-const key = fs.readFileSync(env.get('SSL_KEY_PATH'), 'utf8');
-const cert = fs.readFileSync(env.get('SSL_CERT_PATH'), 'utf8');
 
 /**
  * The importer is used to import files in context of the
@@ -44,8 +42,15 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
 		app.listenIf(app.managedByPm2, 'SIGINT', () => app.terminate());
 	})
 	.httpServer()
-	.start((handle) => {
-		return https.createServer({ key, cert }, handle);
+	.start((handler) => {
+		// return https.createServer({ key, cert }, handle);
+		if (env.get('USE_HTTPS') === true) {
+			const key = fs.readFileSync(env.get('SSL_KEY_PATH'), 'utf8');
+			const cert = fs.readFileSync(env.get('SSL_CERT_PATH'), 'utf8');
+			return https.createServer({ key, cert }, handler);
+		} else {
+			return http.createServer(handler);
+		}
 	})
 	.catch((error) => {
 		process.exitCode = 1;
