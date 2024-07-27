@@ -37,6 +37,7 @@ export default await Env.create(new URL('../', import.meta.url), {
 	FRONTEND_URL: Env.schema.string(),
 	JWT_SECRET: Env.schema.string(),
 
+	USE_HTTPS: Env.schema.boolean(),
 	// ssl
 	SSL_KEY_PATH: Env.schema.string(),
 	SSL_CERT_PATH: Env.schema.string(),
