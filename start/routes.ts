@@ -19,16 +19,16 @@ router.get('/', async () => 'It works!');
 
 router.get('/test', [UsersController, 'index']);
 
-router.get('auth/google/callback-test', [AuthController, 'callbackTest']);
-
-router.get('auth/google/callback', [AuthController, 'callback']);
-
 router
 	.group(() => {
-		router.get('google/redirect', [AuthController, 'redirect']);
+		router
+			.group(() => {
+				router.get('google/redirect', [AuthController, 'redirect']);
+				router.get('google/callback', [AuthController, 'callback']);
+			})
+			.prefix('cms/auth');
 
 		router.resource('articles', ArticlesController);
-
 		router.resource('regions', RegionsController);
 		router.resource('countries', CountriesController);
 		router.resource('other-categories', OtherCategoriesController);

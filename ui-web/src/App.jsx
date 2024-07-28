@@ -37,12 +37,12 @@ function App() {
 					<AuthProvider>
 						<Routes>
 							<Route element={<ProtectedRoute />}>
-								<Route path="/auth/create-article" element={<CreateArticleTinyMCE />} />
-								<Route path="/auth/create-article/:id" element={<EditArticle />} />
+								<Route path="/cms/auth/create-article" element={<CreateArticleTinyMCE />} />
+								<Route path="/cms/auth/create-article/:id" element={<EditArticle />} />
 							</Route>
 
-							<Route path="/login" element={<Login />} />
-							<Route path="/no-permission" element={<NoPermission />} />
+							<Route path="/cms/login" element={<Login />} />
+							<Route path="/cms/no-permission" element={<NoPermission />} />
 							{/* <Route path="/auth/create-article" element={<CreateArticleTinyMCE />} />
 						<Route path="/auth/create-article/:id" element={<EditArticle />} /> */}
 
