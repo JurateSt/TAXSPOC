@@ -15,6 +15,12 @@ export default class AuthController {
 		return response.json({ url });
 	}
 
+	public async callbackTest({ response }: HttpContext) {
+		console.log('GOOGLE CALLBACK TEST');
+
+		return response.json('GOOGLE CALLBACK TEST');
+	}
+
 	public async callback({ ally, response }: HttpContext) {
 		console.log('GOOGLE CALLBACK');
 		const googleUser = await ally.use('google').user();
