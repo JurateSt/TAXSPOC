@@ -33,6 +33,8 @@ const IMPORTER = (filePath: string) => {
 	return import(filePath);
 };
 
+console.log('USE_HTTPS', env.get('USE_HTTPS'), env.get('USE_HTTPS') === 'true');
+
 new Ignitor(APP_ROOT, { importer: IMPORTER })
 	.tap((app) => {
 		app.booting(async () => {
