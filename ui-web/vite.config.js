@@ -5,7 +5,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
-const useHttps = process.env.USE_HTTPS === true;
+const useHttps = process.env.USE_HTTPS === 'true';
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [react()],
