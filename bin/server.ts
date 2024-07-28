@@ -44,7 +44,7 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
 	.httpServer()
 	.start((handler) => {
 		// return https.createServer({ key, cert }, handle);
-		if (env.get('USE_HTTPS') === true) {
+		if (env.get('USE_HTTPS') === 'true') {
 			const key = fs.readFileSync(env.get('SSL_KEY_PATH'), 'utf8');
 			const cert = fs.readFileSync(env.get('SSL_CERT_PATH'), 'utf8');
 			return https.createServer({ key, cert }, handler);
