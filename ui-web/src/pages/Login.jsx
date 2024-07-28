@@ -6,7 +6,7 @@ import api from '../api/axios';
 const Login = () => {
 	const handleClick = async () => {
 		console.log('LOGIN');
-		const { data } = await api.get('/google/redirect');
+		const { data } = await api.get('/cms/auth/google/redirect');
 		console.log('Clicked!', data);
 		window.location.href = data.url;
 	};

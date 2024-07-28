@@ -11,14 +11,11 @@ export default class AuthController {
 		const url = await ally.use('google').redirectUrl();
 		console.log('GOOGLE URL', url);
 		// console log ally callback url
-		console.log('GOOGLE REDIRECT CALLBACK URL', `${env.get('APP_URL')}/auth/google/callback`);
+		console.log(
+			'GOOGLE REDIRECT CALLBACK URL',
+			`${env.get('APP_URL')}/api/cms/auth/google/callback`
+		);
 		return response.json({ url });
-	}
-
-	public async callbackTest({ response }: HttpContext) {
-		console.log('GOOGLE CALLBACK TEST');
-
-		return response.json('GOOGLE CALLBACK TEST');
 	}
 
 	public async callback({ ally, response }: HttpContext) {
@@ -37,10 +34,10 @@ export default class AuthController {
 				avatarUrl,
 			});
 			user = await newUser.save();
-			return response.redirect(`${env.get('FRONTEND_URL')}/no-permission`);
+			return response.redirect(`${env.get('FRONTEND_URL')}/cms/no-permission`);
 		}
 		if (user && user.role === '') {
-			return response.redirect(`${env.get('FRONTEND_URL')}/no-permission`);
+			return response.redirect(`${env.get('FRONTEND_URL')}/cms/no-permission`);
 		}
 
 		if (user && user.role === 'admin') {
@@ -51,7 +48,7 @@ export default class AuthController {
 				sameSite: 'lax',
 				maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
 			});
-			return response.redirect(`${env.get('FRONTEND_URL')}/auth/create-article`);
+			return response.redirect(`${env.get('FRONTEND_URL')}/cms/auth/create-article`);
 		}
 	}
 }
