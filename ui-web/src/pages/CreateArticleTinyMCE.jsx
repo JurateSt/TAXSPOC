@@ -32,10 +32,15 @@ import moment from 'moment';
 import { Editor } from '@tinymce/tinymce-react';
 // api
 import api from '../api/axios';
+// auth
+import { useAuth } from '../context/AuthContext';
 // components
+import AuthMainBar from '../components/NavBar/AuthMainBar';
 import EditorTinyMCE from '../components/TinyMCE/EditorTinyMCE';
 
 const CreateArticleTinyMCE = () => {
+	const { user } = useAuth();
+	console.log('CreateArticleTinyMCE user', user);
 	const navigate = useNavigate();
 
 	const [articles, setArticles] = useState([]);
@@ -79,13 +84,13 @@ const CreateArticleTinyMCE = () => {
 	};
 	const getRegions = async () => {
 		const { data } = await api.get('/regions');
-		setRegions(data);
+		setRegions(data.sort((a, b) => a.name.localeCompare(b.name)));
 	};
 	const getCountries = async () => {
 		try {
 			const { data } = await api.get('/countries');
-			setCountries(data);
-			setRegionCountries(data);
+			setCountries(data.sort((a, b) => a.name.localeCompare(b.name)));
+			setRegionCountries(data.sort((a, b) => a.name.localeCompare(b.name)));
 		} catch (error) {
 			console.error('getCountries error', error);
 		}
@@ -93,7 +98,7 @@ const CreateArticleTinyMCE = () => {
 
 	const getOtherCategories = async () => {
 		const { data } = await api.get('/other-categories');
-		setOtherCategories(data);
+		setOtherCategories(data.sort((a, b) => a.name.localeCompare(b.name)));
 	};
 
 	useEffect(() => {
@@ -280,122 +285,124 @@ const CreateArticleTinyMCE = () => {
 	// console.log('ARTICLES', articles);
 
 	return (
-		<Container>
-			<Typography variant="h3" align="center">
-				Create Article
-			</Typography>
-			<Grid container spacing={2}>
-				<Grid item xs={12}>
-					<LocalizationProvider dateAdapter={AdapterDayjs}>
-						<DatePicker
-							label="Date tag"
-							value={article.dateTag}
-							onChange={handleDateChange}
-							renderInput={(params) => <TextField {...params} name="dateTag" />}
+		<>
+			<AuthMainBar />
+			<Container>
+				<Typography variant="h3" align="center">
+					Create Article
+				</Typography>
+				<Grid container spacing={2}>
+					<Grid item xs={12}>
+						<LocalizationProvider dateAdapter={AdapterDayjs}>
+							<DatePicker
+								label="Date tag"
+								value={article.dateTag}
+								onChange={handleDateChange}
+								renderInput={(params) => <TextField {...params} name="dateTag" />}
+							/>
+						</LocalizationProvider>
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							label="Tags"
+							name="tags"
+							value={article.tags}
+							onChange={handleChange}
+							variant="outlined"
+							fullWidth
 						/>
-					</LocalizationProvider>
-				</Grid>
-				<Grid item xs={12}>
-					<TextField
-						label="Tags"
-						name="tags"
-						value={article.tags}
-						onChange={handleChange}
-						variant="outlined"
-						fullWidth
-					/>
-				</Grid>
+					</Grid>
 
-				<Grid item xs={4}>
-					{/* <FormControl fullWidth error={error.isError}> */}
-					<Autocomplete
-						options={regions}
-						getOptionLabel={(option) => option.name}
-						value={article.regions}
-						onChange={handleRegionChange}
-						renderInput={(params) => (
-							<TextField {...params} label="Region" variant="outlined" fullWidth required />
-						)}
-						multiple
-					/>
-					{/* <FormHelperText>{error.message}</FormHelperText>
+					<Grid item xs={4}>
+						{/* <FormControl fullWidth error={error.isError}> */}
+						<Autocomplete
+							options={regions}
+							getOptionLabel={(option) => option.name}
+							value={article.regions}
+							onChange={handleRegionChange}
+							renderInput={(params) => (
+								<TextField {...params} label="Region" variant="outlined" fullWidth />
+							)}
+							multiple
+						/>
+						{/* <FormHelperText>{error.message}</FormHelperText>
 					</FormControl> */}
-				</Grid>
-				<Grid item xs={4}>
-					{/* <FormControl fullWidth error={error.isError}> */}
-					<Autocomplete
-						options={regionCountries}
-						getOptionLabel={(option) => option.name}
-						value={article.countries}
-						onChange={handleCountryChange}
-						renderInput={(params) => (
-							<TextField {...params} label="Countries" variant="outlined" fullWidth required />
-						)}
-						multiple
-						disabled={article.regions.length === 0}
-					/>
-					{/* <FormHelperText>{error.message}</FormHelperText>
+					</Grid>
+					<Grid item xs={4}>
+						{/* <FormControl fullWidth error={error.isError}> */}
+						<Autocomplete
+							options={regionCountries}
+							getOptionLabel={(option) => option.name}
+							value={article.countries}
+							onChange={handleCountryChange}
+							renderInput={(params) => (
+								<TextField {...params} label="Countries" variant="outlined" fullWidth />
+							)}
+							multiple
+							disabled={article.regions.length === 0}
+						/>
+						{/* <FormHelperText>{error.message}</FormHelperText>
 					</FormControl> */}
-				</Grid>
-				<Grid item xs={4}>
-					<Autocomplete
-						options={otherCategories}
-						getOptionLabel={(option) => option.name}
-						value={article.otherCategories}
-						onChange={handleOtherCategoryChange}
-						renderInput={(params) => (
-							<TextField {...params} label="Other" variant="outlined" fullWidth required />
-						)}
-						multiple
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<TextField
-						label="SubHeader"
-						name="subHeader"
-						value={article.subHeader}
-						onChange={handleChange}
-						variant="outlined"
-						fullWidth
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<TextField
-						label="Header"
-						name="header"
-						value={article.header}
-						onChange={handleChange}
-						variant="outlined"
-						fullWidth
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<TextField
-						label="Supporting Text"
-						name="supportingText"
-						value={article.supportingText}
-						onChange={handleChange}
-						variant="outlined"
-						fullWidth
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<EditorTinyMCE value={article.content} onChange={handleContentChange} />
-				</Grid>
-				<Grid item xs={12}>
-					<TextField
-						label="Source"
-						name="source"
-						value={article.source}
-						onChange={handleChange}
-						variant="outlined"
-						fullWidth
-					/>
-				</Grid>
+					</Grid>
+					<Grid item xs={4}>
+						<Autocomplete
+							options={otherCategories}
+							getOptionLabel={(option) => option.name}
+							value={article.otherCategories}
+							onChange={handleOtherCategoryChange}
+							renderInput={(params) => (
+								<TextField {...params} label="Other" variant="outlined" fullWidth />
+							)}
+							multiple
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							label="SubHeader"
+							name="subHeader"
+							value={article.subHeader}
+							onChange={handleChange}
+							variant="outlined"
+							fullWidth
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							label="Header"
+							name="header"
+							value={article.header}
+							onChange={handleChange}
+							variant="outlined"
+							fullWidth
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							label="Supporting Text"
+							name="supportingText"
+							value={article.supportingText}
+							onChange={handleChange}
+							variant="outlined"
+							fullWidth
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<EditorTinyMCE value={article.content} onChange={handleContentChange} />
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							label="Source"
+							name="source"
+							value={article.source}
+							onChange={handleChange}
+							variant="outlined"
+							fullWidth
+						/>
+					</Grid>
 
-				<Grid item xs={12}>
-					<Input type="file" onChange={handleFileChange} inputProps={{ multiple: true }} />
-					{/* <Button variant="contained" onClick={handleSubmit}>
+					<Grid item xs={12}>
+						<Input type="file" onChange={handleFileChange} inputProps={{ multiple: true }} />
+						{/* <Button variant="contained" onClick={handleSubmit}>
 						Upload Images
 					</Button>
 					<Input
@@ -405,90 +412,93 @@ const CreateArticleTinyMCE = () => {
 						style={{ display: 'none' }}
 						ref={hiddenFileInput}
 					/> */}
-				</Grid>
+					</Grid>
 
-				<Grid item xs={6}>
-					<Button variant="contained" onClick={handleCancel}>
-						Cancel
-					</Button>
+					<Grid item xs={6}>
+						<Button variant="contained" onClick={handleCancel}>
+							Cancel
+						</Button>
+					</Grid>
+					<Grid item container justifyContent="flex-end" xs={6}>
+						<Button variant="contained" onClick={handleSubmit}>
+							Save and Publish
+						</Button>
+					</Grid>
 				</Grid>
-				<Grid item container justifyContent="flex-end" xs={6}>
-					<Button variant="contained" onClick={handleSubmit}>
-						Save and Publish
-					</Button>
-				</Grid>
-			</Grid>
-			<Snackbar
-				open={snackbarOpen}
-				autoHideDuration={6000}
-				onClose={handleCloseSnackbar}
-				message={snackbarMessage}
-				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-			/>
+				<Snackbar
+					open={snackbarOpen}
+					autoHideDuration={6000}
+					onClose={handleCloseSnackbar}
+					message={snackbarMessage}
+					anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+				/>
 
-			<hr style={{ margin: '64px 0' }} />
-			<Grid container spacing={2}>
-				<Typography variant="h4">Articles</Typography>
-				<TableContainer component={Paper}>
-					<Table size="small" sx={{ tableLayout: 'fixed' }}>
-						<TableHead>
-							<TableRow>
-								<TableCell sx={{ width: '10%' }}>
-									<TableSortLabel active={true} direction={order} onClick={handleRequestSort}>
-										Date Tag
-									</TableSortLabel>
-								</TableCell>
-								<TableCell sx={{ width: '30%' }}>Header</TableCell>
-								<TableCell sx={{ width: '10%' }}>Picture count</TableCell>
-								<TableCell sx={{ width: '13%' }}>Region</TableCell>
-								<TableCell sx={{ width: '13%' }}>Country</TableCell>
-								<TableCell sx={{ width: '13%' }}>Other</TableCell>
-								<TableCell sx={{ width: '3%' }}></TableCell>
-								<TableCell sx={{ width: '5%' }}></TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{articles.map((item) => (
-								<TableRow key={item._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-									<TableCell component="th" scope="row">
-										{moment(item.dateTag).format('YYYY-MM-DD')}
+				<hr style={{ margin: '64px 0' }} />
+				<Grid container spacing={2}>
+					<Typography variant="h4">Articles</Typography>
+					<TableContainer component={Paper}>
+						<Table size="small" sx={{ tableLayout: 'fixed' }}>
+							<TableHead>
+								<TableRow>
+									<TableCell sx={{ width: '10%' }}>
+										<TableSortLabel active={true} direction={order} onClick={handleRequestSort}>
+											Date Tag
+										</TableSortLabel>
 									</TableCell>
-									<TableCell>{item.header}</TableCell>
-									<TableCell>{item.images.length}</TableCell>
-									<TableCell>
-										{item.categories
-											.filter((item) => item.type === 'region')
-											.map((item) => item.name)
-											.join(', ')}
-									</TableCell>
-									<TableCell>
-										{item.categories
-											.filter((item) => item.type === 'country')
-											.map((item) => item.name)
-											.join(', ')}
-									</TableCell>
-									<TableCell>
-										{item.categories
-											.filter((item) => item.type === 'other')
-											.map((item) => item.name)
-											.join(', ')}
-									</TableCell>
-									<TableCell>
-										<IconButton onClick={() => handleEdit(item._id)}>
-											<EditOutlinedIcon />
-										</IconButton>
-									</TableCell>
-									<TableCell>
-										<IconButton onClick={() => handleDelete(item._id)}>
-											<DeleteOutlineOutlinedIcon />
-										</IconButton>
-									</TableCell>
+									<TableCell sx={{ width: '30%' }}>Header</TableCell>
+									<TableCell sx={{ width: '10%' }}>Picture count</TableCell>
+									<TableCell sx={{ width: '13%' }}>Region</TableCell>
+									<TableCell sx={{ width: '13%' }}>Country</TableCell>
+									<TableCell sx={{ width: '13%' }}>Other</TableCell>
+									<TableCell sx={{ width: '3%' }}></TableCell>
+									<TableCell sx={{ width: '5%' }}></TableCell>
 								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</TableContainer>
-				{/* {articles.map((item, index) => (
+							</TableHead>
+							<TableBody>
+								{articles.map((item) => (
+									<TableRow
+										key={item._id}
+										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+									>
+										<TableCell component="th" scope="row">
+											{moment(item.dateTag).format('YYYY-MM-DD')}
+										</TableCell>
+										<TableCell>{item.header}</TableCell>
+										<TableCell>{item.images.length}</TableCell>
+										<TableCell>
+											{item.categories
+												.filter((item) => item.type === 'region')
+												.map((item) => item.name)
+												.join(', ')}
+										</TableCell>
+										<TableCell>
+											{item.categories
+												.filter((item) => item.type === 'country')
+												.map((item) => item.name)
+												.join(', ')}
+										</TableCell>
+										<TableCell>
+											{item.categories
+												.filter((item) => item.type === 'other')
+												.map((item) => item.name)
+												.join(', ')}
+										</TableCell>
+										<TableCell>
+											<IconButton onClick={() => handleEdit(item._id)}>
+												<EditOutlinedIcon />
+											</IconButton>
+										</TableCell>
+										<TableCell>
+											<IconButton onClick={() => handleDelete(item._id)}>
+												<DeleteOutlineOutlinedIcon />
+											</IconButton>
+										</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					</TableContainer>
+					{/* {articles.map((item, index) => (
 					<Grid container item key={item._id}>
 						<Grid item xs={10}>
 							<div>{moment(item.dateTag).format('YYYY-MM-DD')}</div>
@@ -507,8 +517,9 @@ const CreateArticleTinyMCE = () => {
 						</Grid>
 					</Grid>
 				))} */}
-			</Grid>
-		</Container>
+				</Grid>
+			</Container>
+		</>
 	);
 };
 

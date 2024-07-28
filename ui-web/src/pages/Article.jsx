@@ -1,3 +1,4 @@
+// TODO: is this needed?
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 // MUI
@@ -9,6 +10,12 @@ import MainBar from '../components/MainBar.jsx';
 import ReadArticle from '../components/Article/ReadArticle.jsx';
 import HotTopics from '../components/HotTopics/HotTopics.jsx';
 import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
+import ReadArticleSubHeader from '../components/Article/ReadArticleSubHeader.jsx';
+import ReadArticleHeader from '../components/Article/ReadArticleHeader.jsx';
+import ReadArticleSupportingText from '../components/Article/ReadArticleSupportingText.jsx';
+import ReadArticleContent from '../components/Article/ReadArticleContent.jsx';
+import ReadArticleCategories from '../components/Article/ReadArticleCategories.jsx';
+import ReadArticleSuggested from '../components/Article/ReadArticleSuggested.jsx';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -47,9 +54,11 @@ const Article = () => {
 				<Grid
 					container
 					// sx={{ border: '3px solid green' }}
-					// sx={{ padding: '8px 0px' }}
+					// make container vertical alignement to the top
+					sx={{ marginBottom: '32px' }}
 				>
-					<Box
+					<Grid item xs={12}>
+						{/* <Box
 						sx={{
 							// border: '3px solid green',
 							display: 'flex',
@@ -60,15 +69,16 @@ const Article = () => {
 							boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
 							marginBottom: '32px',
 						}}
-					>
+					> */}
 						<img
 							src={article?.images?.[0]?.url}
-							style={{ width: '100%', height: '284px', objectFit: 'cover' }}
+							style={{ width: '100%', height: '210px', objectFit: 'cover' }}
 							alt={article?.header}
 						/>
-					</Box>
+					</Grid>
+					{/* </Box> */}
 				</Grid>
-				<Grid container spacing={2}>
+				<Grid container spacing={2} sx={{ alignItems: 'flex-start' }}>
 					<Grid
 						container
 						item
@@ -77,12 +87,22 @@ const Article = () => {
 						md={8}
 						lg={8}
 						xl={8}
-						sx={{
-							// border: '1px solid red',
-							direction: 'column',
-						}}
+						sx={
+							{
+								// border: '1px solid red',
+								// flexDirection: 'column',
+								// justifyContent: 'center',
+								// alignItems: 'flex-start',
+							}
+						}
 					>
-						<ReadArticle article={article} articles={articles} />
+						{/* <ReadArticle article={article} articles={articles} /> */}
+						<ReadArticleSubHeader article={article} />
+						<ReadArticleHeader article={article} />
+						<ReadArticleSupportingText article={article} />
+						<ReadArticleContent article={article} />
+						<ReadArticleCategories article={article} />
+						<ReadArticleSuggested currentArticle={article} articles={articles} />
 					</Grid>
 
 					<HotTopics />

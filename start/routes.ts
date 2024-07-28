@@ -8,6 +8,7 @@
 */
 import router from '@adonisjs/core/services/router';
 
+import AuthController from '#controllers/auth_controller';
 import UsersController from '#controllers/users_controller';
 import ArticlesController from '#controllers/articles_controller';
 import RegionsController from '#controllers/regions_controller';
@@ -16,13 +17,18 @@ import OtherCategoriesController from '#controllers/other_categories_controller'
 
 router.get('/', async () => 'It works!');
 
-// use User controller
 router.get('/test', [UsersController, 'index']);
 
 router
 	.group(() => {
-		router.resource('articles', ArticlesController);
+		router
+			.group(() => {
+				router.get('google/redirect', [AuthController, 'redirect']);
+				router.get('google/callback', [AuthController, 'callback']);
+			})
+			.prefix('cms/auth');
 
+		router.resource('articles', ArticlesController);
 		router.resource('regions', RegionsController);
 		router.resource('countries', CountriesController);
 		router.resource('other-categories', OtherCategoriesController);

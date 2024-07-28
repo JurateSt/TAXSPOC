@@ -12,6 +12,7 @@ const MainArticleHeader = ({ article }) => {
 					WebkitLineClamp: 3,
 					WebkitBoxOrient: 'vertical',
 					fontSize: '14px',
+					color: 'primary.darkText',
 				}}
 			>
 				{article?.supportingText}

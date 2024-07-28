@@ -51,19 +51,11 @@ export default class ArticlesController {
 			name: item.name,
 			type: 'other',
 		}));
-		console.log(
-			'STORE regions:',
-			parsedRegions,
-			mappedRegions,
-			'countries',
-			parsedCountries,
-			mappedCountries
-		);
+
 		if (typeof tags === 'string') {
 			articleData.tags = tags.split(',').map((item) => item.trim());
 		}
 		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
-		console.log('STORE CATEGORIES', articleData.categories);
 
 		const article = new Article(articleData);
 

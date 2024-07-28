@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
-import { Toolbar } from '@mui/material';
+import { Toolbar, Typography } from '@mui/material';
 
 const LogoBar = () => {
 	return (
 		<Toolbar
 			sx={{
+				bgcolor: 'background.default',
 				justifyContent: 'center',
 				minHeight: '32px !important',
 				height: '32px !important',
 				userSelect: 'none',
+				// bgcolor: //'primary.text',
+				borderBottom: '1px solid',
+				borderBottomColor: 'primary.divider',
 			}}
 		>
-			{/* <img
-				src={TaxSpocLogoOriginal}
-				alt="TaxSpoc Logo"
-				// width={128}
-				height={128}
-			/> */}
+			<Typography variant="logoText">Your Single Source for Global Tax</Typography>
 		</Toolbar>
 	);
 };
