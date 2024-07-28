@@ -1,6 +1,8 @@
 import env from '#start/env';
 import { defineConfig, services } from '@adonisjs/ally';
 
+console.log('ALLY', `${env.get('APP_URL')}/auth/google/callback`);
+
 const allyConfig = defineConfig({
 	google: services.google({
 		clientId: env.get('GOOGLE_CLIENT_ID'),

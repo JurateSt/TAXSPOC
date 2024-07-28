@@ -7,16 +7,18 @@ import User from '#models/User';
 
 export default class AuthController {
 	public async redirect({ ally, response }: HttpContext) {
-		// console.log('GOOGLE REDIRECT BEFORE');
+		console.log('GOOGLE REDIRECT');
 		const url = await ally.use('google').redirectUrl();
-		// console.log('GOOGLE URL', url);
+		console.log('GOOGLE URL', url);
+		// console log ally callback url
+		console.log('GOOGLE REDIRECT CALLBACK URL', `${env.get('APP_URL')}/auth/google/callback`);
 		return response.json({ url });
 	}
 
 	public async callback({ ally, response }: HttpContext) {
-		console.log('GOOGLE CALLBACK BEFORE');
+		console.log('GOOGLE CALLBACK');
 		const googleUser = await ally.use('google').user();
-		// console.log('GOOGLE CALLBACK USER', googleUser);
+		console.log('GOOGLE CALLBACK USER', googleUser);
 		const { email, name, avatarUrl } = googleUser;
 
 		let user = await User.findOne({ email });
