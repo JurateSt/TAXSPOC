@@ -27,11 +27,12 @@ const Article = () => {
 
 	const getArticle = async () => {
 		const { data } = await api.get(`/articles/${id}`);
-		console.log('ARTICLE: ', data);
+		// console.log('ARTICLE: ', data);
 
 		setArticle(data);
 	};
 
+	// TODO: thing of more optimal way to get articles
 	const getArticles = async () => {
 		const { data } = await api.get('/articles');
 
@@ -58,25 +59,12 @@ const Article = () => {
 					sx={{ marginBottom: '32px' }}
 				>
 					<Grid item xs={12}>
-						{/* <Box
-						sx={{
-							// border: '3px solid green',
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'flex-start',
-							flex: '1 0 0',
-							alignSelf: 'stretch',
-							boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-							marginBottom: '32px',
-						}}
-					> */}
 						<img
 							src={article?.images?.[0]?.url}
 							style={{ width: '100%', height: '210px', objectFit: 'cover' }}
 							alt={article?.header}
 						/>
 					</Grid>
-					{/* </Box> */}
 				</Grid>
 				<Grid container spacing={2} sx={{ alignItems: 'flex-start' }}>
 					<Grid

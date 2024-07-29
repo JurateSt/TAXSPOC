@@ -162,7 +162,7 @@ const CreateArticle = () => {
 	const handleEdit = (id) => {
 		console.log('handleEdit', id);
 		// navigate new tab
-		navigate(`/auth/create-article/${id}`);
+		navigate(`/cms/auth/create-article/${id}`);
 		// window.open(`/auth/create-article/${id}`, '_blank');
 	};
 

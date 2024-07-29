@@ -243,7 +243,7 @@ const CreateArticleTinyMCE = () => {
 	};
 
 	const handleEdit = (id) => {
-		navigate(`/auth/create-article/${id}`);
+		navigate(`/cms/auth/create-article/${id}`);
 		// window.open(`/auth/create-article/${id}`, '_blank');
 	};
 

@@ -52,6 +52,10 @@ const theme = createTheme({
 			// highlight: '#1ABC9C',
 			divider: '#DDDDDD', // grey 200-300
 
+			deepOrange50: deepOrange[50],
+			deepOrange100: deepOrange[100],
+			deepOrange200: deepOrange[200],
+			deepOrange300: deepOrange[300],
 			deepOrange400: '#FF7043',
 			deepOrange500: '#FF5722',
 			grey200: grey[200],

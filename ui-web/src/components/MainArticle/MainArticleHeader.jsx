@@ -22,7 +22,7 @@ const MainArticleHeader = ({ article }) => {
 				}}
 			>
 				<Typography
-					variant="h5"
+					// variant="h5"
 					sx={{
 						overflow: 'hidden',
 						textOverflow: 'ellipsis',
@@ -31,6 +31,9 @@ const MainArticleHeader = ({ article }) => {
 						WebkitBoxOrient: 'vertical',
 						fontWeight: 'fontWeightBold',
 						color: 'primary.darkText',
+						fontSize: '22px',
+						fontWeight: '700',
+						lineHeight: '26px',
 						'&:hover': {
 							textDecoration: 'underline',
 						},

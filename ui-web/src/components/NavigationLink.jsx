@@ -10,8 +10,19 @@ const NavigationLink = ({ to, children, menuItems = [] }) => {
 	const location = useLocation();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
-	const isActive = location.pathname.includes(to); //location.pathname === to;
 	const hasMenu = menuItems.length > 0;
+
+	const isActive = () => {
+		if (location.pathname === '/category/articles' && to.startsWith('/category/articles')) {
+			const currentParams = new URLSearchParams(location.search);
+			const toParams = new URLSearchParams(to.split('?')[1]);
+
+			return Array.from(toParams.entries()).every(
+				([key, value]) => currentParams.get(key) === value
+			);
+		}
+		return location.pathname.includes(to);
+	};
 
 	const handleClick = (event) => {
 		if (hasMenu) {
@@ -31,8 +42,8 @@ const NavigationLink = ({ to, children, menuItems = [] }) => {
 			onClick={handleClick}
 			sx={{
 				color: 'primary.text',
-				borderBottom: isActive ? '3px solid' : '3px solid transparent',
-				borderColor: isActive ? 'primary.deepOrange500' : 'transparent',
+				borderBottom: isActive() ? '3px solid' : '3px solid transparent',
+				borderColor: isActive() ? 'primary.deepOrange500' : 'transparent',
 				'&:hover': {
 					borderColor: 'primary.deepOrange500',
 				},

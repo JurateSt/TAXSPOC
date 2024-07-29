@@ -49,7 +49,8 @@ function App() {
 							<Route path="/" element={<Home />} />
 							<Route path="/home" element={<Home />} />
 							<Route path="/home2" element={<Home2 />} />
-							<Route
+							<Route path="/category/articles" element={<CategoryArticlesList />} />
+							{/* <Route
 								path="/articles/indirect-tax"
 								element={<CategoryArticlesList category={'Indirect Tax'} />}
 							/>
@@ -68,7 +69,7 @@ function App() {
 							<Route
 								path="/articles/customs"
 								element={<CategoryArticlesList category={'Customs'} />}
-							/>
+							/> */}
 							<Route path="/articles/:id" element={<Article />} />
 							<Route path="/hot-topics/:number" element={<HotTopic />} />
 							{/* <Route path="/auth/create-article/" element={<CreateArticle />} /> */}
