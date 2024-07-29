@@ -28,6 +28,7 @@ const ArticleCardPhoto = ({ article }) => {
 					src={article?.images[0]?.url}
 					style={{ width: '100%', height: '100%', objectFit: 'cover' }}
 					alt="Article"
+					loading="lazy"
 				/>
 			</a>
 		</Grid>
