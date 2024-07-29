@@ -39,7 +39,7 @@ const Home = () => {
 	}, []);
 
 	//take the first article from the array
-	console.log('getArticles', articles.length, articles.slice(0, 1));
+	// console.log('getArticles', articles.length, articles.slice(0, 1));
 
 	return (
 		<>

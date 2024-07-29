@@ -203,7 +203,7 @@ const EditArticle = () => {
 	};
 
 	const handleCancel = () => {
-		navigate(`/auth/create-article`);
+		navigate(`/cms/auth/create-article`);
 	};
 
 	// const handleEdit = (article) => {

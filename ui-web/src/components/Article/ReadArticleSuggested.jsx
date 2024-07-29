@@ -7,11 +7,22 @@ const ReadArticleSuggested = ({ articles, currentArticle }) => {
 	return (
 		<>
 			<Grid item xs={12} sx={{ marginTop: '32px' }}>
-				<Typography>Suggested Articles:</Typography>
+				<Typography
+					sx={{
+						margin: '32px 0 16px 0',
+						fontSize: '24px',
+						fontStyle: 'normal',
+						fontWeight: 400,
+						lineHeight: '28px',
+					}}
+				>
+					Suggested Articles:
+				</Typography>
 			</Grid>
 			<Grid container spacing={2}>
 				{articles
 					.filter((item) => item._id !== currentArticle._id)
+					.slice(0, 6)
 					.map((item, index) => (
 						<Grid
 							item
