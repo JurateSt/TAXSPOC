@@ -8,6 +8,12 @@ export default class ArticlesController {
 	public async index({ response }: HttpContext) {
 		const articles = await Article.find();
 		articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
+		// const articlesFiltered = articles.map((item) => {
+		// 	const { dateTag, subHeader, header, supportingText, tags, categories, images } = item;
+		// 	return { dateTag, subHeader, header, supportingText, tags, categories, images };
+		// });
+
+		// return response.json(articlesFiltered);
 		return response.json(articles);
 	}
 
