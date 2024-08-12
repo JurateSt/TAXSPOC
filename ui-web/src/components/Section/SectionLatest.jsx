@@ -16,7 +16,7 @@ const Section = ({ section, onLoaded }) => {
 	const [mainArticle, setMainArticle] = useState({});
 
 	const getArticles = async () => {
-		const { data } = await api.get('/articles/latest');
+		const { data } = await api.get('/articles-latest');
 
 		setArticles(data);
 		setMainArticle(data[0]);
