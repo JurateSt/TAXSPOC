@@ -6,6 +6,7 @@ const ArticleCardPhoto = ({ article }) => {
 	const navigate = useNavigate();
 	const { _id: id } = article;
 	const url = `/articles/${id}`;
+	const imageSrc = article ? article?.images[0]?.url : '';
 	const handleClick = () => {
 		navigate(url);
 	};
@@ -15,7 +16,7 @@ const ArticleCardPhoto = ({ article }) => {
 			xs={12}
 			sx={{
 				// bgcolor: 'lightblue',
-				height: '100px',
+				// height: '100px',
 				'&:hover a': {
 					opacity: 0.7,
 					// transition: 'opacity 0.3s ease-in-out',
@@ -25,8 +26,13 @@ const ArticleCardPhoto = ({ article }) => {
 		>
 			<a href={url} style={{ textDecoration: 'none', color: 'inherit' }}>
 				<img
-					src={article?.images[0]?.url}
-					style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+					src={imageSrc}
+					style={{
+						width: '100%',
+						height: '100%',
+						aspectRatio: '16/9',
+						objectFit: 'cover',
+					}}
 					alt="Article"
 					loading="lazy"
 				/>

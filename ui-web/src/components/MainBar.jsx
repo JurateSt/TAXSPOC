@@ -16,6 +16,7 @@ const MainBar = () => {
 			sx={{
 				borderBottom: '1px solid',
 				borderBottomColor: 'primary.divider',
+				// marginBottom: '32px',
 			}}
 		>
 			<LogoBar />

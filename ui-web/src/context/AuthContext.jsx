@@ -11,10 +11,10 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
 	const [cookies, setCookie, removeCookie] = useCookies(['taxspoc_token']);
 	const isAuthenticated = !!cookies.taxspoc_token;
-	console.log('AUTH PROVIDER: isAuthenticated', isAuthenticated);
-	useEffect(() => {
-		console.log('AUTH PROVIDER: isAuthenticated', isAuthenticated);
-	}, [isAuthenticated]);
+
+	// useEffect(() => {
+	// 	console.log('AUTH PROVIDER: isAuthenticated', isAuthenticated);
+	// }, [isAuthenticated]);
 
 	const login = (token) => {
 		setCookie('taxspoc_token', token, { path: '/' });
