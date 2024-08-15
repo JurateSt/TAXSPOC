@@ -21,16 +21,10 @@ const ArticleCard = ({ article }) => {
 				// bgcolor: 'white',
 				display: 'flex',
 				flexDirection: 'column',
+				paddingBottom: ['12px', '12px', '0px'], // ['xs', 'sm', 'md']
+				borderBottom: ['1px solid', '1px solid', 'none'], // ['xs', 'sm', 'md']
+				borderColor: ['primary.divider', 'primary.divider', 'none'], // ['xs', 'sm', 'md']
 				// border: '1px solid red',
-				// height: '320px',
-				// height: '264px',
-				// borderBottom: '1px solid',
-				// borderColor: 'primary.divider',
-				// boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-				// cursor: index === 0 || index === 1 ? 'default' : 'pointer',
-				// minHeight: '320px',
-				// maxHeight: '400px',
-				// overflow: 'hidden',
 			}}
 		>
 			<Box sx={{ flexGrow: 1, overflow: 'hidden' }}>
@@ -50,10 +44,6 @@ const ArticleCard = ({ article }) => {
 				</Grid>
 				{/* </Grid> */}
 			</Box>
-
-			{/* <Box sx={{ padding: '8px' }}>
-				<ArticleCardButtons article={article} />
-			</Box> */}
 		</Box>
 	);
 };

@@ -19,18 +19,20 @@ const MainArticle = ({ article }) => {
 			item
 			xs={12}
 			columnSpacing={2}
+			rowSpacing={1}
 			sx={
 				{
 					// border: '2px solid green',
 				}
 			}
 		>
-			<Grid container item xs={12} sm={6} md={4} lg={4} xl={4}>
+			<Grid container item xs={12} sm={6} md={4} lg={4} xl={4} sx={{ order: { xs: 2, sm: 1 } }}>
 				<Grid
 					// container
 					item
 					xs={12}
 					sx={{
+						paddingBottom: '12px',
 						borderBottom: '1px solid',
 						borderColor: 'primary.divider',
 						// border: '2px solid red',

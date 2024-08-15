@@ -4,17 +4,34 @@ import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
 
 const SectionCategory = ({ category }) => {
 	return (
-		<Grid item xs={12}>
+		<Grid item xs={12} sx={{ paddingBottom: '12px' }}>
+			{/* <a
+				href="#"
+				style={{
+					textDecoration: 'none',
+					color: 'inherit',
+					'&:hover': {
+						textDecoration: 'underline',
+					},
+				}}
+			> */}
 			<Box
+				component="a"
+				href="#"
 				sx={{
 					display: 'flex',
 					alignItems: 'center',
-					paddingBottom: '12px',
+					textDecoration: 'none',
+					color: 'inherit',
+					'&:hover': {
+						textDecoration: 'underline',
+					},
 				}}
 			>
 				<Typography sx={{ fontSize: '18px', fontWeight: '700' }}>{category}</Typography>
 				<ChevronRightOutlinedIcon fontSize="small" />
 			</Box>
+			{/* </a> */}
 		</Grid>
 	);
 };

@@ -31,6 +31,7 @@ const Section = ({ section }) => {
 		// articles.length > 0 && (
 		<Grid
 			container
+			rowSpacing={1}
 			sx={{
 				borderBottom: '1px solid',
 				borderColor: 'primary.divider',
@@ -46,6 +47,7 @@ const Section = ({ section }) => {
 				xs={12}
 				// sx={{ border: '1px solid blue' }}
 				columnSpacing={2}
+				rowSpacing={2}
 			>
 				{articles.map((item, index) => (
 					<Grid container item xs={12} sm={6} md={3} lg={3} xl={3} key={index}>

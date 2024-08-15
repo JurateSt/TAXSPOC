@@ -19,11 +19,7 @@ const ArticleShortCard = ({ index, article }) => {
 				// bgcolor: 'white',
 				display: 'flex',
 				flexDirection: 'column',
-				// height: '320px',
-				// height: '132x',
-				// borderBottom: '1px solid',
-				// borderColor: 'primary.divider',
-				paddingBottom: '12px',
+				// paddingTop: '12px',
 				...(index !== 3 && {
 					borderBottom: '1px solid',
 					borderColor: 'primary.divider',
@@ -36,24 +32,25 @@ const ArticleShortCard = ({ index, article }) => {
 				// overflow: 'hidden',
 			}}
 		>
-			<Box
+			{/* <Box
 			// sx={{ flexGrow: 1, overflow: 'hidden' }}
-			>
-				<Grid container>
-					<Grid
-						container
-						item
-						// sx={{ padding: '8px' }}
-						rowSpacing={1}
-					>
-						<ArticleCardSubHeader article={article} />
-
-						<ArticleCardHeader article={article} />
-
-						<ArticleCardSupportingText article={article} />
-					</Grid>
+			> */}
+			<Grid container>
+				<Grid
+					container
+					item
+					sx={{
+						// border: '2px solid yellow',
+						paddingBottom: '12px',
+					}}
+					rowSpacing={1}
+				>
+					<ArticleCardSubHeader article={article} />
+					<ArticleCardHeader article={article} />
+					<ArticleCardSupportingText article={article} />
 				</Grid>
-			</Box>
+			</Grid>
+			{/* </Box> */}
 		</Box>
 	);
 };

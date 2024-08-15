@@ -9,7 +9,7 @@ const ArticleCardSubHeader = ({ article }) => {
 					fontWeight: '400',
 					fontSize: '12px',
 					lineHeight: '18px',
-					color: 'primary.darkText',
+					// color: 'primary.darkText',
 				}}
 			>
 				{article?.subHeader}
