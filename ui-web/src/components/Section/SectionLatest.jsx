@@ -10,7 +10,7 @@ import ArticleCard from '../Article/ArticleCard';
 import ArticleShortCard from '../Article/ArticleShortCard';
 
 const Section = ({ section, onLoaded }) => {
-	const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+	// const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
 	const [articles, setArticles] = useState([]);
 	const [mainArticle, setMainArticle] = useState({});
@@ -32,17 +32,18 @@ const Section = ({ section, onLoaded }) => {
 		articles.length > 0 && (
 			<Grid
 				container
+				rowSpacing={1}
 				sx={{
 					borderBottom: '1px solid',
 					borderColor: 'primary.divider',
 					// border: '1px solid blue',
 					// padding same as for category section title
-					padding: '12px 0',
+					padding: '16px 0',
 				}}
 			>
 				<SectionCategory category={section.category} />
 
-				<Grid container item xs={12} columnSpacing={2}>
+				<Grid container item xs={12} columnSpacing={2} rowSpacing={2}>
 					<Grid
 						container
 						item
@@ -56,15 +57,11 @@ const Section = ({ section, onLoaded }) => {
 						// 	border: '1px solid blue',
 						// }}
 					>
-						{isMobile ? (
-							<ArticleCard article={mainArticle} />
-						) : (
-							<MainArticle article={mainArticle} />
-						)}
+						<MainArticle article={mainArticle} />
 
-						<Grid container item xs={12} columnSpacing={2}>
+						<Grid container item xs={12} columnSpacing={2} rowSpacing={2}>
 							{articles.slice(1, 4).map((item, index) => (
-								<Grid key={index} item xs={12} sm={12} md={4} lg={4} xl={4}>
+								<Grid key={index} item xs={12} sm={6} md={4} lg={4} xl={4}>
 									<ArticleCard key={index} article={item} />
 								</Grid>
 							))}
@@ -74,30 +71,26 @@ const Section = ({ section, onLoaded }) => {
 					<Grid
 						container
 						item
-						// rowSpacing={2}
+						rowSpacing={2}
 						xs={12}
 						sm={12}
 						md={4}
 						lg={4}
 						xl={4}
 						//start from flex start
-						sx={{
-							display: 'flex',
-							flexDirection: 'column',
-							justifyContent: 'flex-start',
-							gap: '12px',
-							// border: '1px solid green',
-						}}
+						// sx={{
+						// 	display: 'flex',
+						// 	flexDirection: 'column',
+						// 	justifyContent: 'flex-start',
+						// 	// gap: '48px',
+						// 	// border: '1px solid green',
+						// }}
 					>
-						{articles.slice(4, 8).map(
-							(item, index) => (
-								// isMobile ? (
-								// 	<ArticleCard key={index} article={item} />
-								// ) : (
+						{articles.slice(4, 8).map((item, index) => (
+							<Grid container item key={index} xs={12}>
 								<ArticleShortCard key={index} article={item} index={index} />
-							)
-							// )
-						)}
+							</Grid>
+						))}
 					</Grid>
 				</Grid>
 			</Grid>
