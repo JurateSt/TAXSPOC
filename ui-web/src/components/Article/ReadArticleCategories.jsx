@@ -27,7 +27,7 @@ const ReadArticleCategories = ({ article }) => {
 					}
 				}
 			>
-				<Typography
+				{/* <Typography
 					sx={{
 						margin: '32px 0 16px 0',
 						fontSize: '24px',
@@ -37,7 +37,7 @@ const ReadArticleCategories = ({ article }) => {
 					}}
 				>
 					Topics
-				</Typography>
+				</Typography> */}
 			</Grid>
 			<Grid
 				item

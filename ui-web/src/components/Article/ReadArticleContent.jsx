@@ -14,7 +14,7 @@ const ReadArticleContent = ({ article }) => {
 		// 		alignSelf: 'stretch',
 		// 	}}
 		// >
-		<Grid item xs={12} sx={{ marginTop: '16px' }}>
+		<Grid item xs={12}>
 			<Typography
 				sx={{ fontSize: '16px', fontStyle: 'normal', fontWeight: 400, lineHeight: '24px' }}
 			>
