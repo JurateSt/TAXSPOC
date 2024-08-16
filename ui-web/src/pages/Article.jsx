@@ -50,7 +50,7 @@ const Article = () => {
 		<>
 			<MainBar />
 			<Container sx={{ marginTop: '16px' }}>
-				<Grid container columnSpacing={2}>
+				<Grid container columnSpacing={2} rowSpacing={3}>
 					{/* <Grid
 					container
 					// sx={{ border: '3px solid green' }}
