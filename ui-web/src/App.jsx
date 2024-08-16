@@ -14,6 +14,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Home2 from './pages/Home2';
 import CategoryArticlesList from './pages/CategoryArticlesList.jsx';
+import ArticlesCategoryList from './pages/ArticlesCategoryList.jsx';
 import HotTopic from './pages/HotTopic.jsx';
 import Article from './pages/Article.jsx';
 import CreateArticle from './pages/CreateArticle';
@@ -50,6 +51,7 @@ function App() {
 							<Route path="/home" element={<Home />} />
 							<Route path="/home2" element={<Home2 />} />
 							<Route path="/category/articles" element={<CategoryArticlesList />} />
+							<Route path="/articles/category" element={<ArticlesCategoryList />} />
 							{/* <Route
 								path="/articles/indirect-tax"
 								element={<CategoryArticlesList category={'Indirect Tax'} />}

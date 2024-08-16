@@ -47,9 +47,10 @@ const NavigationBar = () => {
 		setDrawerOpen(false);
 	};
 
-	const generateCategoryPath = (type, name) => {
-		const params = new URLSearchParams({ type, name });
-		return `/category/articles?${params.toString()}`;
+	const generateCategoryPath = (type, category) => {
+		const params = new URLSearchParams({ type, category });
+		// return `/category/articles?${params.toString()}`;
+		return `/articles/category?${params}`;
 	};
 
 	// const pathToCurrentSectionMap = {
