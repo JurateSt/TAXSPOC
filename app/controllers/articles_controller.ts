@@ -7,8 +7,71 @@ import FileService from '#services/FileService';
 export default class ArticlesController {
 	public async index({ response }: HttpContext) {
 		const articles = await Article.find();
+
 		articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
-		return response.json(articles);
+		// console.log(articles, articles);
+		const shortArticles = articles.map((item) => {
+			const { _id, dateTag, subHeader, header, supportingText, tags, categories, images } = item;
+			return { _id, dateTag, subHeader, header, supportingText, tags, categories, images };
+		});
+
+		return response.json(shortArticles);
+	}
+
+	public async getLatest({ response }: HttpContext) {
+		const articles = await Article.find();
+		const latestArticles = articles
+			.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1))
+			.slice(0, 8);
+		const shortArticles = latestArticles.map((item) => {
+			const { _id, dateTag, subHeader, header, supportingText, tags, categories, images } = item;
+			return { _id, dateTag, subHeader, header, supportingText, tags, categories, images };
+		});
+		return response.json(shortArticles);
+	}
+
+	public async getByCategory({ request, response }: HttpContext) {
+		const type = request.input('type');
+		const category = request.input('category');
+		// console.log('GET BY CATEGORY', type, category);
+
+		// const categoryName = category.replace(/-/g, ' ');
+		const articles = await Article.find({
+			categories: {
+				$elemMatch: {
+					type: type,
+					name: category,
+					// name: { $regex: new RegExp('^' + categoryName + '$', 'i') },
+				},
+			},
+		});
+		const latestArticles = articles
+			.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1))
+			.slice(0, 4);
+		const shortArticles = latestArticles.map((item) => {
+			const { _id, dateTag, subHeader, header, supportingText, tags, categories, images } = item;
+			return { _id, dateTag, subHeader, header, supportingText, tags, categories, images };
+		});
+		return response.json(shortArticles);
+	}
+
+	public async showMain({ response }: HttpContext) {
+		const articles = await Article.find();
+		const latestArticle = articles.sort((a, b) =>
+			(a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1
+		)[0];
+		const { _id, dateTag, subHeader, header, supportingText, tags, categories, images } =
+			latestArticle;
+		return response.json({
+			_id,
+			dateTag,
+			subHeader,
+			header,
+			supportingText,
+			tags,
+			categories,
+			images,
+		});
 	}
 
 	public async show({ request, response }: HttpContext) {
@@ -51,19 +114,11 @@ export default class ArticlesController {
 			name: item.name,
 			type: 'other',
 		}));
-		console.log(
-			'STORE regions:',
-			parsedRegions,
-			mappedRegions,
-			'countries',
-			parsedCountries,
-			mappedCountries
-		);
+
 		if (typeof tags === 'string') {
 			articleData.tags = tags.split(',').map((item) => item.trim());
 		}
 		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
-		console.log('STORE CATEGORIES', articleData.categories);
 
 		const article = new Article(articleData);
 

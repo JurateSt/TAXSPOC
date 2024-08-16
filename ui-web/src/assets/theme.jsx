@@ -44,13 +44,18 @@ const theme = createTheme({
 			// midnightBlue50: '#E6EFFA',
 			// // NOT MUI
 			// midnightBlue25: '#F5F9FD',
-			main: '#ffffff',
+			main: '#404040',
+			// main: '#ffffff',
 			lightText: '#ffffff',
 			text: '#404040',
 			darkText: '#404040',
 			// highlight: '#1ABC9C',
 			divider: '#DDDDDD', // grey 200-300
 
+			deepOrange50: deepOrange[50],
+			deepOrange100: deepOrange[100],
+			deepOrange200: deepOrange[200],
+			deepOrange300: deepOrange[300],
 			deepOrange400: '#FF7043',
 			deepOrange500: '#FF5722',
 			grey200: grey[200],

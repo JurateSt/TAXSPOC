@@ -3,7 +3,6 @@ import Country from '#models/Country';
 
 export default class RegionsController {
 	public async index({ request, response }: HttpContext) {
-		console.log('REQUEST', request.qs());
 		const regionIds = request.qs().regions;
 
 		let countries;
@@ -12,7 +11,6 @@ export default class RegionsController {
 			countries = await Country.find({ region: { $in: regionIds } });
 		} else {
 			countries = await Country.find();
-			console.log('COUNTIRES', countries);
 		}
 		return response.json(countries);
 	}

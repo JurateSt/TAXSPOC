@@ -47,20 +47,66 @@ const NavigationBar = () => {
 		setDrawerOpen(false);
 	};
 
-	const currentSection =
-		location.pathname === '/home'
-			? 'Home'
-			: location.pathname === '/articles/indirect-tax'
-				? 'Indirect Tax'
-				: location.pathname === '/articles/direct-tax'
-					? 'Direct Tax'
-					: location.pathname === '/articles/transfer-pricing'
-						? 'Transfer Pricing'
-						: location.pathname === '/articles/tax-technology'
-							? 'Tax Technology'
-							: location.pathname === '/articles/customs'
-								? 'Customs'
-								: 'Hot Topics';
+	const generateCategoryPath = (type, category) => {
+		const params = new URLSearchParams({ type, category });
+		// return `/category/articles?${params.toString()}`;
+		return `/articles/category?${params}`;
+	};
+
+	// const pathToCurrentSectionMap = {
+	// 	'/home': 'Home',
+	// 	'/hot-topics': 'Hot Topics',
+	// 	'Indirect Tax': 'Indirect Tax',
+	// 	'Direct Tax': 'Direct Tax',
+	// 	'Transfer Pricing': 'Transfer Pricing',
+	// 	'Tax Technology': 'Tax Technology',
+	// 	Customs: 'Customs',
+	// };
+
+	// const getCurrentSection = () => {
+	// 	const { pathname, search } = location;
+
+	// 	console.log('CURRENT SECTION', pathname, search);
+	// 	const categorySectionMap = pathToSectionMap['/category/articles'];
+	// 	if (pathToSectionMap[pathname]) {
+	// 		return pathToSectionMap[pathname];
+	// 	}
+	// 	if (pathname === '/category/articles') {
+	// 		const params = new URLSearchParams(search);
+	// 		const name = params.get('name');
+	// 		console.log('CURRENT SECTION', name, categorySectionMap[name]);
+	// 		return categorySectionMap[name] || 'Home';
+	// 	}
+	// 	return 'Home';
+	// };
+
+	// const currentSection =
+	// 	location.pathname === '/home'
+	// 		? 'Home'
+	// 		: location.pathname === '/hot-topics'
+	// 			? 'Hot Topics'
+	// 			: location.pathname === '/category/articles'
+	// 				? (() => {
+	// 						const params = new URLSearchParams(location.search);
+	// 						const name = params.get('name');
+	// 						return pathToCurrentSectionMap[name] || 'Home';
+	// 					})()
+	// 				: 'Home';
+
+	// const currentSection =
+	// 	location.pathname === '/home'
+	// 		? 'Home'
+	// 		: location.pathname === '/articles/indirect-tax'
+	// 			? 'Indirect Tax'
+	// 			: location.pathname === '/articles/direct-tax'
+	// 				? 'Direct Tax'
+	// 				: location.pathname === '/articles/transfer-pricing'
+	// 					? 'Transfer Pricing'
+	// 					: location.pathname === '/articles/tax-technology'
+	// 						? 'Tax Technology'
+	// 						: location.pathname === '/articles/customs'
+	// 							? 'Customs'
+	// 							: 'Hot Topics';
 
 	const hotTopicsMenuItems = [
 		{ label: 'OECD BEPS', path: '/hot-topics/1' },
@@ -68,20 +114,34 @@ const NavigationBar = () => {
 		{ label: 'Brazil Tax Reform', path: '/hot-topics/3' },
 		{ label: 'UAE CIT', path: '/hot-topics/4' },
 	];
+
 	const navigationItems = [
 		{ label: 'Home', icon: <HomeOutlinedIcon />, path: '/home', menuItems: [] },
 		{ label: 'Hot Topics', path: '/hot-topics', menuItems: hotTopicsMenuItems },
-		{ label: 'Indirect Tax', path: '/articles/indirect-tax', menuItems: [] },
-		{ label: 'Direct Tax', path: '/articles/direct-tax', menuItems: [] },
-		{ label: 'Transfer Pricing', path: '/articles/transfer-pricing', menuItems: [] },
-		{ label: 'Tax Technology', path: '/articles/tax-technology', menuItems: [] },
-		{ label: 'Customs', path: '/articles/customs', menuItems: [] },
+		{
+			label: 'Indirect Tax',
+			path: generateCategoryPath('other', 'Indirect Tax'),
+			menuItems: [],
+		},
+		{ label: 'Direct Tax', path: generateCategoryPath('other', 'Direct Tax'), menuItems: [] },
+
+		{
+			label: 'Transfer Pricing',
+			path: generateCategoryPath('other', 'Transfer Pricing'),
+			menuItems: [],
+		},
+		{
+			label: 'Tax Technology',
+			path: generateCategoryPath('other', 'Tax Technology'),
+			menuItems: [],
+		},
+		{ label: 'Customs', path: generateCategoryPath('other', 'Customs'), menuItems: [] },
 	];
 
 	return (
 		<Toolbar
 			sx={{
-				// bgcolor: 'primary.midnightBlue200',
+				bgcolor: 'background.default',
 				// vertical stretch
 				alignItems: 'stretch',
 				// display: { xs: 'none', md: 'flex' },
@@ -116,7 +176,7 @@ const NavigationBar = () => {
 						<LogoBar />
 						<Toolbar
 							sx={{
-								bgcolor: 'primary.midnightBlue200',
+								bgcolor: 'background.default',
 								// display: { xs: 'none', md: 'flex' },
 								// justifyContent: 'center',
 								alignItems: 'stretch',
@@ -225,7 +285,7 @@ const NavigationBar = () => {
 						)}
 					</Box>
 					{/* current section */}
-					<Box
+					{/* <Box
 						sx={{
 							flexGrow: 1,
 							display: 'flex',
@@ -235,7 +295,7 @@ const NavigationBar = () => {
 						}}
 					>
 						<Typography>{currentSection}</Typography>
-					</Box>
+					</Box> */}
 				</>
 			) : (
 				<>

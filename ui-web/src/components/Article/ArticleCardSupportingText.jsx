@@ -13,6 +13,7 @@ const ArticleCardSupportingText = ({ article }) => {
 					WebkitBoxOrient: 'vertical',
 					fontSize: '14px',
 					color: 'primary.darkText',
+					// border: '1px solid red',
 				}}
 			>
 				{article?.supportingText}

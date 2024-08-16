@@ -1,5 +1,5 @@
 // React
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 // MUI
 import { Container, Box, Grid, AppBar, Typography, Icon, IconButton } from '@mui/material';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -12,6 +12,10 @@ import LogoBottomLarger from '../../assets/Logo-bottom-larger-10x.png';
 import LogoMain from '../../assets/LogoMain.svg';
 
 const BottomContainer = () => {
+	const handleLogoClick = () => {
+		window.scrollTo(0, 0);
+		navigate('/home');
+	};
 	return (
 		<Container
 			maxWidth={false}
@@ -38,48 +42,24 @@ const BottomContainer = () => {
 				>
 					<Grid container item sx={{ padding: '24px 0' }}>
 						<Grid item xs={6}>
-							<img
-								src={LogoMain}
-								alt="TaxSpoc Logo"
-								style={{ height: '42px', width: 'auto', maxWidth: '100%' }}
-							/>
+							<Link to="/home" onClick={handleLogoClick}>
+								<img
+									src={LogoMain}
+									alt="TaxSpoc Logo"
+									style={{ height: '42px', width: 'auto', maxWidth: '100%' }}
+								/>
+							</Link>
 						</Grid>
 						<Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 							<Box sx={{ textAlign: 'center' }}>
 								<Typography>Follow Us:</Typography>
 								<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-									{/* <Box
-										sx={{
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
-											width: 24,
-											height: 24,
-											border: '1px solid',
-											borderColor: 'primary.divider',
-											m: 1,
-										}}
-									> */}
 									<IconButton>
 										<LinkedInIcon />
 									</IconButton>
-									{/* </Box> */}
-									{/* <Box
-										sx={{
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
-											width: 24,
-											height: 24,
-											border: '1px solid',
-											borderColor: 'primary.divider',
-											m: 1,
-										}}
-									> */}
 									<IconButton>
 										<XIcon fontSize="small" />
 									</IconButton>
-									{/* </Box> */}
 								</Box>
 							</Box>
 						</Grid>
@@ -106,7 +86,7 @@ const BottomContainer = () => {
 								<Typography variant="bottomNavigationText">Contact us</Typography>
 							</Link>
 							<Link to="/termes-of-use" rel="noopener noreferrer" style={{ color: 'inherit' }}>
-								<Typography variant="bottomNavigationText">Termes of use</Typography>
+								<Typography variant="bottomNavigationText">Terms of use</Typography>
 							</Link>
 							<Link to="/cookies-policy" rel="noopener noreferrer" style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">Cookies policy</Typography>

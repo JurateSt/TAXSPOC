@@ -22,15 +22,17 @@ const MainArticleHeader = ({ article }) => {
 				}}
 			>
 				<Typography
-					variant="h5"
 					sx={{
 						overflow: 'hidden',
 						textOverflow: 'ellipsis',
 						display: '-webkit-box',
-						WebkitLineClamp: 2,
+						WebkitLineClamp: 3,
 						WebkitBoxOrient: 'vertical',
-						fontWeight: 'fontWeightBold',
+						fontSize: '18px',
+						fontWeight: '700',
+						lineHeight: '26px',
 						color: 'primary.darkText',
+						// on hover underline
 						'&:hover': {
 							textDecoration: 'underline',
 						},
