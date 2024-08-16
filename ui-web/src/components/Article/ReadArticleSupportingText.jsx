@@ -14,13 +14,13 @@ const ReadArticleSupportingText = ({ article }) => {
 		// 		alignSelf: 'stretch',
 		// 	}}
 		// >
-		<Grid item xs={12} sx={{ marginTop: '32px' }}>
+		<Grid item xs={12}>
 			<Typography
 				sx={{
-					fontSize: '24px',
+					fontSize: ['20px', '20px', '24px'], // xs, sm, md
+					lineHeight: ['24px', '24px', '28px'], // xs, sm, md
 					fontStyle: 'normal',
 					fontWeight: 400,
-					lineHeight: '28px',
 				}}
 			>
 				{article?.supportingText}
