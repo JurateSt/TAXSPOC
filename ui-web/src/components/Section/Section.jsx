@@ -11,7 +11,7 @@ import ArticleCard from '../Article/ArticleCard';
 import ArticleShortCard from '../Article/ArticleShortCard';
 
 const Section = ({ section }) => {
-	const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+	// const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
 	const [articles, setArticles] = useState([]);
 
@@ -39,7 +39,7 @@ const Section = ({ section }) => {
 				padding: '16px 0',
 			}}
 		>
-			<SectionCategory category={section.category} />
+			<SectionCategory section={section} />
 
 			<Grid
 				container

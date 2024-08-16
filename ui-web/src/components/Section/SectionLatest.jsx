@@ -41,7 +41,7 @@ const Section = ({ section, onLoaded }) => {
 					padding: '16px 0',
 				}}
 			>
-				<SectionCategory category={section.category} />
+				<SectionCategory section={section} />
 
 				<Grid container item xs={12} columnSpacing={2} rowSpacing={2}>
 					<Grid

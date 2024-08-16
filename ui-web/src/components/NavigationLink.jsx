@@ -13,7 +13,7 @@ const NavigationLink = ({ to, children, menuItems = [] }) => {
 	const hasMenu = menuItems.length > 0;
 
 	const isActive = () => {
-		if (location.pathname === '/category/articles' && to.startsWith('/category/articles')) {
+		if (location.pathname === '/articles/category' && to.startsWith('/articles/category')) {
 			const currentParams = new URLSearchParams(location.search);
 			const toParams = new URLSearchParams(to.split('?')[1]);
 
