@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // MUI
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
+import KeyboardDoubleArrowDownOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowDownOutlined';
+import DoubleArrowOutlinedIcon from '@mui/icons-material/DoubleArrowOutlined';
 // api
 import api from '../api/axios';
 // components
@@ -10,83 +12,59 @@ import MainArticle from '../components/MainArticle/MainArticle';
 import HotTopics from '../components/HotTopics/HotTopics.jsx';
 import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
 import ArticleCard from '../components/Article/ArticleCard.jsx';
+import Section from '../components/Section/Section.jsx';
+import LoadMore from '../components/StylingComponents/LoadMore.jsx';
 
 const ArticlesCategoryList = ({}) => {
 	const [searchParams] = useSearchParams();
+	console.log('searchParams', searchParams);
 	const categoryType = searchParams.get('type');
 	const categoryName = searchParams.get('category');
 
-	const [articles, setArticles] = useState([]);
-	const [mainArticle, setMainArticle] = useState({});
+	const [page, setPage] = useState(1);
+	const articlesPerPage = 8;
 
-	const getArticles = async () => {
-		const params = new URLSearchParams({
-			type: categoryType,
-			category: categoryName,
-		});
-		const { data } = await api.get(`/articles/category?${params}`);
-		setArticles(data);
-		setMainArticle(data[0]);
+	const handleLoadMore = () => {
+		setPage((prev) => prev + 1);
 	};
 
 	useEffect(() => {
-		getArticles();
-	}, [searchParams]);
-	console.log('ArticlesCategoryList articles', articles);
+		window.scrollTo(0, 0);
+		setPage(1);
+	}, [categoryName]);
+
 	return (
 		<>
 			<MainBar />
-			<Box sx={{ display: 'flex', justifyContent: 'center', padding: '16px' }}>
-				<Typography variant="h4">{categoryName}</Typography>
-			</Box>
 
 			<Container>
-				<MainArticle article={mainArticle} />
+				{/* <MainArticle article={mainArticle} /> */}
+				<Section
+					section={{ category: categoryName, type: categoryType }}
+					limit={articlesPerPage * page}
+					customStyles={{ borderBottom: 'none' }}
+				/>
 				<Grid
 					container
-					// sx={{ border: '1px solid blue' }}
-					columnSpacing={2}
-					minHeight="100vh"
+					item
+					xs={12}
+					justifyContent="center"
+					sx={{ padding: '16px 0', borderBottom: '1px solid', borderColor: 'primary.divider' }}
 				>
-					<Grid
-						container
-						item
-						xs={12}
-						sm={12}
-						md={8}
-						lg={8}
-						xl={8}
-						// sx={{
-						// 	border: '1px solid purple',
-						// }}
+					<LoadMore handleClick={handleLoadMore} />
+				</Grid>
+				<Grid item xs={12} sx={{ padding: '16px 0' }}>
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							height: '200px',
+							backgroundColor: 'primary.grey200',
+						}}
 					>
-						<Grid
-							container
-							item
-							spacing={2}
-							// sx={{ backgroundColor: 'lightgrey' }}
-						>
-							{articles
-								.slice(1)
-								.sort((a, b) => b.articleDate - a.articleDate)
-								.map((item, index) => (
-									<Grid
-										item
-										xs={12}
-										sm={6}
-										md={6}
-										lg={6}
-										xl={6}
-										// sx={{ border: '1px solid orange' }}
-										key={index}
-									>
-										<ArticleCard key={item.id} article={item} />
-									</Grid>
-								))}
-						</Grid>
-					</Grid>
-
-					<HotTopics />
+						<Typography sx={{ fontSize: '18px', fontWeight: '700' }}>Sponsored Content</Typography>
+					</Box>
 				</Grid>
 			</Container>
 
