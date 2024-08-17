@@ -18,7 +18,7 @@ const ReadArticleCategories = ({ article }) => {
 	};
 	return (
 		<>
-			<Grid
+			{/* <Grid
 				item
 				xs={12}
 				sx={
@@ -27,6 +27,7 @@ const ReadArticleCategories = ({ article }) => {
 					}
 				}
 			>
+				
 				<Typography
 					sx={{
 						margin: '32px 0 16px 0',
@@ -38,7 +39,7 @@ const ReadArticleCategories = ({ article }) => {
 				>
 					Topics
 				</Typography>
-			</Grid>
+			</Grid> */}
 			<Grid
 				item
 				xs={12}
