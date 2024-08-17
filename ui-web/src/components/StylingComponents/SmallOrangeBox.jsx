@@ -9,7 +9,7 @@ const SmallOrangeBox = () => {
 				height: '8px',
 				// borderRadius: '50%',
 				backgroundColor: 'primary.deepOrange500',
-				marginRight: '4px',
+				marginRight: '8px',
 				// alignSelf: 'flex-end',
 			}}
 		/>

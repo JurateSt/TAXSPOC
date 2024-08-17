@@ -5,6 +5,7 @@ import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 // Styling
 import SmallOrangeBox from '../StylingComponents/SmallOrangeBox';
+import CategoryArrow from '../StylingComponents/CategoryArrow';
 
 const SectionCategory = ({ section }) => {
 	const navigate = useNavigate();
@@ -32,8 +33,9 @@ const SectionCategory = ({ section }) => {
 					{/* {category.toUpperCase()} */}
 					{category}
 				</Typography>
+				<CategoryArrow />
 
-				<ChevronRightOutlinedIcon />
+				{/* <ChevronRightOutlinedIcon /> */}
 			</Box>
 		</Grid>
 	);
