@@ -20,7 +20,12 @@ const Section = ({ section, limit, customStyles }) => {
 			type: section.type,
 			category: section.category,
 		});
-		// add all as a parameter to get all articles
+
+		if (section.type === 'latest') {
+			const { data } = await api.get(`/articles-latest?limit=${limit}`);
+			setArticles(data);
+			return;
+		}
 		const { data } = await api.get(`/articles/category?${params}&limit=${limit}`);
 		setArticles(data);
 	};

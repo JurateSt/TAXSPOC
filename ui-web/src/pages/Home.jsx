@@ -33,7 +33,7 @@ const Home = () => {
 			>
 				<SectionLatest
 					key="latest"
-					section={{ category: 'Latest News' }}
+					section={{ category: 'Latest News', type: 'latest' }}
 					onLoaded={() => setLatestLoaded(true)}
 				/>
 				{latestLoaded &&

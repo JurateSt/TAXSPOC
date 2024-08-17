@@ -18,12 +18,17 @@ export default class ArticlesController {
 		return response.json(shortArticles);
 	}
 
-	public async getLatest({ response }: HttpContext) {
-		const articles = await Article.find();
-		const latestArticles = articles
-			.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1))
-			.slice(0, 8);
-		const shortArticles = latestArticles.map((item) => {
+	public async getLatest({ request, response }: HttpContext) {
+		const limit = parseInt(request.input('limit'), 10);
+
+		let articles = await Article.find().sort({ dateTag: -1 });
+		if (!isNaN(limit)) {
+			articles = articles.slice(0, limit);
+		}
+		// const latestArticles = articles
+		// 	.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1))
+		// 	.slice(0, 8);
+		const shortArticles = articles.map((item) => {
 			const { _id, dateTag, subHeader, header, supportingText, tags, categories, images } = item;
 			return { _id, dateTag, subHeader, header, supportingText, tags, categories, images };
 		});

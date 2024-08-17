@@ -16,6 +16,7 @@ const NavigationLink = ({ to, children, menuItems = [] }) => {
 		if (location.pathname === '/articles/category' && to.startsWith('/articles/category')) {
 			const currentParams = new URLSearchParams(location.search);
 			const toParams = new URLSearchParams(to.split('?')[1]);
+			// console.log('isActive', location.pathname, currentParams, to);
 
 			return Array.from(toParams.entries()).every(
 				([key, value]) => currentParams.get(key) === value

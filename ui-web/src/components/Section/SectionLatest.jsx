@@ -11,12 +11,13 @@ import ArticleShortCard from '../Article/ArticleShortCard';
 
 const Section = ({ section, onLoaded }) => {
 	// const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+	const articlesPerPage = 8;
 
 	const [articles, setArticles] = useState([]);
 	const [mainArticle, setMainArticle] = useState({});
 
 	const getArticles = async () => {
-		const { data } = await api.get('/articles-latest');
+		const { data } = await api.get(`/articles-latest?limit=${articlesPerPage}`);
 
 		setArticles(data);
 		setMainArticle(data[0]);
