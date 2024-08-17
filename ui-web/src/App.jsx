@@ -27,6 +27,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import CookiesPolicy from './pages/CookiesPolicy';
 import AdvertiseWithUs from './pages/AdvertiseWithUs';
 import NoPermission from './components/Auth/NoPermission.jsx';
+import CMSHome from './CMS/CMSHome.jsx';
 
 function App() {
 	const [count, setCount] = useState(0);
@@ -38,6 +39,7 @@ function App() {
 					<AuthProvider>
 						<Routes>
 							<Route element={<ProtectedRoute />}>
+								<Route path="/cms/auth" element={<CMSHome />} />
 								<Route path="/cms/auth/create-article" element={<CreateArticleTinyMCE />} />
 								<Route path="/cms/auth/create-article/:id" element={<EditArticle />} />
 							</Route>

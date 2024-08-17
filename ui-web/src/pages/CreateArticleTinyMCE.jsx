@@ -40,7 +40,7 @@ import EditorTinyMCE from '../components/TinyMCE/EditorTinyMCE';
 
 const CreateArticleTinyMCE = () => {
 	const { user } = useAuth();
-	console.log('CreateArticleTinyMCE user', user);
+
 	const navigate = useNavigate();
 
 	const [articles, setArticles] = useState([]);
