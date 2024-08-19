@@ -33,7 +33,7 @@ const NavigationBar = () => {
 	const location = useLocation();
 	const isOld = location.pathname === '/home2';
 
-	const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+	const isMobile = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
 	const [drawerOpen, setDrawerOpen] = useState(false);
 	const [openMenuItems, setOpenMenuItems] = useState(false);
