@@ -17,7 +17,7 @@ const TermesOfUse = () => {
 				<MainBar />
 				<Box sx={{ flex: '1' }}>
 					<Container sx={{ mt: 4 }}>
-						<h1>Termes of use</h1>
+						<h1>Terms of use</h1>
 					</Container>
 				</Box>
 

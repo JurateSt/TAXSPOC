@@ -26,6 +26,7 @@ import CloseIcon from '@mui/icons-material/Close';
 // components
 import NavigationLink from './NavigationLink';
 import LogoBar from './LogoBar';
+import path from 'path';
 
 const NavigationBar = () => {
 	const navigate = useNavigate();
@@ -47,41 +48,48 @@ const NavigationBar = () => {
 		setDrawerOpen(false);
 	};
 
-	const currentSection =
-		location.pathname === '/home'
-			? 'Home'
-			: location.pathname === '/articles/indirect-tax'
-				? 'Indirect Tax'
-				: location.pathname === '/articles/direct-tax'
-					? 'Direct Tax'
-					: location.pathname === '/articles/transfer-pricing'
-						? 'Transfer Pricing'
-						: location.pathname === '/articles/tax-technology'
-							? 'Tax Technology'
-							: location.pathname === '/articles/customs'
-								? 'Customs'
-								: 'Hot Topics';
+	const generateCategoryPath = (type, category) => {
+		const params = new URLSearchParams({ type, category });
+		return `/articles/category?${params}`;
+	};
 
 	const hotTopicsMenuItems = [
-		{ label: 'OECD BEPS', path: '/hot-topics/1' },
-		{ label: 'E-invoicing', path: '/hot-topics/2' },
-		{ label: 'Brazil Tax Reform', path: '/hot-topics/3' },
-		{ label: 'UAE CIT', path: '/hot-topics/4' },
+		{ label: 'OECD BEPS', path: generateCategoryPath('other', 'OECD BEPS') },
+		{
+			label: 'E-Invoicing and E-Reporting',
+			path: generateCategoryPath('other', 'E-Invoicing and E-Reporting'),
+		},
+		{ label: 'Brazil Tax Reform', path: generateCategoryPath('other', 'Brazil Tax Reform') },
+		{ label: 'UAE CIT', path: generateCategoryPath('other', 'UAE CIT') },
 	];
+
 	const navigationItems = [
 		{ label: 'Home', icon: <HomeOutlinedIcon />, path: '/home', menuItems: [] },
 		{ label: 'Hot Topics', path: '/hot-topics', menuItems: hotTopicsMenuItems },
-		{ label: 'Indirect Tax', path: '/articles/indirect-tax', menuItems: [] },
-		{ label: 'Direct Tax', path: '/articles/direct-tax', menuItems: [] },
-		{ label: 'Transfer Pricing', path: '/articles/transfer-pricing', menuItems: [] },
-		{ label: 'Tax Technology', path: '/articles/tax-technology', menuItems: [] },
-		{ label: 'Customs', path: '/articles/customs', menuItems: [] },
+		{
+			label: 'Indirect Tax',
+			path: generateCategoryPath('other', 'Indirect Tax'),
+			menuItems: [],
+		},
+		{ label: 'Direct Tax', path: generateCategoryPath('other', 'Direct Tax'), menuItems: [] },
+
+		{
+			label: 'Transfer Pricing',
+			path: generateCategoryPath('other', 'Transfer Pricing'),
+			menuItems: [],
+		},
+		{
+			label: 'Tax Technology',
+			path: generateCategoryPath('other', 'Tax Technology'),
+			menuItems: [],
+		},
+		{ label: 'Customs', path: generateCategoryPath('other', 'Customs'), menuItems: [] },
 	];
 
 	return (
 		<Toolbar
 			sx={{
-				// bgcolor: 'primary.midnightBlue200',
+				bgcolor: 'background.default',
 				// vertical stretch
 				alignItems: 'stretch',
 				// display: { xs: 'none', md: 'flex' },
@@ -116,7 +124,7 @@ const NavigationBar = () => {
 						<LogoBar />
 						<Toolbar
 							sx={{
-								bgcolor: 'primary.midnightBlue200',
+								bgcolor: 'background.default',
 								// display: { xs: 'none', md: 'flex' },
 								// justifyContent: 'center',
 								alignItems: 'stretch',
@@ -225,7 +233,7 @@ const NavigationBar = () => {
 						)}
 					</Box>
 					{/* current section */}
-					<Box
+					{/* <Box
 						sx={{
 							flexGrow: 1,
 							display: 'flex',
@@ -235,7 +243,7 @@ const NavigationBar = () => {
 						}}
 					>
 						<Typography>{currentSection}</Typography>
-					</Box>
+					</Box> */}
 				</>
 			) : (
 				<>

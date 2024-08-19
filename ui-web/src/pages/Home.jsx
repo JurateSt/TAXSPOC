@@ -2,94 +2,44 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 // MUI
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
-import { styled } from '@mui/system';
-// api
-import api from '../api/axios';
 // components
 import MainBar from '../components/MainBar.jsx';
-import MainArticle from '../components/MainArticle/MainArticle';
-import ArticleCard from '../components/Article/ArticleCard.jsx';
-import HotTopics from '../components/HotTopics/HotTopics.jsx';
+import SectionLatest from '../components/Section/SectionLatest.jsx';
+import Section from '../components/Section/Section.jsx';
 import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
 
-const Spacer = styled('div')(({ theme }) => {
-	console.log('theme.mixins.toolbar', theme.mixins.toolbar);
-	return {
-		...theme.mixins.toolbar,
-		height: `calc(${theme.mixins.toolbar.minHeight * 3 + 26}px)`,
-	};
-});
-
-const StyledContainer = styled(Container)(({ theme }) => ({
-	border: '2px solid red',
-	// height: '100vh',
-}));
-
 const Home = () => {
-	const [articles, setArticles] = useState([]);
+	const [latestLoaded, setLatestLoaded] = useState(false);
+	const articlesPerPage = 4;
 
-	const getArticles = async () => {
-		const { data } = await api.get('/articles');
-
-		setArticles(data.sort((a, b) => b.dateTag - a.dateTag));
-	};
-
-	useEffect(() => {
-		getArticles();
-	}, []);
-
-	//take the first article from the array
-	console.log('getArticles', articles.length, articles.slice(0, 1));
+	const sections = [
+		// { category: 'Latest News', type: 'latest', param: 'latest' },
+		{ category: 'OECD BEPS', type: 'other' },
+		{ category: 'E-Invoicing and E-Reporting', type: 'other' },
+		{ category: 'Brazil Tax Reform', type: 'other' },
+		{ category: 'UAE CIT', type: 'other' },
+		{ category: 'Indirect Tax', type: 'other' },
+		{ category: 'Direct Tax', type: 'other' },
+		{ category: 'Transfer Pricing', type: 'other' },
+		{ category: 'Tax Technology', type: 'other' },
+		{ category: 'Customs', type: 'other' },
+	];
 
 	return (
 		<>
 			<MainBar />
-			{/* TODO: carousel */}
-			<MainArticle articles={articles.slice(0, 1)} />
-			<Container>
-				<Grid
-					container
-					// sx={{ border: '1px solid blue' }}
-					columnSpacing={2}
-					minHeight="100vh"
-				>
-					<Grid
-						container
-						item
-						xs={12}
-						sm={12}
-						md={8}
-						lg={8}
-						xl={8}
-						// sx={{
-						// 	border: '1px solid purple',
-						// }}
-					>
-						<Grid
-							container
-							item
-							spacing={2}
-							// sx={{ backgroundColor: 'lightgrey' }}
-						>
-							{articles.slice(1).map((item, index) => (
-								<Grid
-									item
-									xs={12}
-									sm={6}
-									md={6}
-									lg={6}
-									xl={6}
-									// sx={{ border: '1px solid orange' }}
-									key={index}
-								>
-									<ArticleCard key={item.id} article={item} index={index} />
-								</Grid>
-							))}
-						</Grid>
-					</Grid>
-
-					<HotTopics />
-				</Grid>
+			<Container
+			// sx={{ border: '1px solid blue' }}
+			>
+				<SectionLatest
+					key="latest"
+					section={{ category: 'Latest News', type: 'latest' }}
+					onLoaded={() => setLatestLoaded(true)}
+				/>
+				{latestLoaded &&
+					sections.map((item, index) => (
+						<Section key={index} section={item} limit={articlesPerPage} customStyles={{}} />
+					))}
 			</Container>
 			<BottomContainer />
 		</>

@@ -1,4 +1,6 @@
+// React
 import React, { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 // MUI
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
 // api
@@ -11,21 +13,29 @@ import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
 import ArticleCard from '../components/Article/ArticleCard.jsx';
 
 const CategoryArticlesList = ({ category }) => {
+	const [searchParams] = useSearchParams();
+	const categoryType = searchParams.get('type');
+	const categoryName = searchParams.get('name');
+
 	const [articles, setArticles] = useState([]);
 
 	const getArticles = async () => {
 		const { data } = await api.get('/articles');
-		setArticles(data.filter((item) => item?.categories.some((cat) => cat.name === category)));
+		setArticles(
+			data.filter((item) =>
+				item?.categories.some((cat) => cat.type === categoryType && cat.name === categoryName)
+			)
+		);
 	};
 
 	useEffect(() => {
 		getArticles();
-	}, [category]);
+	}, [searchParams]);
 	return (
 		<>
 			<MainBar />
 			<Box sx={{ display: 'flex', justifyContent: 'center', padding: '16px' }}>
-				<Typography variant="h4">{category}</Typography>
+				<Typography variant="h4">{categoryName}</Typography>
 			</Box>
 			<MainArticle articles={articles.slice(0, 1)} />
 			<Container>

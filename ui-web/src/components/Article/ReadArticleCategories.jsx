@@ -1,58 +1,70 @@
+// React
+import { useNavigate, useLocation } from 'react-router-dom';
 // MUI
-import { Typography, Box, Button, Chip } from '@mui/material';
+import { Typography, Grid, Box, Button, Chip } from '@mui/material';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 
 const ReadArticleCategories = ({ article }) => {
-	console.log('ReadArticleCategories: ', article.categories);
+	const navigate = useNavigate();
+
+	const onClick = (category) => {
+		const params = new URLSearchParams({
+			type: category.type,
+			category: category.name,
+		});
+		window.scrollTo(0, 0);
+		// navigate(`/category/articles?${params.toString()}`);
+		navigate(`/articles/category?${params}`);
+	};
 	return (
-		<Box
-			name="categories-and-share-icons"
-			sx={{
-				display: 'flex',
-				padding: '8px 16px',
-				flexDirection: 'column',
-				width: '100%',
-			}}
-		>
-			<Box
-				name="heading"
-				sx={{
-					display: 'flex',
-					padding: '4px 0',
-					justifyContent: 'space-between',
-					alignItems: 'flex-end',
-					alignSelf: 'stretch',
-				}}
+		<>
+			{/* <Grid
+				item
+				xs={12}
+				sx={
+					{
+						// border: '1px solid green',
+					}
+				}
 			>
-				<Typography>Topics</Typography>
-			</Box>
-			<Box
-				name="buttons"
-				sx={{
-					display: 'flex',
-					// padding: '4px 16px',
-					alignItems: 'center',
-				}}
-			>
-				<Box name="categories" sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-					{article?.categories?.map((item, index) => (
-						<Chip key={index} label={item?.name} />
-					))}
-				</Box>
-				<Box
-					name="share-icons"
+				
+				<Typography
 					sx={{
-						display: 'flex',
-						justifyContent: 'flex-end',
-						alignItems: 'center',
-						marginLeft: 'auto',
-						gap: '8px',
+						margin: '32px 0 16px 0',
+						fontSize: '24px',
+						fontStyle: 'normal',
+						fontWeight: 400,
+						lineHeight: '28px',
 					}}
 				>
-					<ShareOutlinedIcon />
-				</Box>
-			</Box>
-		</Box>
+					Topics
+				</Typography>
+			</Grid> */}
+			<Grid
+				item
+				xs={12}
+				sx={{
+					display: 'flex',
+					alignItems: 'flex-start',
+					// justifyContent: 'space-between',
+					gap: '12px',
+					flexWrap: 'wrap',
+				}}
+			>
+				{article?.categories?.map((item, index) => (
+					<Chip
+						sx={{
+							borderRadius: 0,
+							// backgroundColor: 'primary.deepOrange300',
+							color: 'primary.darkText',
+						}}
+						key={index}
+						label={item?.name}
+						onClick={() => onClick(item)}
+					/>
+				))}
+			</Grid>
+		</>
 	);
 };
 

@@ -10,12 +10,13 @@ const HotTopicsHeader = () => {
 				alignItems: 'center',
 				height: '64px',
 				backgroundColor: 'primary.deepOrange400',
-				color: 'primary.lightText',
 				padding: '16px',
 				width: '100%',
 			}}
 		>
-			<Typography variant="h6">Hot Topics</Typography>
+			<Typography variant="h6" sx={{ color: 'primary.lightText' }}>
+				Hot Topics
+			</Typography>
 		</Box>
 	);
 };

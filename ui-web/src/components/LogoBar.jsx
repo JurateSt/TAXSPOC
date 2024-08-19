@@ -5,6 +5,7 @@ const LogoBar = () => {
 	return (
 		<Toolbar
 			sx={{
+				bgcolor: 'background.default',
 				justifyContent: 'center',
 				minHeight: '32px !important',
 				height: '32px !important',
