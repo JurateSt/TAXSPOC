@@ -10,6 +10,7 @@ import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
 
 const Home = () => {
 	const [latestLoaded, setLatestLoaded] = useState(false);
+	const articlesPerPage = 4;
 
 	const sections = [
 		// { category: 'Latest News', type: 'latest', param: 'latest' },
@@ -32,10 +33,13 @@ const Home = () => {
 			>
 				<SectionLatest
 					key="latest"
-					section={{ category: 'Latest News' }}
+					section={{ category: 'Latest News', type: 'latest' }}
 					onLoaded={() => setLatestLoaded(true)}
 				/>
-				{latestLoaded && sections.map((item, index) => <Section section={item} key={index} />)}
+				{latestLoaded &&
+					sections.map((item, index) => (
+						<Section key={index} section={item} limit={articlesPerPage} customStyles={{}} />
+					))}
 			</Container>
 			<BottomContainer />
 		</>

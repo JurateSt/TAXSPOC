@@ -77,7 +77,7 @@ const BottomContainer = () => {
 							<Link
 								to="/about-us"
 								// target="_blank"
-								rel="noopener noreferrer"
+								// rel="noopener noreferrer"
 								style={{ color: 'inherit' }}
 							>
 								<Typography variant="bottomNavigationText">About us</Typography>
@@ -94,9 +94,9 @@ const BottomContainer = () => {
 							<Link to="/privacy-policy" rel="noopener noreferrer" style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">Privacy Policy</Typography>
 							</Link>
-							<Link to="/advertise-with-us" rel="noopener noreferrer" style={{ color: 'inherit' }}>
+							{/* <Link to="/advertise-with-us" rel="noopener noreferrer" style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">Advertise with us</Typography>
-							</Link>
+							</Link> */}
 						</Box>
 					</Grid>
 

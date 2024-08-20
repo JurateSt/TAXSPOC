@@ -10,7 +10,7 @@ import MainArticle from '../MainArticle/MainArticle';
 import ArticleCard from '../Article/ArticleCard';
 import ArticleShortCard from '../Article/ArticleShortCard';
 
-const Section = ({ section }) => {
+const Section = ({ section, limit, customStyles }) => {
 	// const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
 	const [articles, setArticles] = useState([]);
@@ -20,13 +20,19 @@ const Section = ({ section }) => {
 			type: section.type,
 			category: section.category,
 		});
-		const { data } = await api.get(`/articles/category?${params}`);
+
+		if (section.type === 'latest') {
+			const { data } = await api.get(`/articles-latest?limit=${limit}`);
+			setArticles(data);
+			return;
+		}
+		const { data } = await api.get(`/articles/category?${params}&limit=${limit}`);
 		setArticles(data);
 	};
 
 	useEffect(() => {
 		getArticles();
-	}, []);
+	}, [section]);
 	return (
 		// articles.length > 0 && (
 		<Grid
@@ -37,6 +43,7 @@ const Section = ({ section }) => {
 				borderColor: 'primary.divider',
 				// border: '1px solid green',
 				padding: '16px 0',
+				...customStyles,
 			}}
 		>
 			<SectionCategory section={section} />
