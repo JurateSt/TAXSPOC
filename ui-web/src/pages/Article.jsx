@@ -16,6 +16,7 @@ import ReadArticleContent from '../components/Article/ReadArticleContent.jsx';
 import ReadArticleCategories from '../components/Article/ReadArticleCategories.jsx';
 import ReadArticleSuggested from '../components/Article/ReadArticleSuggested.jsx';
 import ReadArticleSidePanel from '../components/Article/ReadArticleSidePanel.jsx';
+import ReadArticleShare from '../components/Article/ReadArticleShare.jsx';
 
 const Article = () => {
 	const { id } = useParams();
@@ -85,6 +86,7 @@ const Article = () => {
 						<ReadArticleSubHeader article={article} />
 						<ReadArticleHeader article={article} />
 						<ReadArticleSupportingText article={article} />
+						<ReadArticleShare article={article} />
 						<ReadArticlePhoto article={article} />
 						<ReadArticleContent article={article} />
 						<ReadArticleCategories article={article} />
