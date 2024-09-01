@@ -2,18 +2,8 @@ import React from 'react';
 // MUI
 import { Box, Typography, Grid } from '@mui/material';
 
-const ReadArticleSupportingText = ({ article }) => {
+const InfoAboutSupportingText = () => {
 	return (
-		// <Box
-		// 	sx={{
-		// 		display: 'flex',
-		// 		padding: '8px 32px',
-		// 		flexDirection: 'column',
-		// 		alignItems: 'flex-start',
-		// 		gap: '8px',
-		// 		alignSelf: 'stretch',
-		// 	}}
-		// >
 		<Grid item xs={12}>
 			<Typography
 				sx={{
@@ -23,11 +13,10 @@ const ReadArticleSupportingText = ({ article }) => {
 					fontWeight: 400,
 				}}
 			>
-				{article?.supportingText}
+				Your Single Single Point of Contact for Global and Local Tax News
 			</Typography>
 		</Grid>
-		// </Box>
 	);
 };
 
-export default ReadArticleSupportingText;
+export default InfoAboutSupportingText;

@@ -1,10 +1,13 @@
 // MUI
-import { Grid, Typography } from '@mui/material';
+import { Typography, Grid } from '@mui/material';
+// moment
+import moment from 'moment';
 
-const ArticleCardSubHeader = ({ article }) => {
+const MainArticleSubHeader = ({ article }) => {
 	return (
 		<Grid item xs={12}>
 			<Typography
+				// noWrap
 				sx={{
 					fontWeight: '400',
 					fontSize: '12px',
@@ -18,4 +21,4 @@ const ArticleCardSubHeader = ({ article }) => {
 	);
 };
 
-export default ArticleCardSubHeader;
+export default MainArticleSubHeader;

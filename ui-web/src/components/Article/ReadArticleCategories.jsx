@@ -10,14 +10,15 @@ const ReadArticleCategories = ({ article }) => {
 	const onClick = (category) => {
 		const params = new URLSearchParams({
 			type: category.type,
-			name: category.name,
+			category: category.name,
 		});
 		window.scrollTo(0, 0);
-		navigate(`/category/articles?${params.toString()}`);
+		// navigate(`/category/articles?${params.toString()}`);
+		navigate(`/articles/category?${params}`);
 	};
 	return (
 		<>
-			<Grid
+			{/* <Grid
 				item
 				xs={12}
 				sx={
@@ -26,6 +27,7 @@ const ReadArticleCategories = ({ article }) => {
 					}
 				}
 			>
+				
 				<Typography
 					sx={{
 						margin: '32px 0 16px 0',
@@ -37,7 +39,7 @@ const ReadArticleCategories = ({ article }) => {
 				>
 					Topics
 				</Typography>
-			</Grid>
+			</Grid> */}
 			<Grid
 				item
 				xs={12}

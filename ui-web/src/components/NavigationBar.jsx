@@ -26,13 +26,14 @@ import CloseIcon from '@mui/icons-material/Close';
 // components
 import NavigationLink from './NavigationLink';
 import LogoBar from './LogoBar';
+import path from 'path';
 
 const NavigationBar = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const isOld = location.pathname === '/home2';
 
-	const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+	const isMobile = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
 	const [drawerOpen, setDrawerOpen] = useState(false);
 	const [openMenuItems, setOpenMenuItems] = useState(false);
@@ -47,71 +48,19 @@ const NavigationBar = () => {
 		setDrawerOpen(false);
 	};
 
-	const generateCategoryPath = (type, name) => {
-		const params = new URLSearchParams({ type, name });
-		return `/category/articles?${params.toString()}`;
+	const generateCategoryPath = (type, category) => {
+		const params = new URLSearchParams({ type, category });
+		return `/articles/category?${params}`;
 	};
 
-	// const pathToCurrentSectionMap = {
-	// 	'/home': 'Home',
-	// 	'/hot-topics': 'Hot Topics',
-	// 	'Indirect Tax': 'Indirect Tax',
-	// 	'Direct Tax': 'Direct Tax',
-	// 	'Transfer Pricing': 'Transfer Pricing',
-	// 	'Tax Technology': 'Tax Technology',
-	// 	Customs: 'Customs',
-	// };
-
-	// const getCurrentSection = () => {
-	// 	const { pathname, search } = location;
-
-	// 	console.log('CURRENT SECTION', pathname, search);
-	// 	const categorySectionMap = pathToSectionMap['/category/articles'];
-	// 	if (pathToSectionMap[pathname]) {
-	// 		return pathToSectionMap[pathname];
-	// 	}
-	// 	if (pathname === '/category/articles') {
-	// 		const params = new URLSearchParams(search);
-	// 		const name = params.get('name');
-	// 		console.log('CURRENT SECTION', name, categorySectionMap[name]);
-	// 		return categorySectionMap[name] || 'Home';
-	// 	}
-	// 	return 'Home';
-	// };
-
-	// const currentSection =
-	// 	location.pathname === '/home'
-	// 		? 'Home'
-	// 		: location.pathname === '/hot-topics'
-	// 			? 'Hot Topics'
-	// 			: location.pathname === '/category/articles'
-	// 				? (() => {
-	// 						const params = new URLSearchParams(location.search);
-	// 						const name = params.get('name');
-	// 						return pathToCurrentSectionMap[name] || 'Home';
-	// 					})()
-	// 				: 'Home';
-
-	// const currentSection =
-	// 	location.pathname === '/home'
-	// 		? 'Home'
-	// 		: location.pathname === '/articles/indirect-tax'
-	// 			? 'Indirect Tax'
-	// 			: location.pathname === '/articles/direct-tax'
-	// 				? 'Direct Tax'
-	// 				: location.pathname === '/articles/transfer-pricing'
-	// 					? 'Transfer Pricing'
-	// 					: location.pathname === '/articles/tax-technology'
-	// 						? 'Tax Technology'
-	// 						: location.pathname === '/articles/customs'
-	// 							? 'Customs'
-	// 							: 'Hot Topics';
-
 	const hotTopicsMenuItems = [
-		{ label: 'OECD BEPS', path: '/hot-topics/1' },
-		{ label: 'E-invoicing', path: '/hot-topics/2' },
-		{ label: 'Brazil Tax Reform', path: '/hot-topics/3' },
-		{ label: 'UAE CIT', path: '/hot-topics/4' },
+		{ label: 'OECD BEPS', path: generateCategoryPath('other', 'OECD BEPS') },
+		{
+			label: 'E-Invoicing and E-Reporting',
+			path: generateCategoryPath('other', 'E-Invoicing and E-Reporting'),
+		},
+		{ label: 'Brazil Tax Reform', path: generateCategoryPath('other', 'Brazil Tax Reform') },
+		{ label: 'UAE CIT', path: generateCategoryPath('other', 'UAE CIT') },
 	];
 
 	const navigationItems = [

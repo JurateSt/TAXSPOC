@@ -1,76 +1,85 @@
+// React
 import React, { useState, useEffect, useRef } from 'react';
 // MUI
 import { Container, Box, Grid } from '@mui/material';
+// api
+import api from '../../api/axios';
 
 // components
 import MainArticlePhoto from './MainArticlePhoto';
 import MainArticleHeader from './MainArticleHeader';
 import MainArticleSupportingText from './MainArticleSupportingText';
 import MainArticleButtons from './MainArticleButtons';
-import MainArticleRotate from './MainArticleRotate';
+import MainArticleSubHeader from './MainArticleSubHeader';
 
-const MainArticle = ({ articles }) => {
+const MainArticle = ({ article }) => {
 	return (
-		<Container
-			sx={{
-				// border: '1px solid red',
-				paddingTop: '24px',
-			}}
+		<Grid
+			container
+			item
+			xs={12}
+			columnSpacing={2}
+			rowSpacing={1}
+			sx={
+				{
+					// border: '2px solid green',
+				}
+			}
 		>
-			<Grid
-				container
-				// sx={{ border: '1px solid blue' }}
-			>
-				{/* <Box
-					sx={{
-						border: '3px solid red',
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'flex-start',
-						flex: '1 0 0',
-						alignSelf: 'stretch',
-						boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-						marginBottom: '32px',
-					}}
-				> */}
+			<Grid container item xs={12} sm={6} md={4} lg={4} xl={4} sx={{ order: { xs: 2, sm: 1 } }}>
 				<Grid
-					container
+					// container
 					item
 					xs={12}
-					sm={6}
-					md={4}
-					lg={4}
-					xl={4}
 					sx={{
-						// border: '1px solid green',
-						// backgroundColor: 'primary.midnightBlue800',
-						// color: 'background.default',
-						bgcolor: 'primary.grey200',
-						padding: '16px',
-						gap: '8px',
-						// height: '180px',
-						height: '210px',
-						marginBottom: '32px',
-						order: { xs: 2, sm: 1 },
+						paddingBottom: '12px',
+						borderBottom: '1px solid',
+						borderColor: 'primary.divider',
+						// border: '2px solid red',
 					}}
 				>
-					<Box sx={{ display: 'flex', flexDirection: 'column' }}>
-						<Box sx={{ flexGrow: 1, overflow: 'hidden' }}>
-							<MainArticleHeader article={articles[0]} />
-							<MainArticleSupportingText article={articles[0]} />
-						</Box>
-						<Box>
-							<MainArticleButtons article={articles[0]} />
-						</Box>
-					</Box>
+					<Grid
+						container
+						// rowSpacing between MainArticleSubHeader, MainArticleHeader, MainArticleSupportingText
+						rowSpacing={1}
+						item
+						xs={12}
+						sx={
+							{
+								// border: '2px solid blue',
+							}
+						}
+					>
+						<MainArticleSubHeader article={article} />
+						<MainArticleHeader article={article} />
+						<MainArticleSupportingText article={article} />
+					</Grid>
 				</Grid>
-
-				<MainArticlePhoto article={articles[0]} />
-				{/* </Box> */}
-
-				{/* <MainArticleRotate /> */}
 			</Grid>
-		</Container>
+
+			<Grid
+				item
+				xs={12}
+				sm={6}
+				md={8}
+				lg={8}
+				xl={8}
+				sx={{
+					// border: '1px solid green',
+					// backgroundColor: 'lightblue',
+					// height: '180px',
+					// height: '295px',
+					// cursor: 'pointer',
+					'&:hover a': {
+						opacity: 0.7,
+						// transition: 'opacity 0.3s ease-in-out',
+					},
+					order: { xs: 1, sm: 2 },
+				}}
+			>
+				<MainArticlePhoto article={article} />
+			</Grid>
+		</Grid>
 	);
 };
 

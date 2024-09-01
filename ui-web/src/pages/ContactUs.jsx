@@ -1,30 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 // MUI
 import { Box, Container } from '@mui/material';
 // components
 import MainBar from '../components/MainBar';
 import BottomContainer from '../components/BottomBar/BottomContainer';
 const ContactUs = () => {
-	return (
-		<>
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-					minHeight: '100vh',
-				}}
-			>
-				<MainBar />
-				<Box sx={{ flex: '1' }}>
-					<Container sx={{ mt: 4 }}>
-						<h1>Contact us</h1>
-					</Container>
-				</Box>
+	const navigate = useNavigate();
 
-				<BottomContainer />
-			</Box>
-		</>
-	);
+	useEffect(() => {
+		navigate('/about-us#contact');
+	}, [navigate]);
+
+	return null; // or a loader if the redirection might take time
 };
 
 export default ContactUs;
