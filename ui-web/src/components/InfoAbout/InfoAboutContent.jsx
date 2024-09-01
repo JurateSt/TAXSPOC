@@ -107,8 +107,8 @@ const InfoAboutContent = () => {
 				</p>
 				<p lang="en-US">
 					<span style={{ color: '#404040' }}>
-						<a style={{ color: '#404040' }} href="mailto:info@taxspoc.com">
-							info@taxspoc.com
+						<a style={{ color: '#404040' }} href="mailto:hello@taxspoc.com">
+							hello@taxspoc.com
 						</a>
 						&nbsp;
 					</span>
