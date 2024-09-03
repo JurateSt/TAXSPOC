@@ -39,7 +39,7 @@ const NavigationBar = () => {
 	const [openMenuItems, setOpenMenuItems] = useState(false);
 
 	const handleClick = () => {
-		navigate('/home');
+		navigate('/');
 	};
 	const handleDrawerOpen = () => {
 		setDrawerOpen(true);

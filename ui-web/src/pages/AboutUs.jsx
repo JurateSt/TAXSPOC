@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 // MUI
-import { Box, Container, Grid } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 // components
 import MainBar from '../components/MainBar';
 import BottomContainer from '../components/BottomBar/BottomContainer';
-import InfoAboutSubHeader from '../components/InfoAbout/InfoAboutSubHeader';
-import InfoAboutHeader from '../components/InfoAbout/InfoAboutHeader';
-import InfoAboutSupportingText from '../components/InfoAbout/InfoAboutSupportingText';
 import InfoAboutContent from '../components/InfoAbout/InfoAboutContent';
 
 const AboutUs = () => {
@@ -27,12 +24,6 @@ const AboutUs = () => {
 	return (
 		<>
 			<MainBar />
-			{/* <Box sx={{ flex: '1' }}>
-				<Container sx={{ mt: 4 }}>
-					<h1>About us</h1>
-				</Container>
-			</Box> */}
-
 			<Container sx={{ marginTop: '16px' }}>
 				<Grid
 					container
@@ -50,13 +41,7 @@ const AboutUs = () => {
 					// 	// alignItems: 'flex-start',
 					// }}
 				>
-					{/* <InfoAboutSubHeader /> */}
-					{/* <InfoAboutHeader /> */}
-					{/* <InfoAboutSupportingText /> */}
-					{/* <ReadArticlePhoto article={article} /> */}
 					<InfoAboutContent />
-					{/* <ReadArticleCategories article={article} /> */}
-					{/* <ReadArticleSuggested currentArticle={article} articles={articles} /> */}
 				</Grid>
 			</Container>
 

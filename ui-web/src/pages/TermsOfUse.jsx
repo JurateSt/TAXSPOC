@@ -5,11 +5,10 @@ import { Container, Grid } from '@mui/material';
 // components
 import MainBar from '../components/MainBar';
 import BottomContainer from '../components/BottomBar/BottomContainer';
-import CookiesPolicyContent from '../components/InfoAbout/CookiesPolicyContent';
+import TermsOfUseContent from '../components/InfoAbout/TermsOfUseContent';
 
-const CookiesPolicy = () => {
+const TermsOfUse = () => {
 	const location = useLocation();
-
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, [location]);
@@ -34,7 +33,7 @@ const CookiesPolicy = () => {
 					// 	// alignItems: 'flex-start',
 					// }}
 				>
-					<CookiesPolicyContent />
+					<TermsOfUseContent />
 				</Grid>
 			</Container>
 
@@ -43,4 +42,4 @@ const CookiesPolicy = () => {
 	);
 };
 
-export default CookiesPolicy;
+export default TermsOfUse;
