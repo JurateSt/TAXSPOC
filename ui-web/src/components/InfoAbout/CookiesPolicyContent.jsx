@@ -10,7 +10,7 @@ const TermsOfUseContent = () => {
 			>
 				<p>
 					<strong>
-						<span style={{ color: '#404040' }}>COOKIES DISCLAIMER</span>
+						<span style={{ color: '#404040' }}>COOKIE DISCLAIMER</span>
 					</strong>
 				</p>
 
