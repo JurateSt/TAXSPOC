@@ -87,7 +87,7 @@ const BottomContainer = () => {
 								<Typography variant="bottomNavigationText">Terms of use</Typography>
 							</Link>
 							<Link to="/cookies-policy" rel="noopener noreferrer" style={{ color: 'inherit' }}>
-								<Typography variant="bottomNavigationText">Cookies Disclaimer</Typography>
+								<Typography variant="bottomNavigationText">Cookie Disclaimer</Typography>
 							</Link>
 							<Link to="/privacy-policy" rel="noopener noreferrer" style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">Privacy Policy</Typography>
