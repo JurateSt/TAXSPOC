@@ -1,20 +1,18 @@
 // React
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // MUI
 import { Container, Box, Grid, AppBar, Typography, Icon, IconButton } from '@mui/material';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import YouTubeIcon from '@mui/icons-material/YouTube';
 import XIcon from '@mui/icons-material/X';
-import FacebookIcon from '@mui/icons-material/Facebook';
 // Logo
-import LogoBottom from '../../assets/LogoBottom.png';
-import LogoBottomLarger from '../../assets/Logo-bottom-larger-10x.png';
 import LogoMain from '../../assets/LogoMain.svg';
 
 const BottomContainer = () => {
+	const navigate = useNavigate();
 	const handleLogoClick = () => {
 		window.scrollTo(0, 0);
-		navigate('/home');
+		navigate('/');
 	};
 	return (
 		<Container
@@ -42,7 +40,7 @@ const BottomContainer = () => {
 				>
 					<Grid container item sx={{ padding: '24px 0' }}>
 						<Grid item xs={6}>
-							<Link to="/home" onClick={handleLogoClick}>
+							<Link to="/" onClick={handleLogoClick}>
 								<img
 									src={LogoMain}
 									alt="TaxSpoc Logo"
@@ -54,7 +52,7 @@ const BottomContainer = () => {
 							<Box sx={{ textAlign: 'center' }}>
 								<Typography>Follow Us:</Typography>
 								<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-									<IconButton>
+									<IconButton target="_blank" href="https://www.linkedin.com/company/taxspoc">
 										<LinkedInIcon />
 									</IconButton>
 									<IconButton>
@@ -85,11 +83,11 @@ const BottomContainer = () => {
 							<Link to="/contact-us" rel="noopener noreferrer" style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">Contact us</Typography>
 							</Link>
-							<Link to="/termes-of-use" rel="noopener noreferrer" style={{ color: 'inherit' }}>
+							<Link to="/terms-of-use" rel="noopener noreferrer" style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">Terms of use</Typography>
 							</Link>
 							<Link to="/cookies-policy" rel="noopener noreferrer" style={{ color: 'inherit' }}>
-								<Typography variant="bottomNavigationText">Cookies policy</Typography>
+								<Typography variant="bottomNavigationText">Cookies Disclaimer</Typography>
 							</Link>
 							<Link to="/privacy-policy" rel="noopener noreferrer" style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">Privacy Policy</Typography>
@@ -102,10 +100,7 @@ const BottomContainer = () => {
 
 					<Grid item xs={12} sx={{ padding: '4px 0 24px' }}>
 						<Typography sx={{ fontSize: '12px' }}>
-							Copyright © Taxspoc, UAB 2024. All rights reserved. The Taxspoc is not responsible
-							for the content of external sites. The material on this site may not be reproduced,
-							distributed, transmitted, cached or otherwise used, except with the prior written
-							permission of Taxspoc.
+							Taxspoc, UAB 2024. The Taxspoc is not responsible for the content of external sites.
 						</Typography>
 					</Grid>
 				</Grid>
