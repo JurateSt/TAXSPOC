@@ -20,11 +20,13 @@
     <!-- Conditionally include Google Analytics based on environment variable -->
     <script type="module">
       if (import.meta.env.VITE_INCLUDE_GOOGLE_ANALYTICS === 'true') {
-        const googleAnalyticsId = import.meta.env.VITE_GOOGLE_ANALYTICS_ID;
-        if (googleAnalyticsId) {
+        const googleAnalyticsId1 = import.meta.env.VITE_GOOGLE_ANALYTICS_ID_1;
+        const googleAnalyticsId2 = import.meta.env.VITE_GOOGLE_ANALYTICS_ID_2;
+
+        if (googleAnalyticsId1 && googleAnalyticsId2) {
           const script = document.createElement('script');
           script.async = true;
-          script.src = `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`;
+          script.src = `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId1}`;
           document.head.appendChild(script);
       
           window.dataLayer = window.dataLayer || [];
@@ -32,7 +34,9 @@
             dataLayer.push(arguments);
           }
           gtag('js', new Date());
-          gtag('config', googleAnalyticsId);
+          
+          gtag('config', googleAnalyticsId1);
+          gtag('config', googleAnalyticsId2);
         }
       }
     </script>
