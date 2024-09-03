@@ -176,7 +176,7 @@ const TermsOfUseContent = () => {
 					</li>
 				</ul>
 				<p dir="ltr">
-					To exercise these rights, please contact us at
+					To exercise these rights, please contact us at{' '}
 					<a style={{ color: '#404040' }} href="mailto:dpo@taxspoc.com">
 						dpo@taxspoc.com
 					</a>
