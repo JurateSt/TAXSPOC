@@ -9,19 +9,11 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XY5WBSX7KS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-XY5WBSX7KS');
-    </script> -->
     <!-- Conditionally include Google Analytics based on environment variable -->
     <script type="module">
       if (import.meta.env.VITE_INCLUDE_GOOGLE_ANALYTICS === 'true') {
-        const googleAnalyticsId1 = import.meta.env.VITE_GOOGLE_ANALYTICS_ID_1;
-        const googleAnalyticsId2 = import.meta.env.VITE_GOOGLE_ANALYTICS_ID_2;
+        const googleAnalyticsId1 = import.meta.env.VITE_GOOGLE_ANALYTICS_ID;
+        const googleAnalyticsId2 = import.meta.env.VITE_GOOGLE_ANALYTICS_ID_WWW;
 
         if (googleAnalyticsId1 && googleAnalyticsId2) {
           const script = document.createElement('script');
