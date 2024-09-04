@@ -9,36 +9,25 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L06DW4YXLM"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-L06DW4YXLM');
-    </script>
-    <!-- Conditionally include Google Analytics based on environment variable -->
-    <!-- <script type="module">
+    <script type="module">
       if (import.meta.env.VITE_INCLUDE_GOOGLE_ANALYTICS === 'true') {
-        const googleAnalyticsId1 = import.meta.env.VITE_GOOGLE_ANALYTICS_ID;
-        const googleAnalyticsId2 = import.meta.env.VITE_GOOGLE_ANALYTICS_ID_WWW;
-
-        if (googleAnalyticsId1 && googleAnalyticsId2) {
+        const googleAnalyticsId = import.meta.env.VITE_GOOGLE_ANALYTICS_ID;
+        console.log('Google Analytics ID:', googleAnalyticsId);
+        if (googleAnalyticsId) {
           const script = document.createElement('script');
           script.async = true;
-          script.src = `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId1}`;
+          script.src = `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`;
           document.head.appendChild(script);
-      
+
           window.dataLayer = window.dataLayer || [];
           function gtag() {
             dataLayer.push(arguments);
           }
           gtag('js', new Date());
-          
-          gtag('config', googleAnalyticsId1);
-          gtag('config', googleAnalyticsId2);
+
+          gtag('config', googleAnalyticsId);
         }
       }
-    </script> -->
+    </script>
   </body>
 </html>
