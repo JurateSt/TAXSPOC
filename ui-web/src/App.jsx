@@ -22,7 +22,7 @@ import CreateArticleTinyMCE from './pages/CreateArticleTinyMCE';
 import EditArticle from './pages/EditArticle';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
-import TermesOfUse from './pages/TermesOfUse';
+import TermsOfUse from './pages/TermsOfUse.jsx';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import CookiesPolicy from './pages/CookiesPolicy';
 import AdvertiseWithUs from './pages/AdvertiseWithUs';
@@ -78,7 +78,7 @@ function App() {
 
 							<Route path="/about-us" element={<AboutUs />} />
 							<Route path="/contact-us" element={<ContactUs />} />
-							<Route path="/termes-of-use" element={<TermesOfUse />} />
+							<Route path="/terms-of-use" element={<TermsOfUse />} />
 							<Route path="/privacy-policy" element={<PrivacyPolicy />} />
 							<Route path="/cookies-policy" element={<CookiesPolicy />} />
 							<Route path="/advertise-with-us" element={<AdvertiseWithUs />} />
