@@ -26,17 +26,16 @@
         if (googleAnalyticsId1 && googleAnalyticsId2) {
           const script = document.createElement('script');
           script.async = true;
-          script.src = `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId1}`;
+          script.src = `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`;
           document.head.appendChild(script);
-      
+
           window.dataLayer = window.dataLayer || [];
           function gtag() {
             dataLayer.push(arguments);
           }
           gtag('js', new Date());
-          
-          gtag('config', googleAnalyticsId1);
-          gtag('config', googleAnalyticsId2);
+
+          gtag('config', googleAnalyticsId);
         }
       }
     </script> -->
