@@ -33,6 +33,8 @@ const Section = ({ section, limit, customStyles }) => {
 	useEffect(() => {
 		getArticles();
 	}, [section]);
+
+	console.log('Section: ', section, articles);
 	return (
 		// articles.length > 0 && (
 		<Grid
@@ -56,7 +58,7 @@ const Section = ({ section, limit, customStyles }) => {
 				columnSpacing={2}
 				rowSpacing={2}
 			>
-				{articles.map((item, index) => (
+				{articles?.map((item, index) => (
 					<Grid container item xs={12} sm={6} md={3} lg={3} xl={3} key={index}>
 						<ArticleCard key={index} article={item} />
 					</Grid>

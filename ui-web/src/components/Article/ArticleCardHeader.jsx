@@ -5,8 +5,8 @@ import dayjs from 'dayjs';
 
 const ArticleCardHeader = ({ article }) => {
 	const navigate = useNavigate();
-	const { _id: id } = article;
-	const url = `/articles/${id}`;
+	const { slug } = article;
+	const url = `/articles/${slug}`;
 	const handleClick = () => {
 		navigate(url);
 	};
