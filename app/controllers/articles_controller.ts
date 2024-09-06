@@ -1,5 +1,8 @@
 import type { HttpContext } from '@adonisjs/core/http';
-
+// libraries
+import slug from 'slug';
+import { format } from 'date-fns';
+// models
 import Article from '#models/Article';
 import { log } from 'console';
 import FileService from '#services/FileService';
@@ -11,8 +14,9 @@ export default class ArticlesController {
 		articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
 		// console.log(articles, articles);
 		const shortArticles = articles.map((item) => {
-			const { _id, dateTag, subHeader, header, supportingText, tags, categories, images } = item;
-			return { _id, dateTag, subHeader, header, supportingText, tags, categories, images };
+			const { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images } =
+				item;
+			return { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images };
 		});
 
 		return response.json(shortArticles);
@@ -29,8 +33,9 @@ export default class ArticlesController {
 		// 	.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1))
 		// 	.slice(0, 8);
 		const shortArticles = articles.map((item) => {
-			const { _id, dateTag, subHeader, header, supportingText, tags, categories, images } = item;
-			return { _id, dateTag, subHeader, header, supportingText, tags, categories, images };
+			const { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images } =
+				item;
+			return { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images };
 		});
 		return response.json(shortArticles);
 	}
@@ -39,7 +44,6 @@ export default class ArticlesController {
 		const type = request.input('type');
 		const category = request.input('category');
 		const limit = parseInt(request.input('limit'), 10);
-		// console.log('GET BY CATEGORY', type, category, limit);
 
 		let articles = await Article.find({
 			categories: {
@@ -55,8 +59,9 @@ export default class ArticlesController {
 			articles = articles.slice(0, limit);
 		}
 		const shortArticles = articles.map((item) => {
-			const { _id, dateTag, subHeader, header, supportingText, tags, categories, images } = item;
-			return { _id, dateTag, subHeader, header, supportingText, tags, categories, images };
+			const { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images } =
+				item;
+			return { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images };
 		});
 		return response.json(shortArticles);
 	}
@@ -66,10 +71,11 @@ export default class ArticlesController {
 		const latestArticle = articles.sort((a, b) =>
 			(a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1
 		)[0];
-		const { _id, dateTag, subHeader, header, supportingText, tags, categories, images } =
+		const { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images } =
 			latestArticle;
 		return response.json({
 			_id,
+			slug,
 			dateTag,
 			subHeader,
 			header,
@@ -86,6 +92,12 @@ export default class ArticlesController {
 		return response.json(article);
 	}
 
+	public async showBySlug({ request, response }: HttpContext) {
+		const { slug } = request.params();
+		const article = await Article.findOne({ slug });
+		return response.json(article);
+	}
+
 	public async store({ request, response }: HttpContext) {
 		const {
 			images: _images,
@@ -94,6 +106,8 @@ export default class ArticlesController {
 			regions,
 			countries,
 			otherCategories,
+			header,
+			dateTag,
 			...articleData
 		} = request.all();
 		const images = request.files('images');
@@ -125,6 +139,11 @@ export default class ArticlesController {
 			articleData.tags = tags.split(',').map((item) => item.trim());
 		}
 		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
+		const slugHeader =
+			slug(header) + (dateTag ? `-${format(new Date(dateTag), 'yyyy-MM-dd')}` : '');
+		articleData.slug = slugHeader;
+		articleData.dateTag = dateTag ? dateTag : null;
+		articleData.header = header;
 
 		const article = new Article(articleData);
 
@@ -179,14 +198,6 @@ export default class ArticlesController {
 			name: item.name,
 			type: 'other',
 		}));
-		console.log(
-			'UPDATE regions:',
-			parsedRegions,
-			mappedRegions,
-			'countries',
-			parsedCountries,
-			mappedCountries
-		);
 
 		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
 

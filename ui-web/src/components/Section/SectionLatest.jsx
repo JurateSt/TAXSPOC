@@ -29,6 +29,7 @@ const Section = ({ section, onLoaded }) => {
 	useEffect(() => {
 		getArticles();
 	}, []);
+
 	return (
 		articles.length > 0 && (
 			<Grid

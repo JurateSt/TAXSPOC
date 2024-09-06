@@ -72,7 +72,8 @@ function App() {
 								path="/articles/customs"
 								element={<CategoryArticlesList category={'Customs'} />}
 							/> */}
-							<Route path="/articles/:id" element={<Article />} />
+							{/* <Route path="/articles/:id" element={<Article />} /> */}
+							<Route path="/articles/:slug" element={<Article />} />
 							<Route path="/hot-topics/:number" element={<HotTopic />} />
 							{/* <Route path="/auth/create-article/" element={<CreateArticle />} /> */}
 
