@@ -10,8 +10,9 @@ import ReadArticleSidePanelSponsored from './ReadArticleSidePanelSponsored';
 
 const ReadArticleSidePanel = ({ article }) => {
 	const [articles, setArticles] = useState([]);
+	const limit = 8;
 	const getArticles = async () => {
-		const { data } = await api.get('/articles-latest');
+		const { data } = await api.get(`/articles-latest?limit=${limit}`);
 
 		setArticles(data);
 	};
@@ -22,8 +23,8 @@ const ReadArticleSidePanel = ({ article }) => {
 
 	return (
 		<Grid container item rowSpacing={2}>
-			<ReadArticleSidePanelCategory section={{ category: 'Latest News' }} />
-			{articles.slice(0, 4).map((item, index) => (
+			<ReadArticleSidePanelCategory section={{ type: 'latest', category: 'Latest News' }} />
+			{articles?.map((item, index) => (
 				<Grid container item key={index} xs={12}>
 					<ArticleShortCard key={index} article={item} index={index} />
 				</Grid>
