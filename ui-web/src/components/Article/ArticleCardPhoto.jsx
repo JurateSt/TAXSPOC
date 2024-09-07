@@ -4,12 +4,14 @@ import { Grid } from '@mui/material';
 
 const ArticleCardPhoto = ({ article }) => {
 	const navigate = useNavigate();
-	const { _id: id } = article;
-	const url = `/articles/${id}`;
+	const { slug } = article;
+	const url = `/articles/${slug}`;
 	const imageSrc = article ? article?.images[0]?.url : '';
 	const handleClick = () => {
 		navigate(url);
 	};
+
+	console.log();
 	return (
 		<Grid
 			item

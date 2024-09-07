@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const ArticleSchema = new Schema(
 	{
+		slug: { type: String },
 		dateTag: { type: Date },
 		articleDate: { type: Date },
 		photoUrl: { type: String },

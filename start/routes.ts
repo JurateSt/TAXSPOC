@@ -30,6 +30,9 @@ router
 
 		router.get('/articles-latest', [ArticlesController, 'getLatest']);
 		router.get('/articles/category', [ArticlesController, 'getByCategory']);
+
+		router.get('/articles/:slug', [ArticlesController, 'showBySlug']);
+
 		router.get('articles/main', [ArticlesController, 'showMain']);
 		router.resource('articles', ArticlesController);
 		router.resource('regions', RegionsController);

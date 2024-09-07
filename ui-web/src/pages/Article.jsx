@@ -19,13 +19,14 @@ import ReadArticleSidePanel from '../components/Article/ReadArticleSidePanel.jsx
 import ReadArticleShare from '../components/Article/ReadArticleShare.jsx';
 
 const Article = () => {
-	const { id } = useParams();
+	// const { id } = useParams();
+	const { slug } = useParams();
 
 	const [article, setArticle] = useState({});
 	const [articles, setArticles] = useState([]);
 
 	const getArticle = async () => {
-		const { data } = await api.get(`/articles/${id}`);
+		const { data } = await api.get(`/articles/${slug}`);
 		// console.log('ARTICLE: ', data);
 
 		setArticle(data);
@@ -40,33 +41,18 @@ const Article = () => {
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-	}, [id]);
+	}, [slug]);
 
 	useEffect(() => {
 		getArticle();
 		getArticles();
-	}, [id]);
+	}, [slug]);
 
 	return (
 		<>
 			<MainBar />
 			<Container sx={{ marginTop: '16px' }}>
 				<Grid container columnSpacing={2} rowSpacing={3}>
-					{/* <Grid
-					container
-					// sx={{ border: '3px solid green' }}
-					// make container vertical alignement to the top
-					sx={{ marginBottom: '32px' }}
-				>
-					<Grid item xs={12}>
-						<img
-							src={article?.images?.[0]?.url}
-							style={{ width: '100%', height: '210px', objectFit: 'cover' }}
-							alt={article?.header}
-						/>
-					</Grid>
-				</Grid> */}
-					{/* <Grid container spacing={2} sx={{ alignItems: 'flex-start' }}> */}
 					<Grid
 						container
 						item
@@ -97,9 +83,6 @@ const Article = () => {
 						<ReadArticleSidePanel article={article} />
 					</Grid>
 				</Grid>
-
-				{/* <HotTopics /> */}
-				{/* </Grid> */}
 			</Container>
 			<BottomContainer />
 		</>

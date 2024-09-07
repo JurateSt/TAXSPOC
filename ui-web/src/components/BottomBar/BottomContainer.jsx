@@ -55,7 +55,7 @@ const BottomContainer = () => {
 									<IconButton target="_blank" href="https://www.linkedin.com/company/taxspoc">
 										<LinkedInIcon />
 									</IconButton>
-									<IconButton>
+									<IconButton target="_blank" href="https://x.com/taxspoc">
 										<XIcon fontSize="small" />
 									</IconButton>
 								</Box>
