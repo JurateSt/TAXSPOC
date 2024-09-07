@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { SitemapStream, streamToPromise } from 'sitemap';
-import { createWriteStream } from 'fs';
+// import { createWriteStream } from 'fs';
 // models
 import Article from '#models/Article';
 
