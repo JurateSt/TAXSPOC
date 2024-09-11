@@ -28,6 +28,7 @@ router
 			.group(() => {
 				router.get('google/redirect', [AuthController, 'redirect']);
 				router.get('google/callback', [AuthController, 'callback']);
+				router.get('/articles/:id', [ArticlesController, 'show']);
 			})
 			.prefix('cms/auth');
 
