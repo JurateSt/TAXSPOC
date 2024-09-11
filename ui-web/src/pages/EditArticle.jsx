@@ -63,7 +63,7 @@ const EditArticle = () => {
 	const [snackbarMessage, setSnackbarMessage] = useState('');
 
 	const getArticle = async () => {
-		const { data } = await api.get(`/articles/${id}`);
+		const { data } = await api.get(`/cms/auth/articles/${id}`);
 		data.dateTag = data.dateTag ? dayjs(data.dateTag) : null;
 		data.regions = data.categories?.filter((item) => item.type === 'region');
 		data.countries = data.categories?.filter((item) => item.type === 'country');
