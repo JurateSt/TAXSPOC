@@ -1,4 +1,9 @@
 import type { HttpContext } from '@adonisjs/core/http';
+interface CustomHttpContext extends HttpContext {
+	request: {
+		article?: any;
+	};
+}
 // libraries
 import slug from 'slug';
 import { format } from 'date-fns';
@@ -8,7 +13,7 @@ import { log } from 'console';
 import FileService from '#services/FileService';
 
 export default class ArticlesController {
-	public async index({ response }: HttpContext) {
+	async index({ response }: HttpContext) {
 		const articles = await Article.find();
 
 		articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
@@ -86,15 +91,16 @@ export default class ArticlesController {
 		});
 	}
 
-	public async show({ request, response }: HttpContext) {
+	async show({ request, response }: HttpContext) {
 		const { id } = request.params();
 		const article = await Article.findById(id);
 		return response.json(article);
 	}
 
-	public async showBySlug({ request, response }: HttpContext) {
+	async showBySlug({ request, response }: CustomHttpContext) {
 		const { slug } = request.params();
 		const article = await Article.findOne({ slug });
+		request.article = article;
 		return response.json(article);
 	}
 

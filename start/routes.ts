@@ -7,6 +7,7 @@
 |
 */
 import router from '@adonisjs/core/services/router';
+import { middleware } from '#start/kernel';
 
 import AuthController from '#controllers/auth_controller';
 import UsersController from '#controllers/users_controller';
@@ -34,7 +35,9 @@ router
 		router.get('/articles-latest', [ArticlesController, 'getLatest']);
 		router.get('/articles/category', [ArticlesController, 'getByCategory']);
 
-		router.get('/articles/:slug', [ArticlesController, 'showBySlug']);
+		router
+			.get('/articles/:slug', [ArticlesController, 'showBySlug'])
+			.use(middleware.dynamicMetaTags);
 
 		router.get('articles/main', [ArticlesController, 'showMain']);
 		router.resource('articles', ArticlesController);
