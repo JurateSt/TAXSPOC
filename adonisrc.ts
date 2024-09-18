@@ -31,7 +31,8 @@ export default defineConfig({
     () => import('#providers/mongo_provider'),
     () => import('@adonisjs/cors/cors_provider'),
     () => import('@adonisjs/static/static_provider'),
-    () => import('@adonisjs/ally/ally_provider')
+    () => import('@adonisjs/ally/ally_provider'),
+    () => import('@adonisjs/core/providers/edge_provider')
   ],
 
   /*
@@ -71,5 +72,10 @@ export default defineConfig({
   metaFiles: [{
     pattern: 'public/**',
     reloadServer: false,
-  }]
+  },
+  {
+    pattern: 'resources/views/**/*.edge',
+    reloadServer: false,
+  }
+  ]
 })

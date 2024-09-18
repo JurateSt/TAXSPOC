@@ -22,6 +22,7 @@ router.get('/', async () => 'It works!');
 router.get('/test', [UsersController, 'index']);
 
 router.get('/sitemap.xml', [SitemapsController, 'generate']);
+router.get('/articles/:slug', [ArticlesController, 'renderArticleHTML']);
 
 router
 	.group(() => {
@@ -35,9 +36,7 @@ router
 		router.get('/articles-latest', [ArticlesController, 'getLatest']);
 		router.get('/articles/category', [ArticlesController, 'getByCategory']);
 
-		router
-			.get('/articles/:slug', [ArticlesController, 'showBySlug'])
-			.use(middleware.dynamicMetaTags);
+		router.get('/articles/:slug', [ArticlesController, 'showBySlug']);
 
 		router.get('articles/main', [ArticlesController, 'showMain']);
 		router.resource('articles', ArticlesController);

@@ -1,9 +1,4 @@
 import type { HttpContext } from '@adonisjs/core/http';
-interface CustomHttpContext extends HttpContext {
-	request: {
-		article?: any;
-	};
-}
 // libraries
 import slug from 'slug';
 import { format } from 'date-fns';
@@ -27,7 +22,7 @@ export default class ArticlesController {
 		return response.json(shortArticles);
 	}
 
-	public async getLatest({ request, response }: HttpContext) {
+	async getLatest({ request, response }: HttpContext) {
 		const limit = parseInt(request.input('limit'), 10);
 
 		let articles = await Article.find().sort({ dateTag: -1 });
@@ -45,7 +40,7 @@ export default class ArticlesController {
 		return response.json(shortArticles);
 	}
 
-	public async getByCategory({ request, response }: HttpContext) {
+	async getByCategory({ request, response }: HttpContext) {
 		const type = request.input('type');
 		const category = request.input('category');
 		const limit = parseInt(request.input('limit'), 10);
@@ -71,7 +66,7 @@ export default class ArticlesController {
 		return response.json(shortArticles);
 	}
 
-	public async showMain({ response }: HttpContext) {
+	async showMain({ response }: HttpContext) {
 		const articles = await Article.find();
 		const latestArticle = articles.sort((a, b) =>
 			(a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1
@@ -97,14 +92,47 @@ export default class ArticlesController {
 		return response.json(article);
 	}
 
-	async showBySlug({ request, response }: CustomHttpContext) {
+	async showBySlug({ request, response }: HttpContext) {
 		const { slug } = request.params();
 		const article = await Article.findOne({ slug });
-		request.article = article;
 		return response.json(article);
 	}
 
-	public async store({ request, response }: HttpContext) {
+	async renderArticleHTML({ params, view }) {
+		const slug = params.slug;
+		const article = await Article.findOne({ slug });
+		// console.log('renderArticleHTML', article);
+
+		return view.render('article', {
+			title: article?.header,
+			description: article?.supportingText,
+			image: article?.images[0]?.url || 'default-image-url.jpg',
+			url: `https://www.taxspoc.com/articles/${article?.slug}`,
+		});
+	}
+
+	async showBySlugWithIndexHtml({ request, response }: HttpContext) {
+		const { slug } = request.params();
+		const article = await Article.findOne({ slug });
+		const indexPath = path.resolve(__dirname, '../../public/index.html');
+		let indexHTML = fs.readFileSync(indexPath, 'utf-8');
+		const metaTags = `
+      <title>${article?.header || 'Article'} - My News Site</title>
+      <meta name="description" content="${article?.supportingText || 'Article description'}">
+      <meta property="og:title" content="${article?.header || 'Article'}">
+      <meta property="og:description" content="${article?.supportingText || 'Article description'}">
+      <meta property="og:image" content="${article?.images?.[0]?.url || 'default-image-url.jpg'}">
+      <meta property="og:url" content="https://www.taxspoc.com/articles/${article?.slug}">
+      <meta name="twitter:title" content="${article?.header || 'Article'}">
+      <meta name="twitter:description" content="${article?.supportingText || 'Article description'}">
+      <meta name="twitter:image" content="${article?.images?.[0]?.url || 'default-image-url.jpg'}">
+    `;
+		indexHTML = indexHTML.replace('</head>', `${metaTags}</head>`);
+
+		return response.header('Content-Type', 'text/html').send(indexHTML);
+	}
+
+	async store({ request, response }: HttpContext) {
 		const {
 			images: _images,
 			tags,
@@ -165,7 +193,7 @@ export default class ArticlesController {
 		return response.json(article);
 	}
 
-	public async update({ request, response }: HttpContext) {
+	async update({ request, response }: HttpContext) {
 		const { id } = request.params();
 		const {
 			images: _images,
@@ -225,7 +253,7 @@ export default class ArticlesController {
 		response.json(article);
 	}
 
-	public async destroy({ request, response }: HttpContext) {
+	async destroy({ request, response }: HttpContext) {
 		const { id } = request.params();
 		//find image and delete it in public folder
 		const article = await Article.findByIdAndDelete(id);
