@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http';
 // libraries
 import slug from 'slug';
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 // models
 import Article from '#models/Article';
 import { log } from 'console';
