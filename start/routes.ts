@@ -14,10 +14,13 @@ import ArticlesController from '#controllers/articles_controller';
 import RegionsController from '#controllers/regions_controller';
 import CountriesController from '#controllers/countries_controller';
 import OtherCategoriesController from '#controllers/other_categories_controller';
+import SitemapsController from '#controllers/sitemaps_controller';
 
 router.get('/', async () => 'It works!');
 
 router.get('/test', [UsersController, 'index']);
+
+router.get('/sitemap.xml', [SitemapsController, 'generate']);
 
 router
 	.group(() => {
@@ -25,6 +28,7 @@ router
 			.group(() => {
 				router.get('google/redirect', [AuthController, 'redirect']);
 				router.get('google/callback', [AuthController, 'callback']);
+				router.get('/articles/:id', [ArticlesController, 'show']);
 			})
 			.prefix('cms/auth');
 

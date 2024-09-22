@@ -60,7 +60,9 @@
 		"https": "^1.0.0",
 		"jsonwebtoken": "^9.0.2",
 		"mongoose": "^8.2.3",
+		"react-helmet": "^6.1.0",
 		"reflect-metadata": "^0.2.1",
+		"sitemap": "^8.0.0",
 		"slug": "^9.1.0"
 	},
 	"eslintConfig": {
