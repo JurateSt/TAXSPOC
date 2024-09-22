@@ -98,7 +98,7 @@ export default class ArticlesController {
 		return response.json(article);
 	}
 
-	public async store({ request, response }: HttpContext) {
+	async store({ request, response }: HttpContext) {
 		const {
 			images: _images,
 			tags,
@@ -139,9 +139,9 @@ export default class ArticlesController {
 			articleData.tags = tags.split(',').map((item) => item.trim());
 		}
 		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
-		const slugHeader =
-			slug(header) + (dateTag ? `-${format(new Date(dateTag), 'yyyy-MM-dd')}` : '');
-		articleData.slug = slugHeader;
+		// const slugHeader =
+		// 	slug(header) + (dateTag ? `-${format(new Date(dateTag), 'yyyy-MM-dd')}` : '');
+		articleData.slug = slug(header);
 		articleData.dateTag = dateTag ? dateTag : null;
 		articleData.header = header;
 
