@@ -98,7 +98,7 @@ export default class ArticlesController {
 		return response.json(article);
 	}
 
-	public async store({ request, response }: HttpContext) {
+	async store({ request, response }: HttpContext) {
 		const {
 			images: _images,
 			tags,
@@ -139,12 +139,17 @@ export default class ArticlesController {
 			articleData.tags = tags.split(',').map((item) => item.trim());
 		}
 		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
-		const slugHeader =
-			slug(header) + (dateTag ? `-${format(new Date(dateTag), 'yyyy-MM-dd')}` : '');
-		articleData.slug = slugHeader;
+
+		const slugHeader = slug(header);
+		const existingArticles = await Article.countDocuments({ slug: slugHeader });
+		if (existingArticles > 0) {
+			articleData.slug = `${slugHeader}-${existingArticles + 1}`;
+		} else {
+			articleData.slug = slugHeader;
+		}
+
 		articleData.dateTag = dateTag ? dateTag : null;
 		articleData.header = header;
-
 		const article = new Article(articleData);
 
 		// save images in S3
