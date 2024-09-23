@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 // MUI
 import { Grid, Typography } from '@mui/material';
 
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 const MainArticleHeader = ({ article }) => {
 	const navigate = useNavigate();
 	const { slug } = article || {};
@@ -9,13 +10,13 @@ const MainArticleHeader = ({ article }) => {
 
 	// console.log('MainArticlePhoto article:', article);
 
-	const handleClick = () => {
-		navigate(url);
-	};
+	// const handleClick = () => {
+	// 	navigate(url);
+	// };
 	return (
-		<Grid item xs={12} onClick={handleClick}>
+		<Grid item xs={12}>
 			<a
-				href={url}
+				href={`${VITE_BASE_URL}${url}`}
 				style={{
 					textDecoration: 'none',
 					// color: 'inherit'

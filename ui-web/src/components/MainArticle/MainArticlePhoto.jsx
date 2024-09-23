@@ -1,15 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 const MainArticlePhoto = ({ article }) => {
 	const navigate = useNavigate();
 	const { slug } = article || {};
 	const url = `/articles/${slug}`;
 
-	const handleClick = () => {
-		navigate(url);
-	};
+	// const handleClick = () => {
+	// 	navigate(url);
+	// };
 	return (
-		<a href={url} style={{ textDecoration: 'none', color: 'inherit' }}>
+		<a href={`${VITE_BASE_URL}${url}`} style={{ textDecoration: 'none', color: 'inherit' }}>
 			<img
 				src={article?.images?.[0]?.url}
 				style={{
@@ -20,7 +21,7 @@ const MainArticlePhoto = ({ article }) => {
 				}}
 				alt="Main Article"
 				loading="lazy"
-				onClick={handleClick}
+				// onClick={handleClick}
 			/>
 		</a>
 	);

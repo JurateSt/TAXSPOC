@@ -1,17 +1,18 @@
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 // MUI
 import { Grid } from '@mui/material';
 
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const ArticleCardPhoto = ({ article }) => {
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	const { slug } = article;
 	const url = `/articles/${slug}`;
 	const imageSrc = article ? article?.images[0]?.url : '';
-	const handleClick = () => {
-		navigate(url);
-	};
+	// const handleClick = () => {
+	// 	navigate(url);
+	// };
 
-	console.log();
 	return (
 		<Grid
 			item
@@ -24,9 +25,9 @@ const ArticleCardPhoto = ({ article }) => {
 					// transition: 'opacity 0.3s ease-in-out',
 				},
 			}}
-			onClick={handleClick}
+			// onClick={handleClick}
 		>
-			<a href={url} style={{ textDecoration: 'none', color: 'inherit' }}>
+			<a href={`${VITE_BASE_URL}${url}`} style={{ textDecoration: 'none', color: 'inherit' }}>
 				<img
 					src={imageSrc}
 					style={{
