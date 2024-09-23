@@ -8,6 +8,8 @@ import XIcon from '@mui/icons-material/X';
 // Logo
 import LogoMain from '../../assets/LogoMain.svg';
 
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const BottomContainer = () => {
 	const navigate = useNavigate();
 	const handleLogoClick = () => {
@@ -40,13 +42,15 @@ const BottomContainer = () => {
 				>
 					<Grid container item sx={{ padding: '24px 0' }}>
 						<Grid item xs={6}>
-							<Link to="/" onClick={handleLogoClick}>
+							{/* <Link to="/" onClick={handleLogoClick}> */}
+							<a href={VITE_BASE_URL}>
 								<img
 									src={LogoMain}
 									alt="TaxSpoc Logo"
 									style={{ height: '42px', width: 'auto', maxWidth: '100%' }}
 								/>
-							</Link>
+							</a>
+							{/* </Link> */}
 						</Grid>
 						<Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 							<Box sx={{ textAlign: 'center' }}>
@@ -72,26 +76,36 @@ const BottomContainer = () => {
 								flexWrap: 'wrap',
 							}}
 						>
-							<Link
+							{/* <Link
 								to="/about-us"
 								// target="_blank"
 								// rel="noopener noreferrer"
 								style={{ color: 'inherit' }}
-							>
+							> */}
+							<a href={VITE_BASE_URL + '/about-us'} style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">About us</Typography>
-							</Link>
-							<Link to="/contact-us" rel="noopener noreferrer" style={{ color: 'inherit' }}>
+							</a>
+							{/* </Link> */}
+							{/* <Link to="/contact-us" rel="noopener noreferrer" style={{ color: 'inherit' }}> */}
+							<a href={VITE_BASE_URL + '/contact-us'} style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">Contact us</Typography>
-							</Link>
-							<Link to="/terms-of-use" rel="noopener noreferrer" style={{ color: 'inherit' }}>
+							</a>
+							{/* </Link> */}
+							{/* <Link to="/terms-of-use" rel="noopener noreferrer" style={{ color: 'inherit' }}> */}
+							<a href={VITE_BASE_URL + '/terms-of-use'} style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">Terms of use</Typography>
-							</Link>
-							<Link to="/cookies-policy" rel="noopener noreferrer" style={{ color: 'inherit' }}>
+							</a>
+							{/* </Link> */}
+							{/* <Link to="/cookies-policy" rel="noopener noreferrer" style={{ color: 'inherit' }}> */}
+							<a href={VITE_BASE_URL + '/cookies-policy'} style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">Cookie Disclaimer</Typography>
-							</Link>
-							<Link to="/privacy-policy" rel="noopener noreferrer" style={{ color: 'inherit' }}>
+							</a>
+							{/* </Link> */}
+							<a href={VITE_BASE_URL + '/privacy-policy'} style={{ color: 'inherit' }}>
+								{/* <Link to="/privacy-policy" rel="noopener noreferrer" style={{ color: 'inherit' }}> */}
 								<Typography variant="bottomNavigationText">Privacy Policy</Typography>
-							</Link>
+							</a>
+							{/* </Link> */}
 							{/* <Link to="/advertise-with-us" rel="noopener noreferrer" style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">Advertise with us</Typography>
 							</Link> */}
