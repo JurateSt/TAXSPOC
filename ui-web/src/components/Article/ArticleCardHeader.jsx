@@ -1,18 +1,17 @@
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 // MUI
 import { Grid, Typography } from '@mui/material';
-import dayjs from 'dayjs';
+
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const ArticleCardHeader = ({ article }) => {
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	const { slug } = article;
 	const url = `/articles/${slug}`;
-	const handleClick = () => {
-		navigate(url);
-	};
+
 	return (
 		<Grid item xs={12}>
-			<a href={url} style={{ textDecoration: 'none', color: 'inherit' }}>
+			<a href={`${VITE_BASE_URL}${url}`} style={{ textDecoration: 'none', color: 'inherit' }}>
 				<Typography
 					sx={{
 						overflow: 'hidden',
