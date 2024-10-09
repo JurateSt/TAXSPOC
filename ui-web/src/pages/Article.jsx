@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 // Helmet
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 // MUI
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
 // api
@@ -47,33 +47,38 @@ const Article = () => {
 
 	useEffect(() => {
 		getArticle();
-		getArticles();
+		// getArticles();
 	}, [slug]);
 
 	return (
 		<>
 			<Helmet>
+				<link rel="canonical" href={`https://www.taxspoc.com/articles/${article.slug}`} />
 				<title>{article.header || 'Article'}</title>
 				<meta name="title" content={article.header || 'Article'} />
-				<meta property="og:title" content={article.header || 'Article'} />
-				<meta property="og:description" content={article.supportingText || 'Article description'} />
-				<meta property="og:locale" content="en_US" />
+				{/* Open Graph tags */}
 				<meta property="og:type" content="article" />
-				<meta property="og:image" content={article?.images?.[0]?.url || 'default-image-url.jpg'} />
+				<meta property="og:title" content={article.header || 'Article'} />
+				<meta
+					property="og:description"
+					content={
+						article.supportingText ||
+						'Taxspoc is your Single Point of Contact for global and local tax news, providing clear, logical, and well-organized tax information'
+					}
+				/>
+				<meta property="og:image" content={article?.images?.[0]?.url} />
 				<meta property="og:url" content={`https://www.taxspoc.com/articles/${article.slug}`} />
-				{/* <meta name="twitter:card" content="summary_large_image" /> */}
+				{/* Twitter Card tags */}
+				<meta name="twitter:card" content="summary_large_image" />
 				<meta name="twitter:title" content={article.header || 'Article'} />
 				<meta
 					name="twitter:description"
-					content={article.supportingText || 'Article description'}
+					content={
+						article.supportingText ||
+						'Taxspoc is your Single Point of Contact for global and local tax news, providing clear, logical, and well-organized tax information'
+					}
 				/>
-				<meta name="twitter:image" content={article?.images?.[0]?.url || 'default-image-url.jpg'} />
-
-				<meta
-					name="twitter:description"
-					content={article.supportingText || 'Article description'}
-				/>
-				<meta name="twitter:image" content={article.images?.[0]?.url || 'default-image-url.jpg'} />
+				<meta name="twitter:image" content={article?.images?.[0]?.url} />
 			</Helmet>
 
 			<MainBar />
