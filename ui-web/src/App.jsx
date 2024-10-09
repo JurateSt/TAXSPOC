@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './components/Auth/ProtectedRoute.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
+import { HelmetProvider } from 'react-helmet-async';
 // MUI
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import theme from './assets/theme.jsx';
 
 //import './App.css'
-
+// pages
 import Title from './pages/Title.jsx';
 import Login from './pages/Login';
 import Home from './pages/Home';
@@ -32,83 +33,41 @@ function App() {
 	const [count, setCount] = useState(0);
 
 	return (
-		<ThemeProvider theme={theme}>
-			<CssBaseline>
-				<BrowserRouter>
-					<AuthProvider>
-						<Routes>
-							<Route element={<ProtectedRoute />}>
-								<Route path="/cms/auth/create-article" element={<CreateArticleTinyMCE />} />
-								<Route path="/cms/auth/create-article/:id" element={<EditArticle />} />
-							</Route>
+		<HelmetProvider>
+			<ThemeProvider theme={theme}>
+				<CssBaseline>
+					<BrowserRouter>
+						<AuthProvider>
+							<Routes>
+								<Route element={<ProtectedRoute />}>
+									<Route path="/cms/auth/create-article" element={<CreateArticleTinyMCE />} />
+									<Route path="/cms/auth/create-article/:id" element={<EditArticle />} />
+								</Route>
 
-							<Route path="/cms/login" element={<Login />} />
-							<Route path="/cms/no-permission" element={<NoPermission />} />
-							{/* <Route path="/auth/create-article" element={<CreateArticleTinyMCE />} />
-						<Route path="/auth/create-article/:id" element={<EditArticle />} /> */}
+								<Route path="/cms/login" element={<Login />} />
+								<Route path="/cms/no-permission" element={<NoPermission />} />
 
-							<Route path="/" element={<Home />} />
-							<Route path="/home" element={<Home />} />
-							<Route path="/home2" element={<Home2 />} />
-							<Route path="/category/articles" element={<CategoryArticlesList />} />
-							<Route path="/articles/category" element={<ArticlesCategoryList />} />
-							{/* <Route
-								path="/articles/indirect-tax"
-								element={<CategoryArticlesList category={'Indirect Tax'} />}
-							/>
-							<Route
-								path="/articles/direct-tax"
-								element={<CategoryArticlesList category={'Direct Tax'} />}
-							/>
-							<Route
-								path="/articles/transfer-pricing"
-								element={<CategoryArticlesList category={'Transfer Pricing'} />}
-							/>
-							<Route
-								path="/articles/tax-technology"
-								element={<CategoryArticlesList category={'Tax Technology'} />}
-							/>
-							<Route
-								path="/articles/customs"
-								element={<CategoryArticlesList category={'Customs'} />}
-							/> */}
-							{/* <Route path="/articles/:id" element={<Article />} /> */}
-							<Route path="/articles/:slug" element={<Article />} />
-							<Route path="/hot-topics/:number" element={<HotTopic />} />
-							{/* <Route path="/auth/create-article/" element={<CreateArticle />} /> */}
+								<Route path="/" element={<Home />} />
+								<Route path="/home" element={<Home />} />
+								<Route path="/home2" element={<Home2 />} />
+								<Route path="/category/articles" element={<CategoryArticlesList />} />
+								<Route path="/articles/category" element={<ArticlesCategoryList />} />
 
-							<Route path="/about-us" element={<AboutUs />} />
-							<Route path="/contact-us" element={<ContactUs />} />
-							<Route path="/terms-of-use" element={<TermsOfUse />} />
-							<Route path="/privacy-policy" element={<PrivacyPolicy />} />
-							<Route path="/cookies-policy" element={<CookiesPolicy />} />
-							<Route path="/advertise-with-us" element={<AdvertiseWithUs />} />
-						</Routes>
-					</AuthProvider>
-				</BrowserRouter>
-			</CssBaseline>
-		</ThemeProvider>
-		// <>
-		//   <div>
-		//     <a href="https://vitejs.dev" target="_blank">
-		//       <img src={viteLogo} className="logo" alt="Vite logo" />
-		//     </a>
-		//     <a href="https://react.dev" target="_blank">
-		//       <img src={reactLogo} className="logo react" alt="React logo" />
-		//     </a>
-		//   </div>
-		//   <h1>TAXSPOC</h1>
-		//   <div className="card">
-		//     <button onClick={() => setCount((count) => count + 1)}>
-		//       Let's start {count}
-		//     </button>
-		// 	<Button variant="contained">Hello world</Button>
+								<Route path="/articles/:slug" element={<Article />} />
+								<Route path="/hot-topics/:number" element={<HotTopic />} />
 
-		//   </div>
-		//   <p className="read-the-docs">
-		//     Click on the Vite and React logos to learn more
-		//   </p>
-		// </>
+								<Route path="/about-us" element={<AboutUs />} />
+								<Route path="/contact-us" element={<ContactUs />} />
+								<Route path="/terms-of-use" element={<TermsOfUse />} />
+								<Route path="/privacy-policy" element={<PrivacyPolicy />} />
+								<Route path="/cookies-policy" element={<CookiesPolicy />} />
+								<Route path="/advertise-with-us" element={<AdvertiseWithUs />} />
+							</Routes>
+						</AuthProvider>
+					</BrowserRouter>
+				</CssBaseline>
+			</ThemeProvider>
+		</HelmetProvider>
 	);
 }
 
