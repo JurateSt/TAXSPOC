@@ -54,18 +54,30 @@ const Article = () => {
 		<>
 			<Helmet>
 				<link rel="canonical" href={`https://www.taxspoc.com/articles/${article.slug}`} />
-				<title>{article.header}</title>
-				<meta name="title" content={`Taxspoc: ${article.header}`} />
+				<title>{article.header || 'Article'}</title>
+				<meta name="title" content={article.header || 'Article'} />
 				{/* Open Graph tags */}
 				<meta property="og:type" content="article" />
-				<meta property="og:title" content={`Taxspoc: ${article.header}`} />
-				<meta property="og:description" content={article.supportingText} />
-				<meta property="og:image" content={`${article?.images?.[0]?.url}`} />
+				<meta property="og:title" content={article.header || 'Article'} />
+				<meta
+					property="og:description"
+					content={
+						article.supportingText ||
+						'Taxspoc is your Single Point of Contact for global and local tax news, providing clear, logical, and well-organized tax information'
+					}
+				/>
+				<meta property="og:image" content={article?.images?.[0]?.url} />
 				<meta property="og:url" content={`https://www.taxspoc.com/articles/${article.slug}`} />
 				{/* Twitter Card tags */}
 				<meta name="twitter:card" content="summary_large_image" />
-				<meta name="twitter:title" content={article.header} />
-				<meta name="twitter:description" content={article.supportingText} />
+				<meta name="twitter:title" content={article.header || 'Article'} />
+				<meta
+					name="twitter:description"
+					content={
+						article.supportingText ||
+						'Taxspoc is your Single Point of Contact for global and local tax news, providing clear, logical, and well-organized tax information'
+					}
+				/>
 				<meta name="twitter:image" content={article?.images?.[0]?.url} />
 			</Helmet>
 
