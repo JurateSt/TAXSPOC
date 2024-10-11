@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+// Helmet
+import { Helmet } from 'react-helmet';
 // MUI
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
 // components
@@ -27,6 +29,13 @@ const Home = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>Home</title>
+				<meta name="title" content="Home" />
+				<meta name="description" content="Home description" />
+				<meta property="og:title" content="Home" />
+				<meta property="og:description" content="Home description" />
+			</Helmet>
 			<MainBar />
 			<Container
 			// sx={{ border: '1px solid blue' }}
