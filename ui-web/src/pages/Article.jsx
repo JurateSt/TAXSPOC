@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 // Helmet
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 // MUI
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
 // api
@@ -47,7 +47,7 @@ const Article = () => {
 
 	useEffect(() => {
 		getArticle();
-		getArticles();
+		// getArticles();
 	}, [slug]);
 
 	return (
