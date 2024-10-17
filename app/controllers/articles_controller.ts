@@ -8,21 +8,42 @@ import { log } from 'console';
 import FileService from '#services/FileService';
 
 export default class ArticlesController {
-	public async index({ response }: HttpContext) {
+	async index({ response }: HttpContext) {
 		const articles = await Article.find();
 
 		articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
 		// console.log(articles, articles);
 		const shortArticles = articles.map((item) => {
-			const { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images } =
-				item;
-			return { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images };
+			const {
+				_id,
+				slug,
+				dateTag,
+				subHeader,
+				header,
+				supportingText,
+				tags,
+				categories,
+				images,
+				description,
+			} = item;
+			return {
+				_id,
+				slug,
+				dateTag,
+				subHeader,
+				header,
+				supportingText,
+				tags,
+				categories,
+				images,
+				description,
+			};
 		});
 
 		return response.json(shortArticles);
 	}
 
-	public async getLatest({ request, response }: HttpContext) {
+	async getLatest({ request, response }: HttpContext) {
 		const limit = parseInt(request.input('limit'), 10);
 
 		let articles = await Article.find().sort({ dateTag: -1 });
@@ -33,14 +54,35 @@ export default class ArticlesController {
 		// 	.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1))
 		// 	.slice(0, 8);
 		const shortArticles = articles.map((item) => {
-			const { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images } =
-				item;
-			return { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images };
+			const {
+				_id,
+				slug,
+				dateTag,
+				subHeader,
+				header,
+				supportingText,
+				tags,
+				categories,
+				images,
+				description,
+			} = item;
+			return {
+				_id,
+				slug,
+				dateTag,
+				subHeader,
+				header,
+				supportingText,
+				tags,
+				categories,
+				images,
+				description,
+			};
 		});
 		return response.json(shortArticles);
 	}
 
-	public async getByCategory({ request, response }: HttpContext) {
+	async getByCategory({ request, response }: HttpContext) {
 		const type = request.input('type');
 		const category = request.input('category');
 		const limit = parseInt(request.input('limit'), 10);
@@ -59,20 +101,51 @@ export default class ArticlesController {
 			articles = articles.slice(0, limit);
 		}
 		const shortArticles = articles.map((item) => {
-			const { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images } =
-				item;
-			return { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images };
+			const {
+				_id,
+				slug,
+				dateTag,
+				subHeader,
+				header,
+				supportingText,
+				tags,
+				categories,
+				images,
+				description,
+			} = item;
+			return {
+				_id,
+				slug,
+				dateTag,
+				subHeader,
+				header,
+				supportingText,
+				tags,
+				categories,
+				images,
+				description,
+			};
 		});
 		return response.json(shortArticles);
 	}
 
-	public async showMain({ response }: HttpContext) {
+	async showMain({ response }: HttpContext) {
 		const articles = await Article.find();
 		const latestArticle = articles.sort((a, b) =>
 			(a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1
 		)[0];
-		const { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images } =
-			latestArticle;
+		const {
+			_id,
+			slug,
+			dateTag,
+			subHeader,
+			header,
+			supportingText,
+			tags,
+			categories,
+			images,
+			description,
+		} = latestArticle;
 		return response.json({
 			_id,
 			slug,
@@ -83,16 +156,17 @@ export default class ArticlesController {
 			tags,
 			categories,
 			images,
+			description,
 		});
 	}
 
-	public async show({ request, response }: HttpContext) {
+	async show({ request, response }: HttpContext) {
 		const { id } = request.params();
 		const article = await Article.findById(id);
 		return response.json(article);
 	}
 
-	public async showBySlug({ request, response }: HttpContext) {
+	async showBySlug({ request, response }: HttpContext) {
 		const { slug } = request.params();
 		const article = await Article.findOne({ slug });
 		return response.json(article);
@@ -164,7 +238,7 @@ export default class ArticlesController {
 		return response.json(article);
 	}
 
-	public async update({ request, response }: HttpContext) {
+	async update({ request, response }: HttpContext) {
 		const { id } = request.params();
 		const {
 			images: _images,
@@ -224,7 +298,7 @@ export default class ArticlesController {
 		response.json(article);
 	}
 
-	public async destroy({ request, response }: HttpContext) {
+	async destroy({ request, response }: HttpContext) {
 		const { id } = request.params();
 		//find image and delete it in public folder
 		const article = await Article.findByIdAndDelete(id);
