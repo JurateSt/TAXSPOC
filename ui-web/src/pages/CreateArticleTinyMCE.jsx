@@ -35,7 +35,7 @@ import api from '../api/axios';
 // auth
 import { useAuth } from '../context/AuthContext';
 // components
-import AuthMainBar from '../components/NavBar/AuthMainBar';
+import MainBar from '../components/CMS/MainBar';
 import EditorTinyMCE from '../components/TinyMCE/EditorTinyMCE';
 
 const CreateArticleTinyMCE = () => {
@@ -286,7 +286,7 @@ const CreateArticleTinyMCE = () => {
 
 	return (
 		<>
-			<AuthMainBar />
+			<MainBar />
 			<Container>
 				<Typography variant="h3" align="center">
 					Create Article

@@ -1,7 +1,7 @@
 import LogoBar from '../LogoBar';
 
-const AuthMainBar = ({}) => {
+const MainBar = ({}) => {
 	return <LogoBar />;
 };
 
-export default AuthMainBar;
+export default MainBar;

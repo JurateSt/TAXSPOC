@@ -8,7 +8,7 @@ import { log } from 'console';
 import FileService from '#services/FileService';
 
 export default class ArticlesController {
-	public async index({ response }: HttpContext) {
+	async index({ response }: HttpContext) {
 		const articles = await Article.find();
 
 		articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
