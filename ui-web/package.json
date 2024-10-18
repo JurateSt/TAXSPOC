@@ -1,46 +1,68 @@
 {
-  "name": "ui-web",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@date-io/dayjs": "^3.0.0",
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@fontsource/roboto": "^5.0.12",
-    "@mui/icons-material": "^5.15.14",
-    "@mui/lab": "^5.0.0-alpha.170",
-    "@mui/material": "^5.15.14",
-    "@mui/x-date-pickers": "^7.3.1",
-    "@tinymce/tinymce-react": "^5.0.1",
-    "dayjs": "^1.11.11",
-    "dotenv": "^16.4.5",
-    "moment": "^2.30.1",
-    "quill": "^2.0.2",
-    "react": "^18.2.0",
-    "react-cookie": "^7.1.4",
-    "react-dom": "^18.2.0",
-    "react-helmet-async": "^2.0.5",
-    "react-quill": "^2.0.0",
-    "react-router-dom": "^6.22.3"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.66",
-    "@types/react-dom": "^18.2.22",
-    "@vitejs/plugin-react": "^4.2.1",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.1.3",
-    "eslint-plugin-react": "^7.34.1",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.6",
-    "prettier": "^3.2.5",
-    "vite": "^5.2.0"
-  }
+	"name": "ui-web",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"postbuild": "react-snap",
+		"lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+		"preview": "vite preview"
+	},
+	"reactSnap": {
+		"source": "dist",
+		"include": [
+			"/",
+			"/home",
+			"/articles/saudi-arabia-invites-taxpayers-to-take-advantage-of-the-cancellation-of-fines-and-exemption-of-penalties-initiative-2"
+		],
+		"minifyHtml": {
+			"collapseWhitespace": true
+		},
+		"inlineCss": true,
+		"puppeteerArgs": [
+			"--no-sandbox",
+			"--disable-setuid-sandbox"
+		],
+		"puppeteer": {
+			"executablePath": "/usr/bin/chromium-browser"
+		}
+	},
+	"dependencies": {
+		"@date-io/dayjs": "^3.0.0",
+		"@emotion/react": "^11.11.4",
+		"@emotion/styled": "^11.11.5",
+		"@fontsource/roboto": "^5.0.12",
+		"@mui/icons-material": "^5.15.14",
+		"@mui/lab": "^5.0.0-alpha.170",
+		"@mui/material": "^5.15.14",
+		"@mui/x-date-pickers": "^7.3.1",
+		"@tinymce/tinymce-react": "^5.0.1",
+		"dayjs": "^1.11.11",
+		"dotenv": "^16.4.5",
+		"moment": "^2.30.1",
+		"puppeteer": "^23.5.3",
+		"quill": "^2.0.2",
+		"react": "^18.2.0",
+		"react-cookie": "^7.1.4",
+		"react-dom": "^18.2.0",
+		"react-helmet-async": "^2.0.5",
+		"react-quill": "^2.0.0",
+		"react-router-dom": "^6.22.3"
+	},
+	"devDependencies": {
+		"@types/react": "^18.2.66",
+		"@types/react-dom": "^18.2.22",
+		"@vitejs/plugin-react": "^4.2.1",
+		"eslint": "^8.57.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-prettier": "^5.1.3",
+		"eslint-plugin-react": "^7.34.1",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"eslint-plugin-react-refresh": "^0.4.6",
+		"prettier": "^3.2.5",
+		"react-snap": "^1.23.0",
+		"vite": "^5.2.0"
+	}
 }
