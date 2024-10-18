@@ -15,7 +15,8 @@
 		"include": [
 			"/",
 			"/home",
-			"/articles/saudi-arabia-invites-taxpayers-to-take-advantage-of-the-cancellation-of-fines-and-exemption-of-penalties-initiative-2"
+			"/articles/saudi-arabia-invites-taxpayers-to-take-advantage-of-the-cancellation-of-fines-and-exemption-of-penalties-initiative-2",
+			"/articles/uk-prime-minister-keir-starmer-unveils-plans-to-fix-the-uks-foundations-2024-08-27"
 		],
 		"minifyHtml": {
 			"collapseWhitespace": true
