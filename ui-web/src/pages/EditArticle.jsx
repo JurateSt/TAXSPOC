@@ -50,6 +50,7 @@ const EditArticle = () => {
 		content: '',
 		source: '',
 		images: [],
+		description: '',
 	});
 
 	// categories
@@ -306,6 +307,16 @@ const EditArticle = () => {
 						label="Supporting Text"
 						name="supportingText"
 						value={article.supportingText}
+						onChange={handleChange}
+						variant="outlined"
+						fullWidth
+					/>
+				</Grid>
+				<Grid item xs={12}>
+					<TextField
+						label="Description"
+						name="description"
+						value={article.description}
 						onChange={handleChange}
 						variant="outlined"
 						fullWidth
