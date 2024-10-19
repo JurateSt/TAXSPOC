@@ -235,7 +235,8 @@
 			"--disable-web-security"
 		],
 		"puppeteer": {
-			"executablePath": "/usr/bin/chromium-browser"
+			"executablePath": "/usr/bin/chromium-browser",
+			"timeout": 60000
 		}
 	},
 	"dependencies": {
