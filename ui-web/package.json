@@ -15,8 +15,7 @@
 		"include": [
 			"/",
 			"/home",
-			"/articles/saudi-arabia-invites-taxpayers-to-take-advantage-of-the-cancellation-of-fines-and-exemption-of-penalties-initiative-2",
-			"/articles/uk-prime-minister-keir-starmer-unveils-plans-to-fix-the-uks-foundations-2024-08-27"
+			"articles/belgian-authorities-release-list-of-registered-peppol-e-invoicing-software"
 		],
 		"minifyHtml": {
 			"collapseWhitespace": true
@@ -24,7 +23,8 @@
 		"inlineCss": true,
 		"puppeteerArgs": [
 			"--no-sandbox",
-			"--disable-setuid-sandbox"
+			"--disable-setuid-sandbox",
+			"--disable-web-security"
 		],
 		"puppeteer": {
 			"executablePath": "/usr/bin/chromium-browser"
