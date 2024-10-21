@@ -30,11 +30,25 @@ const Home = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Home</title>
-				<meta name="title" content="Home" />
+				<title>Taxspoc | Your Single Source for Global Tax</title>
+				<link rel="canonical" href="https://www.taxspoc.com/" />
+				<meta name="title" content="Taxspoc | Your Single Source for Global Tax" />
 				<meta name="description" content="Home description" />
-				<meta property="og:title" content="Home" />
-				<meta property="og:description" content="Home description" />
+				<meta property="og:title" content="Taxspoc | Your Single Source for Global Tax" />
+				<meta
+					property="og:description"
+					content="Taxspoc is your Single Point of Contact for global and local tax news, providing clear, logical, and well-organized tax information."
+				/>
+				<meta property="og:type" content="website" />
+				<meta property="og:url" content="https://www.taxspoc.com/" />
+				<meta property="og:image" content="https://www.taxspoc.com/logo-dark.png" />
+				<meta property="og:site_name" content="Taxspoc" />
+				<meta name="twitter:title" content="Taxspoc | Your Single Source for Global Tax" />
+				<meta
+					name="twitter:description"
+					content="Taxspoc is your Single Point of Contact for global and local tax news, providing clear, logical, and well-organized tax information."
+				/>
+				<meta name="twitter:image" content="https://www.taxspoc.com/logo-dark.png" />
 			</Helmet>
 			<MainBar />
 			<Container
