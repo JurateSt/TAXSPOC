@@ -34,7 +34,6 @@ const Section = ({ section, limit, customStyles }) => {
 		getArticles();
 	}, [section]);
 
-	console.log('Section: ', section, articles);
 	return (
 		// articles.length > 0 && (
 		<Grid

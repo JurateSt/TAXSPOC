@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+// Helmet
+import { Helmet } from 'react-helmet';
 // MUI
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
 // components
@@ -27,6 +29,27 @@ const Home = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>Taxspoc | Your Single Source for Global Tax</title>
+				<link rel="canonical" href="https://www.taxspoc.com/" />
+				<meta name="title" content="Taxspoc | Your Single Source for Global Tax" />
+				<meta name="description" content="Home description" />
+				<meta property="og:title" content="Taxspoc | Your Single Source for Global Tax" />
+				<meta
+					property="og:description"
+					content="Taxspoc is your Single Point of Contact for global and local tax news, providing clear, logical, and well-organized tax information."
+				/>
+				<meta property="og:type" content="website" />
+				<meta property="og:url" content="https://www.taxspoc.com/" />
+				<meta property="og:image" content="https://www.taxspoc.com/logo-dark.png" />
+				<meta property="og:site_name" content="Taxspoc" />
+				<meta name="twitter:title" content="Taxspoc | Your Single Source for Global Tax" />
+				<meta
+					name="twitter:description"
+					content="Taxspoc is your Single Point of Contact for global and local tax news, providing clear, logical, and well-organized tax information."
+				/>
+				<meta name="twitter:image" content="https://www.taxspoc.com/logo-dark.png" />
+			</Helmet>
 			<MainBar />
 			<Container
 			// sx={{ border: '1px solid blue' }}
