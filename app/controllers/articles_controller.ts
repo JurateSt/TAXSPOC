@@ -46,10 +46,10 @@ export default class ArticlesController {
 	async getLatest({ request, response }: HttpContext) {
 		const limit = parseInt(request.input('limit'), 10);
 
-		let articles = await Article.find().sort({ dateTag: -1 });
-		if (!isNaN(limit)) {
-			articles = articles.slice(0, limit);
-		}
+		let articles = await Article.find().limit(limit).sort({ dateTag: -1 });
+		// if (!isNaN(limit)) {
+		// 	articles = articles.slice(0, limit);
+		// }
 		// const latestArticles = articles
 		// 	.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1))
 		// 	.slice(0, 8);
@@ -94,12 +94,14 @@ export default class ArticlesController {
 					name: category,
 				},
 			},
-		}).sort({ dateTag: -1 });
+		})
+			.limit(limit)
+			.sort({ dateTag: -1 });
 		// articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
 
-		if (!isNaN(limit)) {
-			articles = articles.slice(0, limit);
-		}
+		// if (!isNaN(limit)) {
+		// 	articles = articles.slice(0, limit);
+		// }
 		const shortArticles = articles.map((item) => {
 			const {
 				_id,
