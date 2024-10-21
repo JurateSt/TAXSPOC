@@ -55,8 +55,10 @@ const Article = () => {
 			<Helmet>
 				<title>{article.header}</title>
 				<meta name="title" content={article.header} />
+				<link rel="canonical" href={`https://www.taxspoc.com/articles/${article.slug}`} />
+				<meta name="description" content={article.description} />
 				<meta property="og:title" content={article.header} />
-				<meta property="og:description" content={article.supportingText} />
+				<meta property="og:description" content={article.description} />
 				<meta property="og:type" content="article" />
 				<meta property="og:image" content={article?.images?.[0]?.url} />
 				<meta property="og:url" content={`https://www.taxspoc.com/articles/${article.slug}`} />
