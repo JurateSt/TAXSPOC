@@ -4,10 +4,11 @@ import KeyboardDoubleArrowDownOutlinedIcon from '@mui/icons-material/KeyboardDou
 import DoubleArrowOutlinedIcon from '@mui/icons-material/DoubleArrowOutlined';
 
 const LoadMore = ({ handleClick }) => {
+	const currentUrl = window.location.href;
 	return (
 		<Box
 			component="a"
-			// href="#"
+			href={currentUrl}
 			sx={{
 				display: 'flex',
 				alignItems: 'center',
@@ -18,7 +19,11 @@ const LoadMore = ({ handleClick }) => {
 					textDecoration: 'underline',
 				},
 			}}
-			onClick={handleClick}
+			// onClick={handleClick}
+			onClick={(e) => {
+				e.preventDefault(); // Prevent the anchor from navigating
+				handleClick(); // Increase the page limit
+			}}
 		>
 			<DoubleArrowOutlinedIcon
 				fontSize="small"
