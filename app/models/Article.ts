@@ -15,6 +15,7 @@ const ArticleSchema = new Schema(
 		categories: { type: [Object] },
 		source: { type: String },
 		images: { type: Array },
+		description: { type: String },
 	},
 	{ timestamps: true }
 );

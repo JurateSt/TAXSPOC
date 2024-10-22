@@ -15,6 +15,8 @@
 		"include": [
 			"/",
 			"/home",
+			"/articles/argentina-announces-dissolution-of-federal-tax-authority-afip-and-creation-of-new-agency",
+			"/articles/frances-2025-budget-tax-hikes-targeting-the-rich-and-spending-cuts-to-address-deficit",
 			"/articles/australia-changes-to-country-by-country-local-file-reporting",
 			"/articles/ey-reports-global-revenue-of-us512-billion-for-fy24-highlights-strong-tax-performance",
 			"/articles/belgian-authorities-release-list-of-registered-peppol-e-invoicing-software",
@@ -238,7 +240,7 @@
 		],
 		"puppeteer": {
 			"executablePath": "/usr/bin/chromium-browser",
-			"timeout": 120000
+			"timeout": 240000
 		}
 	},
 	"dependencies": {
@@ -254,6 +256,7 @@
 		"dayjs": "^1.11.11",
 		"dotenv": "^16.4.5",
 		"moment": "^2.30.1",
+		"puppeteer": "^23.5.3",
 		"quill": "^2.0.2",
 		"react": "^18.2.0",
 		"react-cookie": "^7.1.4",
