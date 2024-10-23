@@ -50,6 +50,34 @@ const Article = () => {
 		// getArticles();
 	}, [slug]);
 
+	const jsonLdData = {
+		'@context': 'https://schema.org',
+		'@type': 'NewsArticle',
+		url: `https://www.taxspoc.com/articles/${article.slug}`,
+		publisher: {
+			'@type': 'Organization',
+			name: 'Taxspoc',
+			logo: {
+				'@type': 'ImageObject',
+				url: 'https://www.taxspoc.com/logo-dark.png',
+			},
+		},
+		headline: article.header,
+		mainEntityOfPage: {
+			'@type': 'WebPage',
+			'@id': `https://www.taxspoc.com/articles/${article.slug}`,
+		},
+		image: article?.images?.[0]?.url,
+		datePublished: article.dateTag || new Date().toISOString(),
+		description: article.description,
+		author: {
+			'@type': 'Organization',
+			name: 'Taxspoc Team',
+		},
+		isAccessibleForFree: true,
+		keywords: article?.tags?.join(', '),
+	};
+
 	return (
 		<>
 			<Helmet>
@@ -57,18 +85,19 @@ const Article = () => {
 				<meta name="title" content={article.header} />
 				<link rel="canonical" href={`https://www.taxspoc.com/articles/${article.slug}`} />
 				<meta name="description" content={article.description} />
+				{/* Open Graph / Social Meta Tags */}
 				<meta property="og:title" content={article.header} />
 				<meta property="og:description" content={article.description} />
 				<meta property="og:type" content="article" />
 				<meta property="og:image" content={article?.images?.[0]?.url} />
 				<meta property="og:url" content={`https://www.taxspoc.com/articles/${article.slug}`} />
+				{/* Twitter Meta Tags */}
 				{/* <meta name="twitter:card" content="summary_large_image" /> */}
 				<meta name="twitter:title" content={article.header} />
 				<meta name="twitter:description" content={article.supportingText} />
 				<meta name="twitter:image" content={article?.images?.[0]?.url} />
-
-				<meta name="twitter:description" content={article.supportingText} />
-				<meta name="twitter:image" content={article.images?.[0]?.url} />
+				{/* schema.org */}
+				<script type="application/ld+json">{JSON.stringify(jsonLdData)}</script>
 			</Helmet>
 
 			<MainBar />
