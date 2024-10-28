@@ -13,6 +13,7 @@ const AuthorSchema = new Schema(
 		twitterUrl: { type: String },
 		description: { type: String },
 		articles: [{ type: Schema.Types.ObjectId, ref: 'Article' }],
+		image: { type: Object },
 	},
 	{ timestamps: true }
 );

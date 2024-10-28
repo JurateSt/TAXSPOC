@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Cropper from 'react-easy-crop';
 // MUI
 import {
 	Button,
@@ -18,13 +19,15 @@ import {
 	TableBody,
 	Paper,
 	IconButton,
+	Input,
+	Box,
 } from '@mui/material';
 // libraries
 import moment from 'moment';
 // api
 import api from '../../api/axios';
 // components
-import MainBar from '../../components/CMS/MainBar';
+import Bar from '../../components/CMS/Bar';
 const Authors = () => {
 	const [open, setOpen] = useState(false);
 	const [authors, setAuthors] = useState([]);
@@ -43,6 +46,11 @@ const Authors = () => {
 	// sorting
 	const [order, setOrder] = useState('desc');
 	const [orderBy, setOrderBy] = useState('dateTag');
+
+	const [imageSrc, setImageSrc] = useState(null); // To store the image preview for cropping
+	const [crop, setCrop] = useState({ x: 0, y: 0 }); // Initial crop values
+	const [zoom, setZoom] = useState(1); // Zoom value
+	const [croppedArea, setCroppedArea] = useState(null); // To capture the cropped area
 
 	const getAuthors = async () => {
 		const { data } = await api.get('/authors');
@@ -65,11 +73,24 @@ const Authors = () => {
 	};
 
 	const handleChange = (event) => {
-		const { name, value } = event.target;
+		const { name, value, files } = event.target;
+		console.log('handleChange:', name, value, files);
+		let newValue = value;
+		if (name === 'image') {
+			newValue = files[0];
+		}
 		setFormData((prevState) => ({
 			...prevState,
-			[name]: value,
+			[name]: newValue,
 		}));
+
+		if (name === 'image') {
+			const reader = new FileReader();
+			reader.onload = () => {
+				setImageSrc(reader.result);
+			};
+			reader.readAsDataURL(files[0]);
+		}
 	};
 
 	const handleSubmit = async (event) => {
@@ -77,6 +98,10 @@ const Authors = () => {
 
 		const form = new FormData();
 		Object.keys(formData).forEach((key) => form.append(key, formData[key]));
+
+		// for (let [key, value] of formData.entries()) {
+		// 	console.log('FormData', key, value);
+		// }
 
 		try {
 			// Post form data to API endpoint
@@ -111,7 +136,7 @@ const Authors = () => {
 
 	return (
 		<>
-			<MainBar />
+			<Bar />
 			<Container sx={{ mt: 2 }}>
 				<Button variant="contained" onClick={handleAddAuthor}>
 					Add author
@@ -131,6 +156,7 @@ const Authors = () => {
 								<TableCell>Email</TableCell>
 								<TableCell>Role</TableCell>
 								<TableCell>Company</TableCell>
+								<TableCell>Image</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -144,6 +170,20 @@ const Authors = () => {
 									<TableCell>{item.email}</TableCell>
 									<TableCell>{item.role}</TableCell>
 									<TableCell>{item.company}</TableCell>
+									<TableCell>
+										<Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+											<Box
+												sx={{
+													display: 'flex',
+													// alignItems: 'center',
+													// flexDirection: 'row',
+													// gap: '8px',
+												}}
+											>
+												<img src={item.image?.url} alt="article" style={{ width: '200px' }} />
+											</Box>
+										</Box>
+									</TableCell>
 									{/* <TableCell>
 										{item.categories
 											.filter((item) => item.type === 'region')
@@ -196,7 +236,7 @@ const Authors = () => {
 			>
 				<DialogTitle>Add author</DialogTitle>
 				<DialogContent>
-					<DialogContentText>Fill all the fields to add a new author.</DialogContentText>
+					<DialogContentText>Fill the required fields to add a new author.</DialogContentText>
 					<TextField
 						autoFocus
 						margin="dense"
@@ -207,6 +247,7 @@ const Authors = () => {
 						fullWidth
 						variant="outlined"
 						onChange={handleChange}
+						required
 					/>
 					<TextField
 						autoFocus
@@ -230,6 +271,9 @@ const Authors = () => {
 						variant="outlined"
 						onChange={handleChange}
 					/>
+					{/* <Grid item xs={12}> */}
+					<Input type="file" name="image" onChange={handleChange} />
+					{/* </Grid> */}
 					<TextField
 						autoFocus
 						margin="dense"
@@ -305,6 +349,33 @@ const Authors = () => {
 					</Button>
 				</DialogActions>
 			</Dialog>
+
+			{imageSrc && (
+				<Box>
+					<Cropper
+						image={imageSrc}
+						crop={crop}
+						zoom={zoom}
+						aspect={4 / 3} // You can change the aspect ratio if needed
+						onCropChange={setCrop}
+						onZoomChange={setZoom}
+						onCropComplete={(croppedArea, croppedAreaPixels) => {
+							setCroppedArea(croppedAreaPixels); // Store the cropped area
+						}}
+					/>
+					<Box mt={2}>
+						<TextField
+							label="Zoom"
+							type="range"
+							value={zoom}
+							min="1"
+							max="3"
+							step="0.1"
+							onChange={(e) => setZoom(e.target.value)} // Allow user to zoom the image
+						/>
+					</Box>
+				</Box>
+			)}
 		</>
 	);
 };

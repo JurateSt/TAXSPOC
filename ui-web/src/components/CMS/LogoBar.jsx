@@ -1,7 +1,7 @@
 import LogoBar from '../LogoBar';
 
-const MainBar = ({}) => {
+const CMSLogoBar = () => {
 	return <LogoBar />;
 };
 
-export default MainBar;
+export default CMSLogoBar;

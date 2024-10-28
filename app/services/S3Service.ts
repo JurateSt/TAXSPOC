@@ -29,6 +29,23 @@ export default new (class S3Service {
 		}
 	}
 
+	async uploadAuthorImage(bucket: string, key: string, body: any) {
+		const params = {
+			Bucket: bucket,
+			Key: key,
+			Body: body,
+			ACL: 'public-read',
+		};
+
+		try {
+			const response = await this.s3.upload(params).promise();
+
+			return response.Location;
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
 	public async deleteFile(bucket: string, key: string) {
 		const params = {
 			Bucket: bucket,

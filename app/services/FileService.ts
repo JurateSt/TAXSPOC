@@ -45,6 +45,33 @@ export default new (class FileService {
 		return articleImages;
 	}
 
+	async uploadAuthor(image: any, entity: any): Promise<any> {
+		const uploadedImage: any = {};
+		if (!image) {
+			console.error('S3: No images provided for upload');
+			return;
+		}
+		if (!this.checkBucketName()) return uploadedImage;
+
+		const randomSix = Math.floor(100000 + Math.random() * 900000);
+		const fileName = `authors/${entity._id}-${randomSix}.${image.extname}`;
+
+		try {
+			if (!image.tmpPath) {
+				console.error('S3: No tmpPath available for the uploaded file');
+				return uploadedImage;
+			}
+			const stream = fs.createReadStream(image.tmpPath);
+			const url = await S3Service.uploadAuthorImage(this.bucketName, fileName, stream);
+			return {
+				url,
+				originalName: image.clientName,
+			};
+		} catch (error) {
+			console.error('S3: Failed to upload image', error);
+		}
+	}
+
 	public async deleteImage(article: any, imageUrl: string): Promise<any> {
 		const articleImages = article?.images || [];
 		const imageIndex = articleImages.findIndex((item: any) => item.url === imageUrl);
