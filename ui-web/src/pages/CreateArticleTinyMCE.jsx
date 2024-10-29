@@ -406,7 +406,8 @@ const CreateArticleTinyMCE = () => {
 						/>
 					</Grid>
 					<Grid item xs={12}>
-						<EditorTinyMCE value={article.content} onChange={handleContentChange} />
+						EditorTinyMCE
+						{/* <EditorTinyMCE value={article.content} onChange={handleContentChange} /> */}
 					</Grid>
 					<Grid item xs={12}>
 						<TextField

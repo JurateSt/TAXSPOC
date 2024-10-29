@@ -21,15 +21,22 @@ import {
 	IconButton,
 	Input,
 	Box,
+	Slider,
+	Avatar,
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 // libraries
 import moment from 'moment';
 // api
 import api from '../../api/axios';
 // components
 import Bar from '../../components/CMS/Bar';
+import { set } from 'mongoose';
 const Authors = () => {
 	const [open, setOpen] = useState(false);
+	const [openAvatar, setOpenAvatar] = useState(false);
+	const [openImageSource, setOpenImageSource] = useState(false);
+
 	const [authors, setAuthors] = useState([]);
 
 	const [formData, setFormData] = useState({
@@ -50,6 +57,7 @@ const Authors = () => {
 	const [imageSrc, setImageSrc] = useState(null); // To store the image preview for cropping
 	const [crop, setCrop] = useState({ x: 0, y: 0 }); // Initial crop values
 	const [zoom, setZoom] = useState(1); // Zoom value
+	const [rotation, setRotation] = useState(0); // Image rotation
 	const [croppedArea, setCroppedArea] = useState(null); // To capture the cropped area
 
 	const getAuthors = async () => {
@@ -57,8 +65,6 @@ const Authors = () => {
 
 		setAuthors(data);
 	};
-
-	console.log('Authors:', authors);
 
 	useEffect(() => {
 		getAuthors();
@@ -132,6 +138,30 @@ const Authors = () => {
 		setAuthors(sortedAuthors);
 		setOrder(newOrder);
 		setOrderBy('dateTag');
+	};
+
+	const handleOpenAvatar = () => {
+		setOpenAvatar(true);
+	};
+	const handleOpenImageSource = () => {
+		setOpenImageSource(true);
+	};
+	const handleCloseAvatar = () => {
+		setOpenAvatar(false);
+	};
+	const handleCloseImageSource = () => {
+		setOpenImageSource(false);
+	};
+
+	const handleAddImage = (event) => {
+		const { files } = event.target;
+		const reader = new FileReader();
+		reader.onload = () => {
+			setImageSrc(reader.result);
+		};
+		reader.readAsDataURL(files[0]);
+		handleOpenImageSource();
+		console.log('handleAddImage:', files[0]);
 	};
 
 	return (
@@ -219,9 +249,158 @@ const Authors = () => {
 				</TableContainer>
 			</Container>
 
+			{/* edit author photo */}
+			<Dialog
+				open={openImageSource}
+				onClose={handleCloseImageSource}
+				fullWidth={true}
+				maxWidth="md"
+			>
+				<DialogTitle>Image</DialogTitle>
+				<IconButton
+					aria-label="close"
+					onClick={handleCloseImageSource}
+					sx={(theme) => ({
+						position: 'absolute',
+						right: 8,
+						top: 8,
+						color: theme.palette.grey[500],
+					})}
+				>
+					<CloseIcon />
+				</IconButton>
+				<DialogContent
+					sx={{
+						display: 'flex',
+						flexDirection: 'column',
+					}}
+				>
+					{/* <DialogContentText>Fill the required fields to add a new author.</DialogContentText> */}
+					<Box sx={{ position: 'relative', width: '100%', height: '400px' }}>
+						<Cropper
+							image={imageSrc}
+							crop={crop}
+							zoom={zoom}
+							rotation={rotation}
+							aspect={1} // You can change the aspect ratio if needed
+							cropShape="round"
+							showGrid={true}
+							onCropChange={setCrop}
+							onZoomChange={setZoom}
+							onCropComplete={(croppedArea, croppedAreaPixels) => {
+								console.log('CROP COMPLETE');
+								console.log(croppedArea, croppedAreaPixels);
+								window.localStorage.setItem('croppedImage', JSON.stringify(croppedArea));
+								// setCroppedArea(croppedAreaPixels); // Store the cropped area
+							}}
+						/>
+					</Box>
+					<Box mt={2}>
+						<Slider
+							value={zoom}
+							min={1}
+							max={10}
+							step={0.5}
+							shiftStep={0.5}
+							marks
+							aria-labelledby="Zoom"
+							// classes={{ root: classes.slider }}
+							onChange={(e, zoom) => setZoom(zoom)}
+						/>
+					</Box>
+					<Box mt={2}>
+						<Slider
+							value={rotation}
+							min={0}
+							max={360}
+							step={1}
+							aria-labelledby="Zoom"
+							// classes={{ root: classes.slider }}
+							onChange={(e, rotation) => setRotation(rotation)}
+						/>
+					</Box>
+				</DialogContent>
+				<DialogActions>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							gap: 8,
+							width: '100%',
+						}}
+					>
+						<Button onClick={''}>Save Photo</Button>
+					</Box>
+				</DialogActions>
+			</Dialog>
+
+			{/* add author photo */}
+			<Dialog
+				open={openAvatar}
+				onClose={handleCloseAvatar}
+				// PaperProps={{
+				// 	component: 'form',
+				// }}
+				// fullScreen
+				fullWidth={true}
+				maxWidth="md"
+			>
+				<DialogTitle>Photo</DialogTitle>
+				<IconButton
+					aria-label="close"
+					onClick={handleCloseAvatar}
+					sx={(theme) => ({
+						position: 'absolute',
+						right: 8,
+						top: 8,
+						color: theme.palette.grey[500],
+					})}
+				>
+					<CloseIcon />
+				</IconButton>
+				<DialogContent>
+					{/* <DialogContentText>Fill the required fields to add a new author.</DialogContentText> */}
+					<Box
+						sx={{
+							width: '100%',
+							backgroundColor: 'lightgray',
+							height: '200px',
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+						}}
+					>
+						<Avatar
+							alt="Remy Sharp"
+							src=""
+							sx={{ width: 150, height: 150 }}
+							// onClick={handleOpenAvatar}
+						/>
+					</Box>
+				</DialogContent>
+				<DialogActions>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							gap: 8,
+							width: '100%',
+						}}
+					>
+						{/* <Button onClick={''}>Add Photo</Button> */}
+						<Input type="file" name="image" onChange={handleAddImage} />
+						<Button onClick={''}>Edit Photo</Button>
+						<Button onClick={''}>Delete Photo</Button>
+					</Box>
+				</DialogActions>
+			</Dialog>
+
+			{/* Author content */}
 			<Dialog
 				open={open}
-				// onClose={handleClose}
+				onClose={handleClose}
 				PaperProps={{
 					component: 'form',
 					// onSubmit: (event) => {
@@ -233,10 +412,30 @@ const Authors = () => {
 					// 	handleClose();
 					// },
 				}}
+				// fullScreen
+				fullWidth={true}
+				maxWidth="lg"
 			>
 				<DialogTitle>Add author</DialogTitle>
 				<DialogContent>
 					<DialogContentText>Fill the required fields to add a new author.</DialogContentText>
+					<Box
+						sx={{
+							width: '100%',
+							backgroundColor: 'lightgray',
+							height: '200px',
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+						}}
+					>
+						<Avatar
+							alt="Author"
+							src=""
+							sx={{ width: 150, height: 150, cursor: 'pointer' }}
+							onClick={handleOpenAvatar}
+						/>
+					</Box>
 					<TextField
 						autoFocus
 						margin="dense"
@@ -272,7 +471,39 @@ const Authors = () => {
 						onChange={handleChange}
 					/>
 					{/* <Grid item xs={12}> */}
-					<Input type="file" name="image" onChange={handleChange} />
+					{/* <Box sx={{ width: '200px' }}>
+						<Input type="file" name="image" onChange={handleChange} />
+					</Box> */}
+					{/* {imageSrc && (
+						<Box>
+							<Cropper
+								image={imageSrc}
+								crop={crop}
+								zoom={zoom}
+								aspect={16 / 8} // You can change the aspect ratio if needed
+								onCropChange={setCrop}
+								onZoomChange={setZoom}
+								onCropComplete={(croppedArea, croppedAreaPixels) => {
+									console.log('CROP COMPLETE');
+									setCroppedArea(croppedAreaPixels); // Store the cropped area
+								}}
+							/>
+							<Box mt={2}>
+								<Slider
+									value={zoom}
+									min={1}
+									max={10}
+									step={0.5}
+									shiftStep={0.5}
+									marks
+									aria-labelledby="Zoom"
+									// classes={{ root: classes.slider }}
+									onChange={(e, zoom) => setZoom(zoom)}
+								/>
+								
+							</Box>
+						</Box>
+					)} */}
 					{/* </Grid> */}
 					<TextField
 						autoFocus
@@ -349,33 +580,6 @@ const Authors = () => {
 					</Button>
 				</DialogActions>
 			</Dialog>
-
-			{imageSrc && (
-				<Box>
-					<Cropper
-						image={imageSrc}
-						crop={crop}
-						zoom={zoom}
-						aspect={4 / 3} // You can change the aspect ratio if needed
-						onCropChange={setCrop}
-						onZoomChange={setZoom}
-						onCropComplete={(croppedArea, croppedAreaPixels) => {
-							setCroppedArea(croppedAreaPixels); // Store the cropped area
-						}}
-					/>
-					<Box mt={2}>
-						<TextField
-							label="Zoom"
-							type="range"
-							value={zoom}
-							min="1"
-							max="3"
-							step="0.1"
-							onChange={(e) => setZoom(e.target.value)} // Allow user to zoom the image
-						/>
-					</Box>
-				</Box>
-			)}
 		</>
 	);
 };
