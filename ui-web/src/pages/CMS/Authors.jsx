@@ -29,9 +29,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import moment from 'moment';
 // api
 import api from '../../api/axios';
+// helpers
+import cropImage from '../../utils/cropImage';
 // components
 import Bar from '../../components/CMS/Bar';
-import { set } from 'mongoose';
+
 const Authors = () => {
 	const [open, setOpen] = useState(false);
 	const [openAvatar, setOpenAvatar] = useState(false);
@@ -59,6 +61,8 @@ const Authors = () => {
 	const [zoom, setZoom] = useState(1); // Zoom value
 	const [rotation, setRotation] = useState(0); // Image rotation
 	const [croppedArea, setCroppedArea] = useState(null); // To capture the cropped area
+	const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+	const [croppedImage, setCroppedImage] = useState(null);
 
 	const getAuthors = async () => {
 		const { data } = await api.get('/authors');
@@ -162,6 +166,35 @@ const Authors = () => {
 		reader.readAsDataURL(files[0]);
 		handleOpenImageSource();
 		console.log('handleAddImage:', files[0]);
+	};
+
+	const onCropComplete = (croppedArea, croppedAreaPixels) => {
+		// console.log('CROP COMPLETE');
+		setCroppedAreaPixels(croppedAreaPixels);
+	};
+
+	const handleSaveCroppedImage = async () => {
+		try {
+			const croppedImageBlob = await cropImage(imageSrc, croppedAreaPixels, rotation);
+			const fileName = `cropped-image-${Date.now()}.jpg`;
+			const file = new File([croppedImageBlob], fileName, { type: 'image/jpeg' });
+			console.log('Cropped image blob:', croppedImageBlob, file);
+
+			// Prepare the form data
+			const formData = new FormData();
+			formData.append('image', file); // Append the cropped image blob
+
+			const { data } = await api.post('/authors', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			});
+			console.log('Author created Cropped image saved:', data);
+			// handleCloseImageSource();
+		} catch (error) {
+			console.error('Error saving the cropped image:', error);
+			alert('Failed to save the image.');
+		}
 	};
 
 	return (
@@ -287,12 +320,7 @@ const Authors = () => {
 							showGrid={true}
 							onCropChange={setCrop}
 							onZoomChange={setZoom}
-							onCropComplete={(croppedArea, croppedAreaPixels) => {
-								console.log('CROP COMPLETE');
-								console.log(croppedArea, croppedAreaPixels);
-								window.localStorage.setItem('croppedImage', JSON.stringify(croppedArea));
-								// setCroppedArea(croppedAreaPixels); // Store the cropped area
-							}}
+							onCropComplete={onCropComplete}
 						/>
 					</Box>
 					<Box mt={2}>
@@ -330,7 +358,7 @@ const Authors = () => {
 							width: '100%',
 						}}
 					>
-						<Button onClick={''}>Save Photo</Button>
+						<Button onClick={handleSaveCroppedImage}>Save Photo</Button>
 					</Box>
 				</DialogActions>
 			</Dialog>
