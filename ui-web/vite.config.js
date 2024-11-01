@@ -9,6 +9,11 @@ const useHttps = process.env.USE_HTTPS === 'true';
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [react()],
+	build: {
+		target: 'es2015',
+		// target: 'esnext', // Force Vite to output modern JavaScript
+		minify: 'esbuild', // Ensure modern minification
+	},
 	server: {
 		...(useHttps
 			? {

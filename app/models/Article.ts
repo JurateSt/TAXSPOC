@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const ArticleSchema = new Schema(
 	{
+		slug: { type: String },
 		dateTag: { type: Date },
 		articleDate: { type: Date },
 		photoUrl: { type: String },
@@ -14,6 +15,7 @@ const ArticleSchema = new Schema(
 		categories: { type: [Object] },
 		source: { type: String },
 		images: { type: Array },
+		description: { type: String },
 	},
 	{ timestamps: true }
 );

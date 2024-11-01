@@ -20,7 +20,12 @@ const Section = ({ section, limit, customStyles }) => {
 			type: section.type,
 			category: section.category,
 		});
-		// add all as a parameter to get all articles
+
+		if (section.type === 'latest') {
+			const { data } = await api.get(`/articles-latest?limit=${limit}`);
+			setArticles(data);
+			return;
+		}
 		const { data } = await api.get(`/articles/category?${params}&limit=${limit}`);
 		setArticles(data);
 	};
@@ -28,6 +33,7 @@ const Section = ({ section, limit, customStyles }) => {
 	useEffect(() => {
 		getArticles();
 	}, [section]);
+
 	return (
 		// articles.length > 0 && (
 		<Grid
@@ -51,7 +57,7 @@ const Section = ({ section, limit, customStyles }) => {
 				columnSpacing={2}
 				rowSpacing={2}
 			>
-				{articles.map((item, index) => (
+				{articles?.map((item, index) => (
 					<Grid container item xs={12} sm={6} md={3} lg={3} xl={3} key={index}>
 						<ArticleCard key={index} article={item} />
 					</Grid>

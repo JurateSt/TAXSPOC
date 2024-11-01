@@ -27,18 +27,19 @@ import CloseIcon from '@mui/icons-material/Close';
 import NavigationLink from './NavigationLink';
 import LogoBar from './LogoBar';
 
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const NavigationBar = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const isOld = location.pathname === '/home2';
 
-	const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+	const isMobile = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
 	const [drawerOpen, setDrawerOpen] = useState(false);
 	const [openMenuItems, setOpenMenuItems] = useState(false);
 
 	const handleClick = () => {
-		navigate('/home');
+		navigate('/');
 	};
 	const handleDrawerOpen = () => {
 		setDrawerOpen(true);
@@ -49,70 +50,17 @@ const NavigationBar = () => {
 
 	const generateCategoryPath = (type, category) => {
 		const params = new URLSearchParams({ type, category });
-		// return `/category/articles?${params.toString()}`;
 		return `/articles/category?${params}`;
 	};
 
-	// const pathToCurrentSectionMap = {
-	// 	'/home': 'Home',
-	// 	'/hot-topics': 'Hot Topics',
-	// 	'Indirect Tax': 'Indirect Tax',
-	// 	'Direct Tax': 'Direct Tax',
-	// 	'Transfer Pricing': 'Transfer Pricing',
-	// 	'Tax Technology': 'Tax Technology',
-	// 	Customs: 'Customs',
-	// };
-
-	// const getCurrentSection = () => {
-	// 	const { pathname, search } = location;
-
-	// 	console.log('CURRENT SECTION', pathname, search);
-	// 	const categorySectionMap = pathToSectionMap['/category/articles'];
-	// 	if (pathToSectionMap[pathname]) {
-	// 		return pathToSectionMap[pathname];
-	// 	}
-	// 	if (pathname === '/category/articles') {
-	// 		const params = new URLSearchParams(search);
-	// 		const name = params.get('name');
-	// 		console.log('CURRENT SECTION', name, categorySectionMap[name]);
-	// 		return categorySectionMap[name] || 'Home';
-	// 	}
-	// 	return 'Home';
-	// };
-
-	// const currentSection =
-	// 	location.pathname === '/home'
-	// 		? 'Home'
-	// 		: location.pathname === '/hot-topics'
-	// 			? 'Hot Topics'
-	// 			: location.pathname === '/category/articles'
-	// 				? (() => {
-	// 						const params = new URLSearchParams(location.search);
-	// 						const name = params.get('name');
-	// 						return pathToCurrentSectionMap[name] || 'Home';
-	// 					})()
-	// 				: 'Home';
-
-	// const currentSection =
-	// 	location.pathname === '/home'
-	// 		? 'Home'
-	// 		: location.pathname === '/articles/indirect-tax'
-	// 			? 'Indirect Tax'
-	// 			: location.pathname === '/articles/direct-tax'
-	// 				? 'Direct Tax'
-	// 				: location.pathname === '/articles/transfer-pricing'
-	// 					? 'Transfer Pricing'
-	// 					: location.pathname === '/articles/tax-technology'
-	// 						? 'Tax Technology'
-	// 						: location.pathname === '/articles/customs'
-	// 							? 'Customs'
-	// 							: 'Hot Topics';
-
 	const hotTopicsMenuItems = [
-		{ label: 'OECD BEPS', path: '/hot-topics/1' },
-		{ label: 'E-invoicing', path: '/hot-topics/2' },
-		{ label: 'Brazil Tax Reform', path: '/hot-topics/3' },
-		{ label: 'UAE CIT', path: '/hot-topics/4' },
+		{ label: 'OECD BEPS', path: generateCategoryPath('other', 'OECD BEPS') },
+		{
+			label: 'E-Invoicing and E-Reporting',
+			path: generateCategoryPath('other', 'E-Invoicing and E-Reporting'),
+		},
+		{ label: 'Brazil Tax Reform', path: generateCategoryPath('other', 'Brazil Tax Reform') },
+		{ label: 'UAE CIT', path: generateCategoryPath('other', 'UAE CIT') },
 	];
 
 	const navigationItems = [
@@ -142,19 +90,11 @@ const NavigationBar = () => {
 		<Toolbar
 			sx={{
 				bgcolor: 'background.default',
-				// vertical stretch
 				alignItems: 'stretch',
-				// display: { xs: 'none', md: 'flex' },
-				// justifyContent: 'center',
-				// padding by screen size
-				// padding: { xs: 0, md: 0 },
-				// justifyContent: 'space-between',
-				// alignItems: 'center',
 			}}
 		>
 			{isMobile ? (
 				<>
-					{/* <Box sx={{ borderRight: '1px solid', borderColor: 'primary.main' }}> */}
 					<IconButton
 						edge="start"
 						color="primary.main"
@@ -164,21 +104,11 @@ const NavigationBar = () => {
 					>
 						<MenuIcon fontSize="large" />
 					</IconButton>
-					{/* </Box> */}
-					<Drawer
-						anchor="left"
-						open={drawerOpen}
-						onClose={handleDrawerClose}
-						// PaperProps={{
-						// 	sx: { bgcolor: 'primary.midnightBlue200' },
-						// }}
-					>
+					<Drawer anchor="left" open={drawerOpen} onClose={handleDrawerClose}>
 						<LogoBar />
 						<Toolbar
 							sx={{
 								bgcolor: 'background.default',
-								// display: { xs: 'none', md: 'flex' },
-								// justifyContent: 'center',
 								alignItems: 'stretch',
 							}}
 						>
@@ -197,19 +127,17 @@ const NavigationBar = () => {
 									display: 'flex',
 									justifyContent: 'center',
 									alignItems: 'center',
-									cursor: 'pointer',
+									// cursor: 'pointer',
 								}}
-								onClick={handleClick}
+								// onClick={handleClick}
 							>
-								{isOld ? (
-									<img src={LogoOld} style={{ height: '28px', width: 'auto' }} alt="TaxSpoc Logo" />
-								) : (
+								<a href={VITE_BASE_URL}>
 									<img
 										src={LogoMain}
 										style={{ height: '32px', width: 'auto' }}
 										alt="TaxSpoc Logo"
 									/>
-								)}
+								</a>
 							</Box>
 						</Toolbar>
 						<Box
@@ -219,9 +147,6 @@ const NavigationBar = () => {
 							onKeyDown={handleDrawerClose}
 						>
 							<List>
-								{/* <ListItemButton onClick={() => setOpenMenuItems(!openMenuItems)}>
-									<CloseIcon />
-								</ListItemButton> */}
 								{navigationItems.map((item, index) =>
 									item.menuItems.length > 0 ? (
 										<>
@@ -232,7 +157,6 @@ const NavigationBar = () => {
 													setOpenMenuItems(!openMenuItems);
 												}}
 											>
-												{/* {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>} */}
 												<ListItemText primary={item.label} />
 												{openMenuItems ? <ExpandLess /> : <ExpandMore />}
 											</ListItemButton>
@@ -260,7 +184,6 @@ const NavigationBar = () => {
 												handleDrawerClose();
 											}}
 										>
-											{/* {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>} */}
 											<ListItemText primary={item.label} />
 										</ListItemButton>
 									)
@@ -274,28 +197,14 @@ const NavigationBar = () => {
 							display: 'flex',
 							justifyContent: 'left',
 							alignItems: 'center',
-							cursor: 'pointer',
+							// cursor: 'pointer',
 						}}
-						onClick={handleClick}
+						// onClick={handleClick}
 					>
-						{isOld ? (
-							<img src={LogoOld} style={{ height: '18px', width: 'auto' }} alt="TaxSpoc Logo" />
-						) : (
+						<a href={VITE_BASE_URL}>
 							<img src={LogoMain} style={{ height: '24px', width: 'auto' }} alt="TaxSpoc Logo" />
-						)}
+						</a>
 					</Box>
-					{/* current section */}
-					{/* <Box
-						sx={{
-							flexGrow: 1,
-							display: 'flex',
-							justifyContent: 'left',
-							alignItems: 'center',
-							color: 'primary.main',
-						}}
-					>
-						<Typography>{currentSection}</Typography>
-					</Box> */}
 				</>
 			) : (
 				<>
@@ -312,15 +221,13 @@ const NavigationBar = () => {
 								alignItems: 'center', // Ensures logo is vertically centered
 								marginRight: '32px', // Space between logo and navigation links
 								userSelect: 'none',
-								cursor: 'pointer',
+								// cursor: 'pointer',
 							}}
-							onClick={handleClick}
+							// onClick={handleClick}
 						>
-							{isOld ? (
-								<img src={LogoOld} style={{ height: '28px', width: 'auto' }} alt="TaxSpoc Logo" />
-							) : (
+							<a href={VITE_BASE_URL}>
 								<img src={LogoMain} style={{ height: '42px', width: 'auto' }} alt="TaxSpoc Logo" />
-							)}
+							</a>
 						</Box>
 
 						<Box
@@ -328,10 +235,6 @@ const NavigationBar = () => {
 								display: 'flex',
 								alignItems: 'stretch',
 								justifyContent: 'space-between',
-
-								// marginRight: '128px',
-								// userSelect: 'none',
-								// cursor: 'pointer',
 							}}
 						>
 							{navigationItems.map((item, index) => (
@@ -341,18 +244,6 @@ const NavigationBar = () => {
 							))}
 						</Box>
 					</Container>
-
-					{/* <NavigationLink to="/home">
-						<HomeOutlinedIcon />
-					</NavigationLink>
-					<NavigationLink to="/hot-topics" menuItems={hotTopicsMenuItems}>
-						Hot Topics
-					</NavigationLink>
-					<NavigationLink to="/articles/indirect-tax">Indirect Tax</NavigationLink>
-					<NavigationLink to="/articles/direct-tax">Direct Tax</NavigationLink>
-					<NavigationLink to="/articles/transfer-pricing">Transfer Pricing</NavigationLink>
-					<NavigationLink to="/articles/tax-technology">Tax Technology</NavigationLink>
-					<NavigationLink to="/articles/customs">Customs</NavigationLink> */}
 				</>
 			)}
 		</Toolbar>

@@ -58,6 +58,7 @@ const CreateArticleTinyMCE = () => {
 		content: '',
 		source: '',
 		images: [],
+		description: '',
 	};
 	const [article, setArticle] = useState(initialArticleValues);
 	// categories
@@ -114,7 +115,7 @@ const CreateArticleTinyMCE = () => {
 
 	const handleChange = (event) => {
 		const { name, value } = event.target;
-		console.log('handleChange', name, value);
+
 		setArticle((prev) => ({
 			...prev,
 			[name]: value,
@@ -167,7 +168,6 @@ const CreateArticleTinyMCE = () => {
 	};
 
 	const handleCountryChange = (event, value) => {
-		console.log('handleCountryChange', value);
 		setArticle((prev) => ({
 			...prev,
 			countries: value,
@@ -175,7 +175,6 @@ const CreateArticleTinyMCE = () => {
 	};
 
 	const handleOtherCategoryChange = (event, value) => {
-		console.log('handleOtherCategoryChange', value);
 		setArticle((prev) => ({
 			...prev,
 			otherCategories: value,
@@ -185,12 +184,12 @@ const CreateArticleTinyMCE = () => {
 	// actions
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+
 		if (article.regions.length === 0 || article.countries.length === 0) {
 			setError({ isError: true, message: 'Field is required' });
 			return;
 		}
 		const formData = new FormData();
-		// console.log('HANDLE SUBMIT REGION', article);
 
 		formData.append('regions', JSON.stringify(article.regions));
 		formData.append('countries', JSON.stringify(article.countries));
@@ -242,7 +241,6 @@ const CreateArticleTinyMCE = () => {
 	};
 
 	const handleCancel = () => {
-		console.log('handleCancel');
 		setArticle(initialArticleValues);
 	};
 
@@ -255,7 +253,7 @@ const CreateArticleTinyMCE = () => {
 		if (!window.confirm('Are you sure you want to delete this article?')) {
 			return;
 		}
-		console.log('handleDelete', id);
+
 		try {
 			await api.delete(`/articles/${id}`);
 			//const newArticles = articles.filter((item) => item._id !== id);

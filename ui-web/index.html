@@ -2,20 +2,32 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/LogoBrowser.svg" />
+    <link rel="icon" type="image/svg+xml" href="https://www.taxspoc.com/LogoBrowser.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TaxSpoc</title>
+    <meta property="og:locale" content="en_US">
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-715XZ977M1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+    <script type="module">
+      if (import.meta.env.VITE_INCLUDE_GOOGLE_ANALYTICS === 'true') {
+        const googleAnalyticsId = import.meta.env.VITE_GOOGLE_ANALYTICS_ID;
 
-      gtag('config', 'G-715XZ977M1');
+        if (googleAnalyticsId) {
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`;
+          document.head.appendChild(script);
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+
+          gtag('config', googleAnalyticsId);
+        }
+      }
     </script>
   </body>
 </html>

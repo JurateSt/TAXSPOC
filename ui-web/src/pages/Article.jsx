@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
+// Helmet
+import { Helmet } from 'react-helmet-async';
 // MUI
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
 // api
@@ -16,15 +18,17 @@ import ReadArticleContent from '../components/Article/ReadArticleContent.jsx';
 import ReadArticleCategories from '../components/Article/ReadArticleCategories.jsx';
 import ReadArticleSuggested from '../components/Article/ReadArticleSuggested.jsx';
 import ReadArticleSidePanel from '../components/Article/ReadArticleSidePanel.jsx';
+import ReadArticleShare from '../components/Article/ReadArticleShare.jsx';
 
 const Article = () => {
-	const { id } = useParams();
+	// const { id } = useParams();
+	const { slug } = useParams();
 
 	const [article, setArticle] = useState({});
 	const [articles, setArticles] = useState([]);
 
 	const getArticle = async () => {
-		const { data } = await api.get(`/articles/${id}`);
+		const { data } = await api.get(`/articles/${slug}`);
 		// console.log('ARTICLE: ', data);
 
 		setArticle(data);
@@ -39,33 +43,66 @@ const Article = () => {
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-	}, [id]);
+	}, [slug]);
 
 	useEffect(() => {
 		getArticle();
-		getArticles();
-	}, [id]);
+		// getArticles();
+	}, [slug]);
+
+	const jsonLdData = {
+		'@context': 'https://schema.org',
+		'@type': 'NewsArticle',
+		url: `https://www.taxspoc.com/articles/${article.slug}`,
+		publisher: {
+			'@type': 'Organization',
+			name: 'Taxspoc',
+			logo: {
+				'@type': 'ImageObject',
+				url: 'https://www.taxspoc.com/logo-dark.png',
+			},
+		},
+		headline: article.header,
+		mainEntityOfPage: {
+			'@type': 'WebPage',
+			'@id': `https://www.taxspoc.com/articles/${article.slug}`,
+		},
+		image: article?.images?.[0]?.url,
+		datePublished: article.dateTag || new Date().toISOString(),
+		description: article.description,
+		author: {
+			'@type': 'Organization',
+			name: 'Taxspoc Team',
+		},
+		isAccessibleForFree: true,
+		keywords: article?.tags?.join(', '),
+	};
 
 	return (
 		<>
+			<Helmet>
+				<title>{article.header}</title>
+				<meta name="title" content={article.header} />
+				<link rel="canonical" href={`https://www.taxspoc.com/articles/${article.slug}`} />
+				<meta name="description" content={article.description} />
+				{/* Open Graph / Social Meta Tags */}
+				<meta property="og:title" content={article.header} />
+				<meta property="og:description" content={article.description} />
+				<meta property="og:type" content="article" />
+				<meta property="og:image" content={article?.images?.[0]?.url} />
+				<meta property="og:url" content={`https://www.taxspoc.com/articles/${article.slug}`} />
+				{/* Twitter Meta Tags */}
+				{/* <meta name="twitter:card" content="summary_large_image" /> */}
+				<meta name="twitter:title" content={article.header} />
+				<meta name="twitter:description" content={article.supportingText} />
+				<meta name="twitter:image" content={article?.images?.[0]?.url} />
+				{/* schema.org */}
+				<script type="application/ld+json">{JSON.stringify(jsonLdData)}</script>
+			</Helmet>
+
 			<MainBar />
 			<Container sx={{ marginTop: '16px' }}>
 				<Grid container columnSpacing={2} rowSpacing={3}>
-					{/* <Grid
-					container
-					// sx={{ border: '3px solid green' }}
-					// make container vertical alignement to the top
-					sx={{ marginBottom: '32px' }}
-				>
-					<Grid item xs={12}>
-						<img
-							src={article?.images?.[0]?.url}
-							style={{ width: '100%', height: '210px', objectFit: 'cover' }}
-							alt={article?.header}
-						/>
-					</Grid>
-				</Grid> */}
-					{/* <Grid container spacing={2} sx={{ alignItems: 'flex-start' }}> */}
 					<Grid
 						container
 						item
@@ -85,6 +122,7 @@ const Article = () => {
 						<ReadArticleSubHeader article={article} />
 						<ReadArticleHeader article={article} />
 						<ReadArticleSupportingText article={article} />
+						<ReadArticleShare article={article} />
 						<ReadArticlePhoto article={article} />
 						<ReadArticleContent article={article} />
 						<ReadArticleCategories article={article} />
@@ -95,9 +133,6 @@ const Article = () => {
 						<ReadArticleSidePanel article={article} />
 					</Grid>
 				</Grid>
-
-				{/* <HotTopics /> */}
-				{/* </Grid> */}
 			</Container>
 			<BottomContainer />
 		</>
