@@ -456,7 +456,7 @@ const CreateArticleTinyMCE = () => {
 						<Table size="small" sx={{ tableLayout: 'fixed' }}>
 							<TableHead>
 								<TableRow>
-									<TableCell sx={{ width: '10%' }}>
+									<TableCell sx={{ width: '15%' }}>
 										<TableSortLabel active={true} direction={order} onClick={handleRequestSort}>
 											Date Tag
 										</TableSortLabel>
@@ -477,7 +477,7 @@ const CreateArticleTinyMCE = () => {
 										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 									>
 										<TableCell component="th" scope="row">
-											{moment(item.dateTag).format('YYYY-MM-DD')}
+											{moment(item.dateTag).format('YYYY-MM-DD HH:mm:ss')}
 										</TableCell>
 										<TableCell>{item.header}</TableCell>
 										<TableCell>{item.images.length}</TableCell>
