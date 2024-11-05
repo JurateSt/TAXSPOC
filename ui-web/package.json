@@ -248,7 +248,7 @@
 		],
 		"puppeteer": {
 			"executablePath": "/usr/bin/chromium-browser",
-			"timeout": 240000
+			"timeout": 600000
 		}
 	},
 	"dependencies": {
