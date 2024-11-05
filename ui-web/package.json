@@ -15,6 +15,14 @@
 		"include": [
 			"/",
 			"/home",
+			"/articles/breaking-news-european-union-finally-adopts-vida-package-to-modernize-vat-system",
+			"/articles/deep-dive-into-tax-measures-from-uks-autumn-2024-budget",
+			"/articles/uk-unveils-budget-with-targeted-tax-reforms-aiming-to-raise-40-billion",
+			"/articles/belgium-releases-draft-qualified-domestic-minimum-top-up-tax-qdmtt-return",
+			"/articles/spain-introduces-new-technical-specifications-for-approved-invoicing-software-verifactu",
+			"/articles/eu-commission-proposes-dac9-to-simplify-compliance-for-businesses-under-pillar-2-directive",
+			"/articles/uk-prime-ministers-definition-of-working-people-sparks-debate-as-labour-faces-scrutiny-over-upcoming-budget",
+			"/articles/mark-your-calendar-eus-november-5-ecofin-meeting-to-feature-key-developments-on-vida",
 			"/articles/argentina-announces-dissolution-of-federal-tax-authority-afip-and-creation-of-new-agency",
 			"/articles/frances-2025-budget-tax-hikes-targeting-the-rich-and-spending-cuts-to-address-deficit",
 			"/articles/australia-changes-to-country-by-country-local-file-reporting",
@@ -240,7 +248,7 @@
 		],
 		"puppeteer": {
 			"executablePath": "/usr/bin/chromium-browser",
-			"timeout": 240000
+			"timeout": 600000
 		}
 	},
 	"dependencies": {

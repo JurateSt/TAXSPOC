@@ -15,15 +15,13 @@ import {
 	Autocomplete,
 } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 // Quill
 import ReactQuill from 'react-quill';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
-// TinyMCE
-import { Editor } from '@tinymce/tinymce-react';
 // api
 import api from '../api/axios';
 // components
@@ -62,6 +60,9 @@ const EditArticle = () => {
 	// snackbar
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState('');
+
+	// tinymce
+	const [showEditor, setShowEditor] = useState(false);
 
 	const getArticle = async () => {
 		const { data } = await api.get(`/cms/auth/articles/${id}`);
@@ -220,6 +221,9 @@ const EditArticle = () => {
 		navigate('/auth/create-article');
 	};
 
+	const handleShowEditor = () => {
+		setShowEditor(!showEditor);
+	};
 	return (
 		<Container>
 			<Typography variant="h3" align="center">
@@ -227,14 +231,23 @@ const EditArticle = () => {
 			</Typography>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
-					<LocalizationProvider dateAdapter={AdapterDayjs}>
-						<DatePicker
-							label="Date tag"
-							value={article.dateTag}
-							onChange={handleDateChange}
-							renderInput={(params) => <TextField {...params} name="dateTag" />}
-						/>
-					</LocalizationProvider>
+					<Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+						<LocalizationProvider dateAdapter={AdapterDayjs}>
+							<DateTimePicker
+								label="Date tag"
+								value={article.dateTag}
+								ampm={false}
+								onChange={handleDateChange}
+								renderInput={(params) => <TextField {...params} name="dateTag" />}
+							/>
+						</LocalizationProvider>
+						<Box>
+							Will be saved as a UTC time:{' '}
+							{article.dateTag
+								? dayjs(article.dateTag).utc().format('MM/DD/YYYY HH:mm:ss [UTC]')
+								: 'No date selected'}
+						</Box>
+					</Box>
 				</Grid>
 				<Grid item xs={12}>
 					<TextField
@@ -322,8 +335,13 @@ const EditArticle = () => {
 						fullWidth
 					/>
 				</Grid>
+				<Grid item xs={6}>
+					<Button variant="outlined" onClick={handleShowEditor}>
+						{showEditor ? 'Hide TinyMCE editor' : 'Show TinyMCE editor'}
+					</Button>
+				</Grid>
 				<Grid item xs={12}>
-					<EditorTinyMCE value={article.content} onChange={handleContentChange} />
+					{showEditor && <EditorTinyMCE value={article.content} onChange={handleContentChange} />}
 				</Grid>
 				<Grid item xs={12}>
 					<TextField
