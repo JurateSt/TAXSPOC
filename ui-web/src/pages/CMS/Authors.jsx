@@ -33,9 +33,11 @@ import api from '../../api/axios';
 import cropImage from '../../utils/cropImage';
 // components
 import Bar from '../../components/CMS/Bar';
+import AuthorModal from '../../components/CMS/Author/AuthorModal';
 
 const Authors = () => {
 	const [open, setOpen] = useState(false);
+	const [authorId, setAuthorId] = useState(null);
 	const [openAvatar, setOpenAvatar] = useState(false);
 	const [openImageSource, setOpenImageSource] = useState(false);
 
@@ -74,62 +76,86 @@ const Authors = () => {
 		getAuthors();
 	}, []);
 
-	const handleAddAuthor = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	const handleChange = (event) => {
-		const { name, value, files } = event.target;
-		console.log('handleChange:', name, value, files);
-		let newValue = value;
-		if (name === 'image') {
-			newValue = files[0];
-		}
-		setFormData((prevState) => ({
-			...prevState,
-			[name]: newValue,
-		}));
-
-		if (name === 'image') {
-			const reader = new FileReader();
-			reader.onload = () => {
-				setImageSrc(reader.result);
-			};
-			reader.readAsDataURL(files[0]);
-		}
-	};
-
-	const handleSubmit = async (event) => {
+	const handleAddAuthor = async (event) => {
 		event.preventDefault();
-
-		const form = new FormData();
-		Object.keys(formData).forEach((key) => form.append(key, formData[key]));
-
-		// for (let [key, value] of formData.entries()) {
-		// 	console.log('FormData', key, value);
-		// }
+		const initialData = {
+			firstName: '',
+			lastName: '',
+			email: '',
+			role: '',
+			company: '',
+			phone: '',
+			linkedin: '',
+			description: '',
+			image: {},
+		};
 
 		try {
-			// Post form data to API endpoint
-			const { data } = await api.post('/authors', form, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			});
+			const { data } = await api.post('/authors', initialData);
 			alert('Author created');
 			console.log('Author created:', data);
-			setAuthors((prevState) => [...prevState, data]);
+			setAuthorId(data._id);
+			// setAuthors((prevState) => [...prevState, data]);
 		} catch (error) {
 			console.error('Error creating author:', error);
 			alert('Error creating author', error);
 		} finally {
-			handleClose();
+			setOpen(true);
 		}
 	};
+
+	// const handleClose = () => {
+	// 	setOpen(false);
+	// };
+
+	// const handleChange = (event) => {
+	// 	const { name, value, files } = event.target;
+	// 	console.log('handleChange:', name, value, files);
+	// 	let newValue = value;
+	// 	if (name === 'image') {
+	// 		newValue = files[0];
+	// 	}
+	// 	setFormData((prevState) => ({
+	// 		...prevState,
+	// 		[name]: newValue,
+	// 	}));
+
+	// 	if (name === 'image') {
+	// 		const reader = new FileReader();
+	// 		reader.onload = () => {
+	// 			setImageSrc(reader.result);
+	// 		};
+	// 		reader.readAsDataURL(files[0]);
+	// 	}
+	// };
+
+	// const handleSubmit = async (event) => {
+	// 	event.preventDefault();
+
+	// 	const form = new FormData();
+	// 	Object.keys(formData).forEach((key) => form.append(key, formData[key]));
+
+	// 	// for (let [key, value] of formData.entries()) {
+	// 	// 	console.log('FormData', key, value);
+	// 	// }
+
+	// 	try {
+	// 		// Post form data to API endpoint
+	// 		const { data } = await api.post('/authors', form, {
+	// 			headers: {
+	// 				'Content-Type': 'multipart/form-data',
+	// 			},
+	// 		});
+	// 		alert('Author created');
+	// 		console.log('Author created:', data);
+	// 		setAuthors((prevState) => [...prevState, data]);
+	// 	} catch (error) {
+	// 		console.error('Error creating author:', error);
+	// 		alert('Error creating author', error);
+	// 	} finally {
+	// 		handleClose();
+	// 	}
+	// };
 
 	const handleRequestSort = () => {
 		const newOrder = order === 'asc' ? 'desc' : 'asc';
@@ -248,33 +274,15 @@ const Authors = () => {
 										</Box>
 									</TableCell>
 									{/* <TableCell>
-										{item.categories
-											.filter((item) => item.type === 'region')
-											.map((item) => item.name)
-											.join(', ')}
-									</TableCell>
-									<TableCell>
-										{item.categories
-											.filter((item) => item.type === 'country')
-											.map((item) => item.name)
-											.join(', ')}
-									</TableCell>
-									<TableCell>
-										{item.categories
-											.filter((item) => item.type === 'other')
-											.map((item) => item.name)
-											.join(', ')}
-									</TableCell>
-									<TableCell>
 										<IconButton onClick={() => handleEdit(item._id)}>
 											<EditOutlinedIcon />
 										</IconButton>
-									</TableCell>
+									</TableCell> */}
 									<TableCell>
 										<IconButton onClick={() => handleDelete(item._id)}>
 											<DeleteOutlineOutlinedIcon />
 										</IconButton>
-									</TableCell>*/}
+									</TableCell>
 								</TableRow>
 							))}
 						</TableBody>
@@ -426,188 +434,12 @@ const Authors = () => {
 			</Dialog>
 
 			{/* Author content */}
-			<Dialog
+			<AuthorModal
+				authorId={authorId}
 				open={open}
-				onClose={handleClose}
-				PaperProps={{
-					component: 'form',
-					// onSubmit: (event) => {
-					// 	event.preventDefault();
-					// 	const formData = new FormData(event.currentTarget);
-					// 	const formJson = Object.fromEntries(formData.entries());
-					// 	const email = formJson.email;
-					// 	console.log(email);
-					// 	handleClose();
-					// },
-				}}
-				// fullScreen
-				fullWidth={true}
-				maxWidth="lg"
-			>
-				<DialogTitle>Add author</DialogTitle>
-				<DialogContent>
-					<DialogContentText>Fill the required fields to add a new author.</DialogContentText>
-					<Box
-						sx={{
-							width: '100%',
-							backgroundColor: 'lightgray',
-							height: '200px',
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
-						}}
-					>
-						<Avatar
-							alt="Author"
-							src=""
-							sx={{ width: 150, height: 150, cursor: 'pointer' }}
-							onClick={handleOpenAvatar}
-						/>
-					</Box>
-					<TextField
-						autoFocus
-						margin="dense"
-						id="firstName"
-						name="firstName"
-						label="First Name"
-						type="text"
-						fullWidth
-						variant="outlined"
-						onChange={handleChange}
-						required
-					/>
-					<TextField
-						autoFocus
-						margin="dense"
-						id="lastName"
-						name="lastName"
-						label="Last Name"
-						type="text"
-						fullWidth
-						variant="outlined"
-						onChange={handleChange}
-					/>
-					<TextField
-						autoFocus
-						margin="dense"
-						id="name"
-						name="email"
-						label="Email Address"
-						type="email"
-						fullWidth
-						variant="outlined"
-						onChange={handleChange}
-					/>
-					{/* <Grid item xs={12}> */}
-					{/* <Box sx={{ width: '200px' }}>
-						<Input type="file" name="image" onChange={handleChange} />
-					</Box> */}
-					{/* {imageSrc && (
-						<Box>
-							<Cropper
-								image={imageSrc}
-								crop={crop}
-								zoom={zoom}
-								aspect={16 / 8} // You can change the aspect ratio if needed
-								onCropChange={setCrop}
-								onZoomChange={setZoom}
-								onCropComplete={(croppedArea, croppedAreaPixels) => {
-									console.log('CROP COMPLETE');
-									setCroppedArea(croppedAreaPixels); // Store the cropped area
-								}}
-							/>
-							<Box mt={2}>
-								<Slider
-									value={zoom}
-									min={1}
-									max={10}
-									step={0.5}
-									shiftStep={0.5}
-									marks
-									aria-labelledby="Zoom"
-									// classes={{ root: classes.slider }}
-									onChange={(e, zoom) => setZoom(zoom)}
-								/>
-								
-							</Box>
-						</Box>
-					)} */}
-					{/* </Grid> */}
-					<TextField
-						autoFocus
-						margin="dense"
-						id="role"
-						name="role"
-						label="Role"
-						type="text"
-						fullWidth
-						variant="outlined"
-						onChange={handleChange}
-					/>
-					<TextField
-						autoFocus
-						margin="dense"
-						id="company"
-						name="company"
-						label="Company"
-						type="text"
-						fullWidth
-						variant="outlined"
-						onChange={handleChange}
-					/>
-					<TextField
-						autoFocus
-						margin="dense"
-						id="phone"
-						name="phone"
-						label="Phone"
-						type="text"
-						fullWidth
-						variant="outlined"
-					/>
-					<TextField
-						autoFocus
-						margin="dense"
-						id="linkedInUrl"
-						name="linkedInUrl"
-						label="LinkedIn"
-						type="text"
-						fullWidth
-						variant="outlined"
-						onChange={handleChange}
-					/>
-					<TextField
-						autoFocus
-						margin="dense"
-						id="twitterUrl"
-						name="twitterUrl"
-						label="Twitter"
-						type="text"
-						fullWidth
-						variant="outlined"
-						onChange={handleChange}
-					/>
-					<TextField
-						autoFocus
-						margin="dense"
-						id="description"
-						name="description"
-						label="About author"
-						multiline
-						minRows={4}
-						type="text"
-						fullWidth
-						variant="outlined"
-						onChange={handleChange}
-					/>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleClose}>Cancel</Button>
-					<Button type="submit" onClick={handleSubmit}>
-						Create
-					</Button>
-				</DialogActions>
-			</Dialog>
+				setOpen={setOpen}
+				handleOpenAvatar={handleOpenAvatar}
+			/>
 		</>
 	);
 };

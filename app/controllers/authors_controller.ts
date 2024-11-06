@@ -8,16 +8,6 @@ export default class AuthorsController {
 	async index({ response }: HttpContext) {
 		const authors = await Author.find();
 
-		// authors.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
-		// console.log(articles, articles);
-		// const shortArticles = articles.map((item) => {
-		// 	const { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images } =
-		// 		item;
-		// 	return { _id, slug, dateTag, subHeader, header, supportingText, tags, categories, images };
-		// });
-
-		console.log('API authors', authors);
-
 		return response.json(authors);
 	}
 	async store({ request, response }: HttpContext) {
@@ -36,5 +26,39 @@ export default class AuthorsController {
 
 		await author.save();
 		return response.json(author);
+	}
+
+	async update({ request, response, params }: HttpContext) {
+		const { image, ...authorData } = request.all();
+		const authorImage = request.file('image');
+		const author = await Author.findById(params.id);
+
+		if (!author) {
+			return response.status(404).json({ message: 'Author not found' });
+		}
+
+		author.set(authorData);
+
+		if (authorImage) {
+			const savedImage = await FileService.uploadAuthor(authorImage, author);
+			author.image = savedImage;
+		}
+
+		await author.save();
+		return response.json(author);
+	}
+
+	async destroy({ response, params }: HttpContext) {
+		const author = await Author.findById(params.id);
+
+		if (!author) {
+			return response.status(404).json({ message: 'Author not found' });
+		}
+
+		if (author) {
+			await FileService.deleteAllImages(author);
+		}
+
+		return response.json(204);
 	}
 }
