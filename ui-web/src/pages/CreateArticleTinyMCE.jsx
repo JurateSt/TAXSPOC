@@ -22,14 +22,16 @@ import {
 	TableSortLabel,
 	Paper,
 	Tab,
+	Box,
 } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
+import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import moment from 'moment';
-// TinyMCE
-import { Editor } from '@tinymce/tinymce-react';
 // api
 import api from '../api/axios';
 // auth
@@ -40,7 +42,7 @@ import EditorTinyMCE from '../components/TinyMCE/EditorTinyMCE';
 
 const CreateArticleTinyMCE = () => {
 	const { user } = useAuth();
-	console.log('CreateArticleTinyMCE user', user);
+
 	const navigate = useNavigate();
 
 	const [articles, setArticles] = useState([]);
@@ -77,6 +79,8 @@ const CreateArticleTinyMCE = () => {
 	// sorting
 	const [order, setOrder] = React.useState('desc');
 	const [orderBy, setOrderBy] = React.useState('dateTag');
+	// tinymce
+	const [showEditor, setShowEditor] = useState(false);
 
 	const getArticles = async () => {
 		const { data } = await api.get('/articles');
@@ -268,19 +272,9 @@ const CreateArticleTinyMCE = () => {
 		setSnackbarOpen(false);
 	};
 
-	function createData(name, calories, fat, carbs, protein) {
-		return { name, calories, fat, carbs, protein };
-	}
-
-	const rows = [
-		createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-		createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-		createData('Eclair', 262, 16.0, 24, 6.0),
-		createData('Cupcake', 305, 3.7, 67, 4.3),
-		createData('Gingerbread', 356, 16.0, 49, 3.9),
-	];
-
-	// console.log('ARTICLES', articles);
+	const handleShowEditor = () => {
+		setShowEditor(!showEditor);
+	};
 
 	return (
 		<>
@@ -291,14 +285,23 @@ const CreateArticleTinyMCE = () => {
 				</Typography>
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
-						<LocalizationProvider dateAdapter={AdapterDayjs}>
-							<DatePicker
-								label="Date tag"
-								value={article.dateTag}
-								onChange={handleDateChange}
-								renderInput={(params) => <TextField {...params} name="dateTag" />}
-							/>
-						</LocalizationProvider>
+						<Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+							<LocalizationProvider dateAdapter={AdapterDayjs}>
+								<DateTimePicker
+									label="Date tag"
+									value={article.dateTag}
+									ampm={false}
+									onChange={handleDateChange}
+									renderInput={(params) => <TextField {...params} name="dateTag" />}
+								/>
+							</LocalizationProvider>
+							<Box>
+								Will be saved as a UTC time:{' '}
+								{article.dateTag
+									? dayjs(article.dateTag).utc().format('MM/DD/YYYY HH:mm:ss [UTC]')
+									: 'No date selected'}
+							</Box>
+						</Box>
 					</Grid>
 					<Grid item xs={12}>
 						<TextField
@@ -394,8 +397,13 @@ const CreateArticleTinyMCE = () => {
 							fullWidth
 						/>
 					</Grid>
+					<Grid item xs={6}>
+						<Button variant="outlined" onClick={handleShowEditor}>
+							{showEditor ? 'Hide TinyMCE editor' : 'Show TinyMCE editor'}
+						</Button>
+					</Grid>
 					<Grid item xs={12}>
-						<EditorTinyMCE value={article.content} onChange={handleContentChange} />
+						{showEditor && <EditorTinyMCE value={article.content} onChange={handleContentChange} />}
 					</Grid>
 					<Grid item xs={12}>
 						<TextField
@@ -448,7 +456,7 @@ const CreateArticleTinyMCE = () => {
 						<Table size="small" sx={{ tableLayout: 'fixed' }}>
 							<TableHead>
 								<TableRow>
-									<TableCell sx={{ width: '10%' }}>
+									<TableCell sx={{ width: '15%' }}>
 										<TableSortLabel active={true} direction={order} onClick={handleRequestSort}>
 											Date Tag
 										</TableSortLabel>
@@ -469,7 +477,7 @@ const CreateArticleTinyMCE = () => {
 										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 									>
 										<TableCell component="th" scope="row">
-											{moment(item.dateTag).format('YYYY-MM-DD')}
+											{moment(item.dateTag).format('YYYY-MM-DD HH:mm:ss')}
 										</TableCell>
 										<TableCell>{item.header}</TableCell>
 										<TableCell>{item.images.length}</TableCell>
