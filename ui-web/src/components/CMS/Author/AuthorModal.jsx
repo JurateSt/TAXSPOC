@@ -14,17 +14,34 @@ import {
 	Avatar,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-const AuthorModal = ({ authorId, open, setOpen, handleOpenAvatar }) => {
-	const [form, setForm] = useState({
-		firstName: '',
-		lastName: '',
-		email: '',
-		role: '',
-		company: '',
-		phone: '',
-		linkedin: '',
-		description: '',
-	});
+// modal
+import ImageModal from './ImageModal';
+
+const AuthorModal = ({ authorId, open, setOpen, setAuthors }) => {
+	const [form, setForm] = useState({});
+	// modal
+	const [openImage, setOpenImage] = useState(false);
+
+	const getAuthor = async () => {
+		const { data } = await api.get(`/authors/${authorId}`);
+
+		setForm({
+			firstName: data.firstName,
+			lastName: data.lastName,
+			email: data.email,
+			role: data.role,
+			company: data.company,
+			phone: data.phone,
+			linkedin: data.linkedin,
+			description: data.description,
+			image: data.image?.url,
+			originalImage: data.image?.originalUrl,
+		});
+	};
+
+	useEffect(() => {
+		if (authorId) getAuthor();
+	}, [authorId]);
 
 	const handleChange = (event) => {
 		const { name, value } = event.target;
@@ -38,12 +55,15 @@ const AuthorModal = ({ authorId, open, setOpen, handleOpenAvatar }) => {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		console.log('form:', form);
-		// return;
 		try {
 			const { data } = await api.put(`/authors/${authorId}`, form);
 			alert('Author Updated');
 			console.log('Author Updated:', data);
+			setAuthors((prev) => {
+				const index = prev.findIndex((item) => item.id === authorId);
+				prev[index] = data;
+				return [...prev];
+			});
 		} catch (error) {
 			console.error('Error creating author:', error);
 			alert('Error creating author', error);
@@ -54,148 +74,154 @@ const AuthorModal = ({ authorId, open, setOpen, handleOpenAvatar }) => {
 		setOpen(false);
 	};
 	return (
-		<Dialog
-			open={open}
-			onClose={(event, reason) => {
-				if (reason !== 'backdropClick') {
-					handleClose(event);
-				}
-			}}
-			PaperProps={{
-				component: 'form',
-			}}
-			fullWidth={true}
-			maxWidth="lg"
-		>
-			<DialogTitle>Add author</DialogTitle>
-			<DialogContent>
-				<DialogContentText>Fill the required fields to add a new author.</DialogContentText>
-				<Box
-					sx={{
-						width: '100%',
-						backgroundColor: 'lightgray',
-						height: '200px',
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-					}}
-				>
-					<Avatar
-						alt="Author"
-						src=""
-						sx={{ width: 150, height: 150, cursor: 'pointer' }}
-						onClick={handleOpenAvatar}
+		<>
+			<Dialog
+				open={open}
+				PaperProps={{
+					component: 'form',
+				}}
+				fullWidth={true}
+				maxWidth="lg"
+			>
+				<DialogTitle>Add author</DialogTitle>
+				<DialogContent>
+					<Box
+						sx={{
+							width: '100%',
+							backgroundColor: 'lightgray',
+							height: '200px',
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+						}}
+					>
+						<Avatar
+							alt="Author"
+							src={form.image}
+							sx={{ width: 150, height: 150, cursor: 'pointer' }}
+							onClick={() => setOpenImage(true)}
+						/>
+					</Box>
+					<TextField
+						margin="dense"
+						id="firstName"
+						name="firstName"
+						label="First Name"
+						type="text"
+						value={form.firstName || ''}
+						fullWidth
+						variant="outlined"
+						onChange={handleChange}
+						required
 					/>
-				</Box>
-				<TextField
-					autoFocus
-					margin="dense"
-					id="firstName"
-					name="firstName"
-					label="First Name"
-					type="text"
-					fullWidth
-					variant="outlined"
-					onChange={handleChange}
-					required
-				/>
-				<TextField
-					autoFocus
-					margin="dense"
-					id="lastName"
-					name="lastName"
-					label="Last Name"
-					type="text"
-					fullWidth
-					variant="outlined"
-					onChange={handleChange}
-				/>
-				<TextField
-					autoFocus
-					margin="dense"
-					id="name"
-					name="email"
-					label="Email Address"
-					type="email"
-					fullWidth
-					variant="outlined"
-					onChange={handleChange}
-				/>
-				<TextField
-					autoFocus
-					margin="dense"
-					id="role"
-					name="role"
-					label="Role"
-					type="text"
-					fullWidth
-					variant="outlined"
-					onChange={handleChange}
-				/>
-				<TextField
-					autoFocus
-					margin="dense"
-					id="company"
-					name="company"
-					label="Company"
-					type="text"
-					fullWidth
-					variant="outlined"
-					onChange={handleChange}
-				/>
-				<TextField
-					autoFocus
-					margin="dense"
-					id="phone"
-					name="phone"
-					label="Phone"
-					type="text"
-					fullWidth
-					variant="outlined"
-				/>
-				<TextField
-					autoFocus
-					margin="dense"
-					id="linkedInUrl"
-					name="linkedInUrl"
-					label="LinkedIn"
-					type="text"
-					fullWidth
-					variant="outlined"
-					onChange={handleChange}
-				/>
-				<TextField
-					autoFocus
-					margin="dense"
-					id="twitterUrl"
-					name="twitterUrl"
-					label="Twitter"
-					type="text"
-					fullWidth
-					variant="outlined"
-					onChange={handleChange}
-				/>
-				<TextField
-					autoFocus
-					margin="dense"
-					id="description"
-					name="description"
-					label="About author"
-					multiline
-					minRows={4}
-					type="text"
-					fullWidth
-					variant="outlined"
-					onChange={handleChange}
-				/>
-			</DialogContent>
-			<DialogActions>
-				<Button onClick={handleClose}>Cancel</Button>
-				<Button type="submit" onClick={handleSubmit}>
-					Update
-				</Button>
-			</DialogActions>
-		</Dialog>
+					<TextField
+						margin="dense"
+						id="lastName"
+						name="lastName"
+						label="Last Name"
+						type="text"
+						value={form.lastName || ''}
+						fullWidth
+						variant="outlined"
+						onChange={handleChange}
+					/>
+					<TextField
+						margin="dense"
+						id="name"
+						name="email"
+						label="Email Address"
+						type="email"
+						value={form.email || ''}
+						fullWidth
+						variant="outlined"
+						onChange={handleChange}
+					/>
+					<TextField
+						margin="dense"
+						id="role"
+						name="role"
+						label="Role"
+						type="text"
+						value={form.role || ''}
+						fullWidth
+						variant="outlined"
+						onChange={handleChange}
+					/>
+					<TextField
+						margin="dense"
+						id="company"
+						name="company"
+						label="Company"
+						type="text"
+						value={form.company || ''}
+						fullWidth
+						variant="outlined"
+						onChange={handleChange}
+					/>
+					<TextField
+						margin="dense"
+						id="phone"
+						name="phone"
+						label="Phone"
+						type="text"
+						value={form.phone || ''}
+						fullWidth
+						variant="outlined"
+					/>
+					<TextField
+						margin="dense"
+						id="linkedInUrl"
+						name="linkedInUrl"
+						label="LinkedIn"
+						type="text"
+						value={form.linkedin || ''}
+						fullWidth
+						variant="outlined"
+						onChange={handleChange}
+					/>
+					<TextField
+						margin="dense"
+						id="twitterUrl"
+						name="twitterUrl"
+						label="Twitter"
+						type="text"
+						value={form.twitter || ''}
+						fullWidth
+						variant="outlined"
+						onChange={handleChange}
+					/>
+					<TextField
+						margin="dense"
+						id="description"
+						name="description"
+						label="About author"
+						value={form.description || ''}
+						multiline
+						minRows={4}
+						type="text"
+						fullWidth
+						variant="outlined"
+						onChange={handleChange}
+					/>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleClose}>Close</Button>
+					<Button onClick={handleClose}>Cancel</Button>
+					<Button type="submit" onClick={handleSubmit}>
+						Update
+					</Button>
+				</DialogActions>
+			</Dialog>
+
+			{/* add author photo */}
+			<ImageModal
+				authorId={authorId}
+				open={openImage}
+				setOpen={setOpenImage}
+				croppedImage={form.image}
+				originalImage={form.originalImage}
+			/>
+		</>
 	);
 };
 

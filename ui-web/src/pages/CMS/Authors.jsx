@@ -25,6 +25,8 @@ import {
 	Avatar,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 // libraries
 import moment from 'moment';
 // api
@@ -104,6 +106,11 @@ const Authors = () => {
 		}
 	};
 
+	const handleEdit = (id) => {
+		console.log('handleEdit:', id);
+		setAuthorId(id);
+		setOpen(true);
+	};
 	// const handleClose = () => {
 	// 	setOpen(false);
 	// };
@@ -156,6 +163,10 @@ const Authors = () => {
 	// 		handleClose();
 	// 	}
 	// };
+
+	const handleDelete = async (id) => {
+		console.log('handleDelete:', id);
+	};
 
 	const handleRequestSort = () => {
 		const newOrder = order === 'asc' ? 'desc' : 'asc';
@@ -249,7 +260,7 @@ const Authors = () => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{authors.map((item) => (
+							{authors?.map((item) => (
 								<TableRow key={item._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 									<TableCell component="th" scope="row">
 										{moment(item.createdAt).format('YYYY-MM-DD')}
@@ -269,15 +280,15 @@ const Authors = () => {
 													// gap: '8px',
 												}}
 											>
-												<img src={item.image?.url} alt="article" style={{ width: '200px' }} />
+												<img src={item.image?.url} alt="article" style={{ width: '100px' }} />
 											</Box>
 										</Box>
 									</TableCell>
-									{/* <TableCell>
+									<TableCell>
 										<IconButton onClick={() => handleEdit(item._id)}>
 											<EditOutlinedIcon />
 										</IconButton>
-									</TableCell> */}
+									</TableCell>
 									<TableCell>
 										<IconButton onClick={() => handleDelete(item._id)}>
 											<DeleteOutlineOutlinedIcon />
@@ -291,7 +302,7 @@ const Authors = () => {
 			</Container>
 
 			{/* edit author photo */}
-			<Dialog
+			{/* <Dialog
 				open={openImageSource}
 				onClose={handleCloseImageSource}
 				fullWidth={true}
@@ -316,7 +327,6 @@ const Authors = () => {
 						flexDirection: 'column',
 					}}
 				>
-					{/* <DialogContentText>Fill the required fields to add a new author.</DialogContentText> */}
 					<Box sx={{ position: 'relative', width: '100%', height: '400px' }}>
 						<Cropper
 							image={imageSrc}
@@ -369,77 +379,12 @@ const Authors = () => {
 						<Button onClick={handleSaveCroppedImage}>Save Photo</Button>
 					</Box>
 				</DialogActions>
-			</Dialog>
+			</Dialog> */}
 
 			{/* add author photo */}
-			<Dialog
-				open={openAvatar}
-				onClose={handleCloseAvatar}
-				// PaperProps={{
-				// 	component: 'form',
-				// }}
-				// fullScreen
-				fullWidth={true}
-				maxWidth="md"
-			>
-				<DialogTitle>Photo</DialogTitle>
-				<IconButton
-					aria-label="close"
-					onClick={handleCloseAvatar}
-					sx={(theme) => ({
-						position: 'absolute',
-						right: 8,
-						top: 8,
-						color: theme.palette.grey[500],
-					})}
-				>
-					<CloseIcon />
-				</IconButton>
-				<DialogContent>
-					{/* <DialogContentText>Fill the required fields to add a new author.</DialogContentText> */}
-					<Box
-						sx={{
-							width: '100%',
-							backgroundColor: 'lightgray',
-							height: '200px',
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
-						}}
-					>
-						<Avatar
-							alt="Remy Sharp"
-							src=""
-							sx={{ width: 150, height: 150 }}
-							// onClick={handleOpenAvatar}
-						/>
-					</Box>
-				</DialogContent>
-				<DialogActions>
-					<Box
-						sx={{
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
-							gap: 8,
-							width: '100%',
-						}}
-					>
-						{/* <Button onClick={''}>Add Photo</Button> */}
-						<Input type="file" name="image" onChange={handleAddImage} />
-						<Button onClick={''}>Edit Photo</Button>
-						<Button onClick={''}>Delete Photo</Button>
-					</Box>
-				</DialogActions>
-			</Dialog>
 
 			{/* Author content */}
-			<AuthorModal
-				authorId={authorId}
-				open={open}
-				setOpen={setOpen}
-				handleOpenAvatar={handleOpenAvatar}
-			/>
+			<AuthorModal authorId={authorId} open={open} setOpen={setOpen} setAuthors={setAuthors} />
 		</>
 	);
 };

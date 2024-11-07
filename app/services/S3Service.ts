@@ -46,7 +46,20 @@ export default new (class S3Service {
 		}
 	}
 
-	public async deleteFile(bucket: string, key: string) {
+	async deleteFile(bucket: string, key: string) {
+		const params = {
+			Bucket: bucket,
+			Key: `articles/images/${key}`,
+		};
+
+		try {
+			await this.s3.deleteObject(params).promise();
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	async deleteAuthors(bucket: string, key: string) {
 		const params = {
 			Bucket: bucket,
 			Key: `articles/images/${key}`,

@@ -45,7 +45,7 @@ export default new (class FileService {
 		return articleImages;
 	}
 
-	async uploadAuthor(image: any, entity: any): Promise<any> {
+	async uploadAuthor(image: any): Promise<any> {
 		const uploadedImage: any = {};
 		if (!image) {
 			console.error('S3: No images provided for upload');
@@ -53,8 +53,8 @@ export default new (class FileService {
 		}
 		if (!this.checkBucketName()) return uploadedImage;
 
-		const randomSix = Math.floor(100000 + Math.random() * 900000);
-		const fileName = `authors/${entity._id}-${randomSix}.${image.extname}`;
+		// const randomSix = Math.floor(100000 + Math.random() * 900000);
+		const fileName = `authors/${image.clientName}`;
 
 		try {
 			if (!image.tmpPath) {
@@ -63,10 +63,7 @@ export default new (class FileService {
 			}
 			const stream = fs.createReadStream(image.tmpPath);
 			const url = await S3Service.uploadAuthorImage(this.bucketName, fileName, stream);
-			return {
-				url,
-				originalName: image.clientName,
-			};
+			return url;
 		} catch (error) {
 			console.error('S3: Failed to upload image', error);
 		}
@@ -89,7 +86,7 @@ export default new (class FileService {
 		return article;
 	}
 
-	public async deleteAllImages(article: any): Promise<void> {
+	async deleteAllImages(article: any): Promise<void> {
 		const articleImages = article?.images || [];
 
 		if (!this.bucketName) {
@@ -100,5 +97,24 @@ export default new (class FileService {
 		for (const image of articleImages) {
 			await S3Service.deleteFile(this.bucketName, image.url.split('/').pop()!);
 		}
+	}
+
+	async deleteAuthorImages(author: any): Promise<void> {
+		const image = author?.image || {};
+		console.log('deleteAuthorImages', image);
+
+		//authors/
+
+		if (!this.bucketName) {
+			console.error('S3: Bucket name not found in environment variables');
+			return;
+		}
+		// image = {url: 'authors/123456.jpg', originalUrl: 'authors/123456.jpg'}
+		//await S3Service.deleteFile(this.bucketName, image.url.split('/').pop()!);
+		//await S3Service.deleteFile(this.bucketName, image.originalUrl.split('/').pop()!);
+
+		// for (const image of articleImages) {
+		// 	await S3Service.deleteFile(this.bucketName, image.url.split('/').pop()!);
+		// }
 	}
 })();
