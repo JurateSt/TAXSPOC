@@ -37,7 +37,7 @@ import api from '../api/axios';
 // auth
 import { useAuth } from '../context/AuthContext';
 // components
-import AuthMainBar from '../components/NavBar/AuthMainBar';
+import Bar from '../components/CMS/Bar';
 import EditorTinyMCE from '../components/TinyMCE/EditorTinyMCE';
 
 const CreateArticleTinyMCE = () => {
@@ -185,8 +185,15 @@ const CreateArticleTinyMCE = () => {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
-		if (article.regions.length === 0 || article.countries.length === 0) {
-			setError({ isError: true, message: 'Field is required' });
+		// if (article.regions.length === 0 || article.countries.length === 0) {
+		// 	setError({ isError: true, message: 'Field is required' });
+		// 	return;
+		// }
+
+		if (article?.header?.length === 0) {
+			setSnackbarMessage('Header field is required');
+			setSnackbarOpen(true);
+			// setError({ isError: true, message: 'Field is required' });
 			return;
 		}
 		const formData = new FormData();
@@ -278,7 +285,7 @@ const CreateArticleTinyMCE = () => {
 
 	return (
 		<>
-			<AuthMainBar />
+			<Bar />
 			<Container>
 				<Typography variant="h3" align="center">
 					Create Article
@@ -358,6 +365,7 @@ const CreateArticleTinyMCE = () => {
 						/>
 					</Grid>
 					<Grid item xs={12}>
+						{/* <FormControl fullWidth error={error.isError}> */}
 						<TextField
 							label="SubHeader"
 							name="subHeader"
@@ -366,8 +374,10 @@ const CreateArticleTinyMCE = () => {
 							variant="outlined"
 							fullWidth
 						/>
+						{/* </FormControl> */}
 					</Grid>
 					<Grid item xs={12}>
+						{/* <FormControl error={error.isError}> */}
 						<TextField
 							label="Header"
 							name="header"
@@ -376,6 +386,7 @@ const CreateArticleTinyMCE = () => {
 							variant="outlined"
 							fullWidth
 						/>
+						{/* </FormControl> */}
 					</Grid>
 					<Grid item xs={12}>
 						<TextField
