@@ -13,7 +13,6 @@ import {
 	Box,
 	Avatar,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 // modal
 import ImageModal from './ImageModal';
 
@@ -34,8 +33,7 @@ const AuthorModal = ({ authorId, open, setOpen, setAuthors }) => {
 			phone: data.phone,
 			linkedin: data.linkedin,
 			description: data.description,
-			image: data.image?.url,
-			originalImage: data.image?.originalUrl,
+			image: data?.image,
 		});
 	};
 
@@ -45,7 +43,6 @@ const AuthorModal = ({ authorId, open, setOpen, setAuthors }) => {
 
 	const handleChange = (event) => {
 		const { name, value } = event.target;
-		console.log('handleChange:', name, value, authorId);
 
 		setForm((prevState) => ({
 			...prevState,
@@ -57,13 +54,14 @@ const AuthorModal = ({ authorId, open, setOpen, setAuthors }) => {
 		event.preventDefault();
 		try {
 			const { data } = await api.put(`/authors/${authorId}`, form);
-			alert('Author Updated');
-			console.log('Author Updated:', data);
+			setForm((prev) => ({ ...prev, data }));
+
 			setAuthors((prev) => {
-				const index = prev.findIndex((item) => item.id === authorId);
+				const index = prev.findIndex((item) => item._id === authorId);
 				prev[index] = data;
 				return [...prev];
 			});
+			setOpen(false);
 		} catch (error) {
 			console.error('Error creating author:', error);
 			alert('Error creating author', error);
@@ -97,7 +95,7 @@ const AuthorModal = ({ authorId, open, setOpen, setAuthors }) => {
 					>
 						<Avatar
 							alt="Author"
-							src={form.image}
+							src={`${form?.image?.url}?timestamp=${new Date().getTime()}`}
 							sx={{ width: 150, height: 150, cursor: 'pointer' }}
 							onClick={() => setOpenImage(true)}
 						/>
@@ -219,7 +217,9 @@ const AuthorModal = ({ authorId, open, setOpen, setAuthors }) => {
 				open={openImage}
 				setOpen={setOpenImage}
 				croppedImage={form.image}
-				originalImage={form.originalImage}
+				originalImage={form.image?.originalUrl}
+				author={form}
+				setAuthor={setForm}
 			/>
 		</>
 	);

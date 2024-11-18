@@ -16,16 +16,13 @@ import api from '../../../api/axios';
 // helpers
 import cropImage from '../../../utils/cropImage';
 
-const EditImageModal = ({ open, setOpen, image, imageToCrop, authorId }) => {
+const EditImageModal = ({ open, setOpen, image, imageToCrop, authorId, author, setAuthor }) => {
 	const [crop, setCrop] = useState({ x: 0, y: 0 });
 	const [zoom, setZoom] = useState(1);
 	const [rotation, setRotation] = useState(0);
-	const [croppedArea, setCroppedArea] = useState(null);
 	const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-	const [croppedImage, setCroppedImage] = useState(null);
 
 	const onCropComplete = (croppedArea, croppedAreaPixels) => {
-		// console.log('CROP COMPLETE');
 		setCroppedAreaPixels(croppedAreaPixels);
 	};
 
@@ -36,26 +33,22 @@ const EditImageModal = ({ open, setOpen, image, imageToCrop, authorId }) => {
 				type: 'image/jpeg',
 			});
 			const originalFile = new File([image], `${authorId}-original.jpg`, { type: 'image/jpeg' });
-			// const fileName = `${authorId}.jpg`;
-			// const file = new File([croppedImageBlob], fileName, { type: 'image/jpeg' });
-			console.log('Cropped image blob:', croppedImageBlob, croppedFile, originalFile);
 
-			// Prepare the form data
 			const formData = new FormData();
 			formData.append('croppedImage', croppedFile);
 			formData.append('originalImage', originalFile);
+			formData.append('action', 'update-image');
 
 			const { data } = await api.put(`/authors/${authorId}`, formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},
 			});
-			console.log('Author updated with images:', data);
-			alert('Image saved successfully');
-			// handleCloseImageSource();
+			setAuthor((prev) => ({ ...prev, ...data }));
+			setOpen(false);
 		} catch (error) {
 			console.error('Error saving the cropped image:', error);
-			alert('Failed to save the image.');
+			alert('Failed to save the image');
 		}
 	};
 
@@ -87,7 +80,7 @@ const EditImageModal = ({ open, setOpen, image, imageToCrop, authorId }) => {
 						crop={crop}
 						zoom={zoom}
 						rotation={rotation}
-						aspect={1} // You can change the aspect ratio if needed
+						aspect={1}
 						cropShape="round"
 						showGrid={true}
 						onCropChange={setCrop}
@@ -104,7 +97,6 @@ const EditImageModal = ({ open, setOpen, image, imageToCrop, authorId }) => {
 						shiftStep={0.5}
 						marks
 						aria-labelledby="Zoom"
-						// classes={{ root: classes.slider }}
 						onChange={(e, zoom) => setZoom(zoom)}
 					/>
 				</Box>
@@ -115,7 +107,6 @@ const EditImageModal = ({ open, setOpen, image, imageToCrop, authorId }) => {
 						max={360}
 						step={1}
 						aria-labelledby="Zoom"
-						// classes={{ root: classes.slider }}
 						onChange={(e, rotation) => setRotation(rotation)}
 					/>
 				</Box>

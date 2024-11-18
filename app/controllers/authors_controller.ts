@@ -28,58 +28,53 @@ export default class AuthorsController {
 
 		const author = new Author(authorData);
 
-		// save images in S3
-		// let articleImages: any[] = [];
-		if (authorImage) {
-			const savedImage = await FileService.uploadAuthor(authorImage, author);
-			author.image = savedImage;
-		}
-
 		await author.save();
 		return response.json(author);
 	}
 
 	async update({ request, response, params }: HttpContext) {
-		const { croppedImage, originalImage, ...authorData } = request.all();
+		const { croppedImage, originalImage, image, ...authorData } = request.all();
 		const croppedImageFile = request.file('croppedImage');
 		const originalImageFile = request.file('originalImage');
 		const author = await Author.findById(params.id);
-
-		console.log('UPDATE AUTHOR', croppedImageFile, originalImageFile);
 
 		if (!author) {
 			return response.status(404).json({ message: 'Author not found' });
 		}
 
+		if (authorData.action === 'delete-image') {
+			const updatedArticle = await FileService.deleteAuthorImage(author);
+			response.json(updatedArticle);
+		}
+
 		author.set(authorData);
 
-		let croppedUrl;
-		let originalUrl;
-		if (croppedImageFile) {
-			croppedUrl = await FileService.uploadAuthor(croppedImageFile);
-		}
-		if (originalImageFile) {
-			originalUrl = await FileService.uploadAuthor(originalImageFile);
-		}
+		if (authorData.action === 'update-image') {
+			if (author.image) {
+				await FileService.deleteAuthorImage(author);
+			}
 
-		author.image = {
-			url: croppedUrl,
-			originalUrl: originalUrl,
-		};
+			let croppedUrl;
+			let originalUrl;
+			if (croppedImageFile) {
+				croppedUrl = await FileService.uploadAuthor(croppedImageFile);
+			}
+			if (originalImageFile) {
+				originalUrl = await FileService.uploadAuthor(originalImageFile);
+			}
+			author.image = { url: croppedUrl, originalUrl };
+		}
 
 		await author.save();
 		return response.json(author);
 	}
 
 	async destroy({ response, params }: HttpContext) {
-		const author = await Author.findById(params.id);
+		const id = params.id;
+		const author = await Author.findByIdAndDelete(id);
 
-		if (!author) {
-			return response.status(404).json({ message: 'Author not found' });
-		}
-
-		if (author) {
-			await FileService.deleteAuthorImages(author);
+		if (author?.image) {
+			await FileService.deleteAllAuthor(author);
 		}
 
 		return response.json(204);

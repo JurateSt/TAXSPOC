@@ -11,10 +11,20 @@ import {
 	Input,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+// api
+import api from '../../../api/axios';
 // modal
 import EditImageModal from './EditImageModal';
 
-const ImageModal = ({ authorId, open, setOpen, croppedImage, originalImage }) => {
+const ImageModal = ({
+	authorId,
+	author,
+	setAuthor,
+	open,
+	setOpen,
+	croppedImage,
+	originalImage,
+}) => {
 	// original image
 	const [image, setImage] = useState(null);
 	// image preview for cropping
@@ -35,15 +45,42 @@ const ImageModal = ({ authorId, open, setOpen, croppedImage, originalImage }) =>
 		reader.readAsDataURL(files[0]);
 		setImage(files[0]);
 		setOpenEdit(true);
-		console.log('handleAddImage:', files[0]);
 	};
 
-	const handleEditImage = (event) => {
-		setImageToCrop(originalImage);
-		// reader.readAsDataURL(files[0]);
-		setImage(originalImage);
-		setOpenEdit(true);
+	// const handleEditImage = async (event) => {
+	// 	// const response = await fetch(originalImage); // Fetch the image from the URL
+	// 	// const blob = await response.blob(); // Convert it to a Blob
+
+	// 	// const reader = new FileReader();
+	// 	// reader.onload = () => {
+	// 	// 	setImageToCrop(reader.result); // Use base64 Data URL for cropping
+	// 	// };
+	// 	// reader.readAsDataURL(blob);
+
+	// 	// setImage(blob);
+	// 	setImageToCrop(originalImage);
+	// 	// // reader.readAsDataURL(files[0]);
+	// 	// setImage(originalImage);
+	// 	setOpenEdit(true);
+	// };
+
+	const handleDeleteImage = async () => {
+		if (!window.confirm('Are you sure you want to delete the image?')) {
+			return;
+		}
+		try {
+			const { data } = await api.put(`/authors/${authorId}`, {
+				action: 'delete-image',
+			});
+			setAuthor((prev) => ({ ...prev, data }));
+			alert('Image deleted successfully');
+			setOpen(false);
+		} catch (error) {
+			console.error('Error deleting the image:', error);
+			alert('Failed to delete the image');
+		}
 	};
+
 	return (
 		<>
 			<Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="md">
@@ -73,9 +110,8 @@ const ImageModal = ({ authorId, open, setOpen, croppedImage, originalImage }) =>
 					>
 						<Avatar
 							alt="Author image"
-							src={croppedImage}
+							src={`${author?.image?.url}?timestamp=${new Date().getTime()}`}
 							sx={{ width: 150, height: 150 }}
-							// onClick={handleOpenAvatar}
 						/>
 					</Box>
 				</DialogContent>
@@ -89,10 +125,9 @@ const ImageModal = ({ authorId, open, setOpen, croppedImage, originalImage }) =>
 							width: '100%',
 						}}
 					>
-						{/* <Button onClick={''}>Add Photo</Button> */}
 						<Input type="file" name="image" onChange={handleAddImage} />
-						<Button onClick={handleEditImage}>Edit Photo</Button>
-						<Button onClick={''}>Delete Photo</Button>
+						{/* <Button onClick={handleEditImage}>Edit Photo</Button> */}
+						<Button onClick={handleDeleteImage}>Delete Photo</Button>
 					</Box>
 				</DialogActions>
 			</Dialog>
@@ -103,6 +138,8 @@ const ImageModal = ({ authorId, open, setOpen, croppedImage, originalImage }) =>
 				imageToCrop={imageToCrop}
 				image={image}
 				authorId={authorId}
+				author={author}
+				setAuthor={setAuthor}
 			/>
 		</>
 	);

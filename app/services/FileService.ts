@@ -69,7 +69,7 @@ export default new (class FileService {
 		}
 	}
 
-	public async deleteImage(article: any, imageUrl: string): Promise<any> {
+	async deleteImage(article: any, imageUrl: string): Promise<any> {
 		const articleImages = article?.images || [];
 		const imageIndex = articleImages.findIndex((item: any) => item.url === imageUrl);
 
@@ -99,22 +99,48 @@ export default new (class FileService {
 		}
 	}
 
-	async deleteAuthorImages(author: any): Promise<void> {
-		const image = author?.image || {};
-		console.log('deleteAuthorImages', image);
-
-		//authors/
-
-		if (!this.bucketName) {
-			console.error('S3: Bucket name not found in environment variables');
-			return;
+	//authors
+	async deleteAuthorImage(author: any): Promise<any> {
+		if (!author || !author.image) {
+			throw new Error('Author or image data not found');
 		}
-		// image = {url: 'authors/123456.jpg', originalUrl: 'authors/123456.jpg'}
-		//await S3Service.deleteFile(this.bucketName, image.url.split('/').pop()!);
-		//await S3Service.deleteFile(this.bucketName, image.originalUrl.split('/').pop()!);
 
-		// for (const image of articleImages) {
-		// 	await S3Service.deleteFile(this.bucketName, image.url.split('/').pop()!);
-		// }
+		if (!this.checkBucketName()) {
+			return author;
+		}
+
+		const { url, originalUrl } = author.image;
+		if (url) {
+			await S3Service.deleteAuthor(this.bucketName, url.split('/').pop()!);
+		}
+
+		if (originalUrl) {
+			await S3Service.deleteAuthor(this.bucketName, originalUrl.split('/').pop()!);
+		}
+
+		author.image = {};
+
+		await author.save();
+
+		return author;
+	}
+
+	async deleteAllAuthor(author: any): Promise<any> {
+		if (!author || !author.image) {
+			throw new Error('Author or image data not found');
+		}
+
+		if (!this.checkBucketName()) {
+			return author;
+		}
+
+		const { url, originalUrl } = author.image;
+		if (url) {
+			await S3Service.deleteAuthor(this.bucketName, url.split('/').pop()!);
+		}
+
+		if (originalUrl) {
+			await S3Service.deleteAuthor(this.bucketName, originalUrl.split('/').pop()!);
+		}
 	}
 })();

@@ -59,10 +59,10 @@ export default new (class S3Service {
 		}
 	}
 
-	async deleteAuthors(bucket: string, key: string) {
+	async deleteAuthor(bucket: string, key: string) {
 		const params = {
 			Bucket: bucket,
-			Key: `articles/images/${key}`,
+			Key: `authors/${key}`,
 		};
 
 		try {
