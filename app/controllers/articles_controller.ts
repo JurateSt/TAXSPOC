@@ -265,7 +265,6 @@ export default class ArticlesController {
 
 		if (typeof tags === 'string') {
 			articleData.tags = tags.split(',').map((item) => item.trim());
-			log('TAGS', articleData.tags);
 		}
 		const parsedAuthors = JSON.parse(authors || '[]');
 		const parsedRegions = JSON.parse(regions || '[]');
