@@ -178,6 +178,7 @@ export default class ArticlesController {
 		const {
 			images: _images,
 			tags,
+			authors,
 			categories,
 			regions,
 			countries,
@@ -186,11 +187,17 @@ export default class ArticlesController {
 			dateTag,
 			...articleData
 		} = request.all();
+
 		const images = request.files('images');
 
+		const parsedAuthors = JSON.parse(authors || '[]');
 		const parsedRegions = JSON.parse(regions || '[]');
 		const parsedCountries = JSON.parse(countries || '[]');
 		const parsedOtherCategories = JSON.parse(otherCategories || '[]');
+
+		const mappedAuthors = parsedAuthors?.map((item: any) => ({
+			_id: item._id,
+		}));
 
 		const mappedRegions = parsedRegions?.map((item: any) => ({
 			_id: item._id,
@@ -215,6 +222,7 @@ export default class ArticlesController {
 			articleData.tags = tags.split(',').map((item) => item.trim());
 		}
 		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
+		articleData.authors = mappedAuthors;
 
 		const slugHeader = slug(header);
 		const existingArticles = await Article.countDocuments({ slug: slugHeader });
@@ -244,6 +252,7 @@ export default class ArticlesController {
 		const { id } = request.params();
 		const {
 			images: _images,
+			authors,
 			tags,
 			categories,
 			regions,
@@ -257,9 +266,14 @@ export default class ArticlesController {
 			articleData.tags = tags.split(',').map((item) => item.trim());
 			log('TAGS', articleData.tags);
 		}
+		const parsedAuthors = JSON.parse(authors || '[]');
 		const parsedRegions = JSON.parse(regions || '[]');
 		const parsedCountries = JSON.parse(countries || '[]');
 		const parsedOtherCategories = JSON.parse(otherCategories || '[]');
+
+		const mappedAuthors = parsedAuthors?.map((item: any) => ({
+			_id: item._id,
+		}));
 
 		const mappedRegions = parsedRegions?.map((item: any) => ({
 			_id: item._id,
@@ -281,6 +295,7 @@ export default class ArticlesController {
 		}));
 
 		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
+		articleData.authors = mappedAuthors;
 
 		if (articleData.action === 'deleteFile') {
 			const article = await Article.findById(id);

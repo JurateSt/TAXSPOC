@@ -58,9 +58,12 @@ const CreateArticleTinyMCE = () => {
 		content: '',
 		source: '',
 		images: [],
+		authors: [],
 		description: '',
 	};
 	const [article, setArticle] = useState(initialArticleValues);
+	//authors
+	const [authors, setAuthors] = useState([]);
 	// categories
 	const [regions, setRegions] = useState([]);
 	const [countries, setCountries] = useState([]);
@@ -87,6 +90,10 @@ const CreateArticleTinyMCE = () => {
 
 		setArticles(data);
 	};
+	const getAuthors = async () => {
+		const { data } = await api.get('/authors');
+		setAuthors(data);
+	};
 	const getRegions = async () => {
 		const { data } = await api.get('/regions');
 		setRegions(data.sort((a, b) => a.name.localeCompare(b.name)));
@@ -108,6 +115,7 @@ const CreateArticleTinyMCE = () => {
 
 	useEffect(() => {
 		getArticles();
+		getAuthors();
 		getRegions();
 		getCountries();
 		getOtherCategories();
@@ -121,6 +129,12 @@ const CreateArticleTinyMCE = () => {
 			[name]: value,
 		}));
 	};
+	const handleAuthorChange = (event, value) => {
+		setArticle((prev) => {
+			return { ...prev, authors: [...prev.authors, value] };
+		});
+	};
+
 	const handleDateChange = (newDate) => {
 		setArticle((prev) => ({
 			...prev,
@@ -146,25 +160,6 @@ const CreateArticleTinyMCE = () => {
 			...prev,
 			regions: value,
 		}));
-		// console.log('handleRegionChange', value);
-		// if (value) {
-		// 	setArticle((prev) => ({
-		// 		...prev,
-		// 		regions: value,
-		// 		countries: [],
-		// 	}));
-		// 	const regionIds = value.map((item) => item._id);
-		// 	const { data } = await api.get(`/countries?regions=${regionIds.join(',')}`);
-		// 	setRegionCountries(data);
-		// } else {
-		// 	setArticle((prev) => ({
-		// 		...prev,
-		// 		regions: [],
-		// 		countries: [],
-		// 	}));
-
-		// 	setRegionCountries(countries);
-		// }
 	};
 
 	const handleCountryChange = (event, value) => {
@@ -184,7 +179,6 @@ const CreateArticleTinyMCE = () => {
 	// actions
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-
 		// if (article.regions.length === 0 || article.countries.length === 0) {
 		// 	setError({ isError: true, message: 'Field is required' });
 		// 	return;
@@ -201,13 +195,14 @@ const CreateArticleTinyMCE = () => {
 		formData.append('regions', JSON.stringify(article.regions));
 		formData.append('countries', JSON.stringify(article.countries));
 		formData.append('otherCategories', JSON.stringify(article.otherCategories));
+		formData.append('authors', JSON.stringify(article.authors));
 
 		Array.from(article.images).forEach((item) => {
 			formData.append('images[]', item);
 		});
 
 		Object.keys(article).forEach((key) => {
-			if (!['images', 'regions', 'countries', 'otherCategories'].includes(key)) {
+			if (!['images', 'regions', 'countries', 'otherCategories', 'authors'].includes(key)) {
 				const value = article[key] === null ? '' : article[key];
 				formData.append(key, value);
 			}
@@ -263,7 +258,6 @@ const CreateArticleTinyMCE = () => {
 
 		try {
 			await api.delete(`/articles/${id}`);
-			//const newArticles = articles.filter((item) => item._id !== id);
 			setArticles((prev) => prev.filter((item) => item._id !== id));
 
 			setSnackbarMessage('Article successfully deleted!');
@@ -310,11 +304,22 @@ const CreateArticleTinyMCE = () => {
 							</Box>
 						</Box>
 					</Grid>
+
 					<Grid item xs={12}>
 						<TextField
 							label="Tags"
 							name="tags"
 							value={article.tags}
+							onChange={handleChange}
+							variant="outlined"
+							fullWidth
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							label="Meta description (max 160 characters)"
+							name="description"
+							value={article.description}
 							onChange={handleChange}
 							variant="outlined"
 							fullWidth
@@ -398,16 +403,7 @@ const CreateArticleTinyMCE = () => {
 							fullWidth
 						/>
 					</Grid>
-					<Grid item xs={12}>
-						<TextField
-							label="Description"
-							name="description"
-							value={article.description}
-							onChange={handleChange}
-							variant="outlined"
-							fullWidth
-						/>
-					</Grid>
+
 					<Grid item xs={6}>
 						<Button variant="outlined" onClick={handleShowEditor}>
 							{showEditor ? 'Hide TinyMCE editor' : 'Show TinyMCE editor'}
@@ -416,6 +412,48 @@ const CreateArticleTinyMCE = () => {
 					<Grid item xs={12}>
 						{showEditor && <EditorTinyMCE value={article.content} onChange={handleContentChange} />}
 					</Grid>
+					<Grid item xs={4}>
+						<Autocomplete
+							options={authors}
+							getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
+							// value={null}
+							clearOnBlur
+							inputValue=""
+							onChange={handleAuthorChange}
+							renderInput={(params) => (
+								<TextField {...params} label="Author" variant="outlined" fullWidth />
+							)}
+						/>
+					</Grid>
+					{article.authors?.length > 0 && (
+						<Grid item xs={12}>
+							{article.authors.map((item, index) => (
+								<Box
+									key={index}
+									sx={{
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'space-between',
+										marginBottom: '8px',
+									}}
+								>
+									<Typography>
+										{`${item?.firstName} ${item?.lastName} ${item?.email} ${item?.role}`}
+									</Typography>
+									<IconButton
+										onClick={() => {
+											setArticle((prev) => ({
+												...prev,
+												authors: prev.authors.filter((author) => author._id !== item._id),
+											}));
+										}}
+									>
+										<DeleteOutlineOutlinedIcon />
+									</IconButton>
+								</Box>
+							))}
+						</Grid>
+					)}
 					<Grid item xs={12}>
 						<TextField
 							label="Source"
