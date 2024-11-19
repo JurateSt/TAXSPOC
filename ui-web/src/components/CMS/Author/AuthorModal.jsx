@@ -31,7 +31,8 @@ const AuthorModal = ({ authorId, open, setOpen, setAuthors }) => {
 			role: data.role,
 			company: data.company,
 			phone: data.phone,
-			linkedin: data.linkedin,
+			linkedin: data.linkedInUrl,
+			twitter: data.twitterUrl,
 			description: data.description,
 			image: data?.image,
 		});
@@ -165,6 +166,7 @@ const AuthorModal = ({ authorId, open, setOpen, setAuthors }) => {
 						value={form.phone || ''}
 						fullWidth
 						variant="outlined"
+						onChange={handleChange}
 					/>
 					<TextField
 						margin="dense"
@@ -172,7 +174,7 @@ const AuthorModal = ({ authorId, open, setOpen, setAuthors }) => {
 						name="linkedInUrl"
 						label="LinkedIn"
 						type="text"
-						value={form.linkedin || ''}
+						value={form.linkedInUrl || ''}
 						fullWidth
 						variant="outlined"
 						onChange={handleChange}
@@ -183,7 +185,7 @@ const AuthorModal = ({ authorId, open, setOpen, setAuthors }) => {
 						name="twitterUrl"
 						label="Twitter"
 						type="text"
-						value={form.twitter || ''}
+						value={form.twitterUrl || ''}
 						fullWidth
 						variant="outlined"
 						onChange={handleChange}
