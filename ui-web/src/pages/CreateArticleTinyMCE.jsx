@@ -515,6 +515,7 @@ const CreateArticleTinyMCE = () => {
 									<TableCell sx={{ width: '13%' }}>Region</TableCell>
 									<TableCell sx={{ width: '13%' }}>Country</TableCell>
 									<TableCell sx={{ width: '13%' }}>Other</TableCell>
+									<TableCell sx={{ width: '3%' }}>Author</TableCell>
 									<TableCell sx={{ width: '3%' }}></TableCell>
 									<TableCell sx={{ width: '5%' }}></TableCell>
 								</TableRow>
@@ -548,6 +549,7 @@ const CreateArticleTinyMCE = () => {
 												.map((item) => item.name)
 												.join(', ')}
 										</TableCell>
+										<TableCell>{item.authors.length}</TableCell>
 										<TableCell>
 											<IconButton onClick={() => handleEdit(item._id)}>
 												<EditOutlinedIcon />

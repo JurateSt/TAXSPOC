@@ -4,12 +4,11 @@ import slug from 'slug';
 // import { format } from 'date-fns';
 // models
 import Article from '#models/Article';
-import { log } from 'console';
 import FileService from '#services/FileService';
 
 export default class ArticlesController {
 	async index({ response }: HttpContext) {
-		const articles = await Article.find();
+		const articles = await Article.find().populate('authors');
 
 		articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
 		// console.log(articles, articles);
@@ -24,6 +23,7 @@ export default class ArticlesController {
 				tags,
 				categories,
 				images,
+				authors,
 				description,
 			} = item;
 			return {
@@ -36,6 +36,7 @@ export default class ArticlesController {
 				tags,
 				categories,
 				images,
+				authors,
 				description,
 			};
 		});
@@ -164,7 +165,7 @@ export default class ArticlesController {
 
 	async show({ request, response }: HttpContext) {
 		const { id } = request.params();
-		const article = await Article.findById(id);
+		const article = await Article.findById(id).populate('authors');
 		return response.json(article);
 	}
 
