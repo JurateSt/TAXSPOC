@@ -19,6 +19,7 @@ import ReadArticleCategories from '../components/Article/ReadArticleCategories.j
 import ReadArticleSuggested from '../components/Article/ReadArticleSuggested.jsx';
 import ReadArticleSidePanel from '../components/Article/ReadArticleSidePanel.jsx';
 import ReadArticleShare from '../components/Article/ReadArticleShare.jsx';
+import ReadArticleAuthor from '../components/Article/ReadArticleAuthor.jsx';
 
 const Article = () => {
 	// const { id } = useParams();
@@ -125,6 +126,7 @@ const Article = () => {
 						<ReadArticleShare article={article} />
 						<ReadArticlePhoto article={article} />
 						<ReadArticleContent article={article} />
+						<ReadArticleAuthor article={article} />
 						<ReadArticleCategories article={article} />
 						{/* <ReadArticleSuggested currentArticle={article} articles={articles} /> */}
 					</Grid>

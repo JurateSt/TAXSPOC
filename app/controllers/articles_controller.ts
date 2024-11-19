@@ -171,7 +171,7 @@ export default class ArticlesController {
 
 	async showBySlug({ request, response }: HttpContext) {
 		const { slug } = request.params();
-		const article = await Article.findOne({ slug });
+		const article = await Article.findOne({ slug }).populate('authors');
 		return response.json(article);
 	}
 
