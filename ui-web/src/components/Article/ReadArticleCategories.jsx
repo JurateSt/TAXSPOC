@@ -18,28 +18,6 @@ const ReadArticleCategories = ({ article }) => {
 	};
 	return (
 		<>
-			{/* <Grid
-				item
-				xs={12}
-				sx={
-					{
-						// border: '1px solid green',
-					}
-				}
-			>
-				
-				<Typography
-					sx={{
-						margin: '32px 0 16px 0',
-						fontSize: '24px',
-						fontStyle: 'normal',
-						fontWeight: 400,
-						lineHeight: '28px',
-					}}
-				>
-					Topics
-				</Typography>
-			</Grid> */}
 			<Grid
 				item
 				xs={12}
