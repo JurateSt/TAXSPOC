@@ -30,7 +30,6 @@ const Article = () => {
 
 	const getArticle = async () => {
 		const { data } = await api.get(`/articles/${slug}`);
-		// console.log('ARTICLE: ', data);
 
 		setArticle(data);
 	};
@@ -71,10 +70,13 @@ const Article = () => {
 		image: article?.images?.[0]?.url,
 		datePublished: article.dateTag || new Date().toISOString(),
 		description: article.description,
-		author: {
-			'@type': 'Organization',
-			name: 'Taxspoc Team',
-		},
+		author:
+			article?.authors?.length > 0
+				? article?.authors?.map((item) => ({
+						'@type': 'Person',
+						name: `${item.firstName} ${item.lastName}`,
+					}))
+				: [{ '@type': 'Organization', name: 'Taxspoc Team' }],
 		isAccessibleForFree: true,
 		keywords: article?.tags?.join(', '),
 	};
