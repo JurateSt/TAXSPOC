@@ -45,7 +45,31 @@ export default new (class FileService {
 		return articleImages;
 	}
 
-	public async deleteImage(article: any, imageUrl: string): Promise<any> {
+	async uploadAuthor(image: any): Promise<any> {
+		const uploadedImage: any = {};
+		if (!image) {
+			console.error('S3: No images provided for upload');
+			return;
+		}
+		if (!this.checkBucketName()) return uploadedImage;
+
+		// const randomSix = Math.floor(100000 + Math.random() * 900000);
+		const fileName = `authors/${image.clientName}`;
+
+		try {
+			if (!image.tmpPath) {
+				console.error('S3: No tmpPath available for the uploaded file');
+				return uploadedImage;
+			}
+			const stream = fs.createReadStream(image.tmpPath);
+			const url = await S3Service.uploadAuthorImage(this.bucketName, fileName, stream);
+			return url;
+		} catch (error) {
+			console.error('S3: Failed to upload image', error);
+		}
+	}
+
+	async deleteImage(article: any, imageUrl: string): Promise<any> {
 		const articleImages = article?.images || [];
 		const imageIndex = articleImages.findIndex((item: any) => item.url === imageUrl);
 
@@ -62,7 +86,7 @@ export default new (class FileService {
 		return article;
 	}
 
-	public async deleteAllImages(article: any): Promise<void> {
+	async deleteAllImages(article: any): Promise<void> {
 		const articleImages = article?.images || [];
 
 		if (!this.bucketName) {
@@ -72,6 +96,51 @@ export default new (class FileService {
 
 		for (const image of articleImages) {
 			await S3Service.deleteFile(this.bucketName, image.url.split('/').pop()!);
+		}
+	}
+
+	//authors
+	async deleteAuthorImage(author: any): Promise<any> {
+		if (!author || !author.image) {
+			throw new Error('Author or image data not found');
+		}
+
+		if (!this.checkBucketName()) {
+			return author;
+		}
+
+		const { url, originalUrl } = author.image;
+		if (url) {
+			await S3Service.deleteAuthor(this.bucketName, url.split('/').pop()!);
+		}
+
+		if (originalUrl) {
+			await S3Service.deleteAuthor(this.bucketName, originalUrl.split('/').pop()!);
+		}
+
+		author.image = {};
+
+		await author.save();
+
+		return author;
+	}
+
+	async deleteAllAuthor(author: any): Promise<any> {
+		if (!author || !author.image) {
+			throw new Error('Author or image data not found');
+		}
+
+		if (!this.checkBucketName()) {
+			return author;
+		}
+
+		const { url, originalUrl } = author.image;
+		if (url) {
+			await S3Service.deleteAuthor(this.bucketName, url.split('/').pop()!);
+		}
+
+		if (originalUrl) {
+			await S3Service.deleteAuthor(this.bucketName, originalUrl.split('/').pop()!);
 		}
 	}
 })();

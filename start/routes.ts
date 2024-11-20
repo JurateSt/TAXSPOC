@@ -15,6 +15,7 @@ import RegionsController from '#controllers/regions_controller';
 import CountriesController from '#controllers/countries_controller';
 import OtherCategoriesController from '#controllers/other_categories_controller';
 import SitemapsController from '#controllers/sitemaps_controller';
+import AuthorsController from '#controllers/authors_controller';
 
 router.get('/', async () => 'It works!');
 
@@ -31,6 +32,7 @@ router
 				router.get('/articles/:id', [ArticlesController, 'show']);
 			})
 			.prefix('cms/auth');
+		router.resource('authors', AuthorsController);
 
 		router.get('/articles-latest', [ArticlesController, 'getLatest']);
 		router.get('/articles/category', [ArticlesController, 'getByCategory']);
