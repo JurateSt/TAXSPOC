@@ -19,6 +19,7 @@ import ReadArticleCategories from '../components/Article/ReadArticleCategories.j
 import ReadArticleSuggested from '../components/Article/ReadArticleSuggested.jsx';
 import ReadArticleSidePanel from '../components/Article/ReadArticleSidePanel.jsx';
 import ReadArticleShare from '../components/Article/ReadArticleShare.jsx';
+import ReadArticleAuthor from '../components/Article/ReadArticleAuthor.jsx';
 
 const Article = () => {
 	// const { id } = useParams();
@@ -29,7 +30,6 @@ const Article = () => {
 
 	const getArticle = async () => {
 		const { data } = await api.get(`/articles/${slug}`);
-		// console.log('ARTICLE: ', data);
 
 		setArticle(data);
 	};
@@ -70,10 +70,13 @@ const Article = () => {
 		image: article?.images?.[0]?.url,
 		datePublished: article.dateTag || new Date().toISOString(),
 		description: article.description,
-		author: {
-			'@type': 'Organization',
-			name: 'Taxspoc Team',
-		},
+		author:
+			article?.authors?.length > 0
+				? article?.authors?.map((item) => ({
+						'@type': 'Person',
+						name: `${item.firstName} ${item.lastName}`,
+					}))
+				: [{ '@type': 'Organization', name: 'Taxspoc Team' }],
 		isAccessibleForFree: true,
 		keywords: article?.tags?.join(', '),
 	};
@@ -125,6 +128,7 @@ const Article = () => {
 						<ReadArticleShare article={article} />
 						<ReadArticlePhoto article={article} />
 						<ReadArticleContent article={article} />
+						<ReadArticleAuthor article={article} />
 						<ReadArticleCategories article={article} />
 						{/* <ReadArticleSuggested currentArticle={article} articles={articles} /> */}
 					</Grid>

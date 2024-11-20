@@ -15,6 +15,7 @@ const ArticleSchema = new Schema(
 		categories: { type: [Object] },
 		source: { type: String },
 		images: { type: Array },
+		authors: [{ type: Schema.Types.ObjectId, ref: 'Author' }],
 		description: { type: String },
 	},
 	{ timestamps: true }

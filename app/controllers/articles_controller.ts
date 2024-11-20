@@ -4,12 +4,11 @@ import slug from 'slug';
 // import { format } from 'date-fns';
 // models
 import Article from '#models/Article';
-import { log } from 'console';
 import FileService from '#services/FileService';
 
 export default class ArticlesController {
 	async index({ response }: HttpContext) {
-		const articles = await Article.find();
+		const articles = await Article.find().populate('authors');
 
 		articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
 		// console.log(articles, articles);
@@ -24,6 +23,7 @@ export default class ArticlesController {
 				tags,
 				categories,
 				images,
+				authors,
 				description,
 			} = item;
 			return {
@@ -36,6 +36,7 @@ export default class ArticlesController {
 				tags,
 				categories,
 				images,
+				authors,
 				description,
 			};
 		});
@@ -164,13 +165,13 @@ export default class ArticlesController {
 
 	async show({ request, response }: HttpContext) {
 		const { id } = request.params();
-		const article = await Article.findById(id);
+		const article = await Article.findById(id).populate('authors');
 		return response.json(article);
 	}
 
 	async showBySlug({ request, response }: HttpContext) {
 		const { slug } = request.params();
-		const article = await Article.findOne({ slug });
+		const article = await Article.findOne({ slug }).populate('authors');
 		return response.json(article);
 	}
 
@@ -178,6 +179,7 @@ export default class ArticlesController {
 		const {
 			images: _images,
 			tags,
+			authors,
 			categories,
 			regions,
 			countries,
@@ -186,11 +188,17 @@ export default class ArticlesController {
 			dateTag,
 			...articleData
 		} = request.all();
+
 		const images = request.files('images');
 
+		const parsedAuthors = JSON.parse(authors || '[]');
 		const parsedRegions = JSON.parse(regions || '[]');
 		const parsedCountries = JSON.parse(countries || '[]');
 		const parsedOtherCategories = JSON.parse(otherCategories || '[]');
+
+		const mappedAuthors = parsedAuthors?.map((item: any) => ({
+			_id: item._id,
+		}));
 
 		const mappedRegions = parsedRegions?.map((item: any) => ({
 			_id: item._id,
@@ -215,6 +223,7 @@ export default class ArticlesController {
 			articleData.tags = tags.split(',').map((item) => item.trim());
 		}
 		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
+		articleData.authors = mappedAuthors;
 
 		const slugHeader = slug(header);
 		const existingArticles = await Article.countDocuments({ slug: slugHeader });
@@ -244,6 +253,7 @@ export default class ArticlesController {
 		const { id } = request.params();
 		const {
 			images: _images,
+			authors,
 			tags,
 			categories,
 			regions,
@@ -255,11 +265,15 @@ export default class ArticlesController {
 
 		if (typeof tags === 'string') {
 			articleData.tags = tags.split(',').map((item) => item.trim());
-			log('TAGS', articleData.tags);
 		}
+		const parsedAuthors = JSON.parse(authors || '[]');
 		const parsedRegions = JSON.parse(regions || '[]');
 		const parsedCountries = JSON.parse(countries || '[]');
 		const parsedOtherCategories = JSON.parse(otherCategories || '[]');
+
+		const mappedAuthors = parsedAuthors?.map((item: any) => ({
+			_id: item._id,
+		}));
 
 		const mappedRegions = parsedRegions?.map((item: any) => ({
 			_id: item._id,
@@ -281,6 +295,7 @@ export default class ArticlesController {
 		}));
 
 		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
+		articleData.authors = mappedAuthors;
 
 		if (articleData.action === 'deleteFile') {
 			const article = await Article.findById(id);
