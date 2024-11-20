@@ -18,8 +18,6 @@ const ReadArticleAuthor = ({ article }) => {
 		navigate(`/articles/category?${params}`);
 	};
 
-	console.log('ReadArticleAuthor: ', article);
-
 	return (
 		<Box sx={{ marginTop: 4 }}>
 			<Typography variant="h6" sx={{ marginBottom: 2 }}>
