@@ -15,9 +15,14 @@
 		"include": [
 			"/",
 			"/home",
-			"/articles/navigating-the-esg-landscape-transfer-pricing-in-a-sustainable-world",
-			"/articles/belgian-authorities-release-list-of-registered-peppol-e-invoicing-software",
-			"/articles/eu-deforestation-law-council-extends-application-timeline-by-12-months",
+			"/articles/egyptian-tax-authority-participates-in-cairo-ict-2024",
+			"/articles/chinas-14-trillion-debt-plan-and-trumps-return",
+			"/articles/us-republicans-positioned-to-control-congress-and-push-tax-cuts",
+			"/articles/uae-grace-period-for-updating-tax-records",
+			"/articles/what-to-expect-from-trumps-tax-policy-in-his-return-to-the-white-house",
+			"/articles/william-mckinleys-economic-policy-evolution-lessons-for-trumps-second-term",
+			"/articles/breaking-news-european-union-finally-adopts-vida-package-to-modernize-vat-system",
+			"/articles/deep-dive-into-tax-measures-from-uks-autumn-2024-budget",
 			"/articles/uk-unveils-budget-with-targeted-tax-reforms-aiming-to-raise-40-billion",
 			"/articles/belgium-releases-draft-qualified-domestic-minimum-top-up-tax-qdmtt-return",
 			"/articles/spain-introduces-new-technical-specifications-for-approved-invoicing-software-verifactu",
@@ -245,7 +250,9 @@
 		"puppeteerArgs": [
 			"--no-sandbox",
 			"--disable-setuid-sandbox",
-			"--disable-web-security"
+			"--disable-web-security",
+			"--disk-cache-size=104857600",
+			"--memory-pressure=2"
 		],
 		"puppeteer": {
 			"executablePath": "/usr/bin/chromium-browser",
