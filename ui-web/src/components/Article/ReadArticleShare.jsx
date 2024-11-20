@@ -51,7 +51,7 @@ const ReadArticleShare = ({ article }) => {
 					}}
 				>
 					<Typography>
-						By{' '}
+						{article?.authors?.length > 0 ? 'By ' : ''}{' '}
 						<span style={{ fontWeight: 700 }}>
 							{article?.authors
 								?.map((author) => `${author.firstName} ${author.lastName}`)
