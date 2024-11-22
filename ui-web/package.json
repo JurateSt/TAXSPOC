@@ -253,9 +253,7 @@
 		"puppeteerArgs": [
 			"--no-sandbox",
 			"--disable-setuid-sandbox",
-			"--disable-web-security",
-			"--disk-cache-size=104857600",
-			"--memory-pressure=2"
+			"--disable-web-security"
 		],
 		"puppeteer": {
 			"executablePath": "/usr/bin/chromium-browser",
