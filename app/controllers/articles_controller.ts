@@ -8,40 +8,41 @@ import FileService from '#services/FileService';
 
 export default class ArticlesController {
 	async index({ response }: HttpContext) {
-		const articles = await Article.find().populate('authors');
+		const articles = await Article.find().populate('authors').sort({ createdAt: -1 });
+		// await Article.find().sort({ createdAt: -1 });
 
-		articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
-		// console.log(articles, articles);
-		const shortArticles = articles.map((item) => {
-			const {
-				_id,
-				slug,
-				dateTag,
-				subHeader,
-				header,
-				supportingText,
-				tags,
-				categories,
-				images,
-				authors,
-				description,
-			} = item;
-			return {
-				_id,
-				slug,
-				dateTag,
-				subHeader,
-				header,
-				supportingText,
-				tags,
-				categories,
-				images,
-				authors,
-				description,
-			};
-		});
+		// articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
+		// // console.log(articles, articles);
+		// const shortArticles = articles.map((item) => {
+		// 	const {
+		// 		_id,
+		// 		slug,
+		// 		dateTag,
+		// 		subHeader,
+		// 		header,
+		// 		supportingText,
+		// 		tags,
+		// 		categories,
+		// 		images,
+		// 		authors,
+		// 		description,
+		// 	} = item;
+		// 	return {
+		// 		_id,
+		// 		slug,
+		// 		dateTag,
+		// 		subHeader,
+		// 		header,
+		// 		supportingText,
+		// 		tags,
+		// 		categories,
+		// 		images,
+		// 		authors,
+		// 		description,
+		// 	};
+		// });
 
-		return response.json(shortArticles);
+		return response.json(articles);
 	}
 
 	async getLatest({ request, response }: HttpContext) {
@@ -176,74 +177,75 @@ export default class ArticlesController {
 	}
 
 	async store({ request, response }: HttpContext) {
-		const {
-			images: _images,
-			tags,
-			authors,
-			categories,
-			regions,
-			countries,
-			otherCategories,
-			header,
-			dateTag,
-			...articleData
-		} = request.all();
+		// const {
+		// 	images: _images,
+		// 	tags,
+		// 	authors,
+		// 	categories,
+		// 	regions,
+		// 	countries,
+		// 	otherCategories,
+		// 	header,
+		// 	dateTag,
+		// 	...articleData
+		// } = request.all();
+		console.log('STORE ARTICLE', request.all());
 
 		const images = request.files('images');
 
-		const parsedAuthors = JSON.parse(authors || '[]');
-		const parsedRegions = JSON.parse(regions || '[]');
-		const parsedCountries = JSON.parse(countries || '[]');
-		const parsedOtherCategories = JSON.parse(otherCategories || '[]');
+		// const parsedAuthors = JSON.parse(authors || '[]');
+		// const parsedRegions = JSON.parse(regions || '[]');
+		// const parsedCountries = JSON.parse(countries || '[]');
+		// const parsedOtherCategories = JSON.parse(otherCategories || '[]');
 
-		const mappedAuthors = parsedAuthors?.map((item: any) => ({
-			_id: item._id,
-		}));
+		// const mappedAuthors = authors?.map((item: any) => ({
+		// 	_id: item._id,
+		// }));
 
-		const mappedRegions = parsedRegions?.map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			type: 'region',
-		}));
+		// const mappedRegions = regions?.map((item: any) => ({
+		// 	_id: item._id,
+		// 	name: item.name,
+		// 	type: 'region',
+		// }));
 
-		const mappedCountries = parsedCountries?.map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			code: item.code,
-			region: item.region,
-			type: 'country',
-		}));
-		const mappedOtherCategories = parsedOtherCategories?.map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			type: 'other',
-		}));
+		// const mappedCountries = countries?.map((item: any) => ({
+		// 	_id: item._id,
+		// 	name: item.name,
+		// 	code: item.code,
+		// 	region: item.region,
+		// 	type: 'country',
+		// }));
+		// const mappedOtherCategories = otherCategories?.map((item: any) => ({
+		// 	_id: item._id,
+		// 	name: item.name,
+		// 	type: 'other',
+		// }));
 
-		if (typeof tags === 'string') {
-			articleData.tags = tags.split(',').map((item) => item.trim());
-		}
-		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
-		articleData.authors = mappedAuthors;
+		// if (typeof tags === 'string') {
+		// 	articleData.tags = tags.split(',').map((item) => item.trim());
+		// }
+		// articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
+		// articleData.authors = mappedAuthors;
 
-		const slugHeader = slug(header);
-		const existingArticles = await Article.countDocuments({ slug: slugHeader });
-		if (existingArticles > 0) {
-			articleData.slug = `${slugHeader}-${existingArticles + 1}`;
-		} else {
-			articleData.slug = slugHeader;
-		}
+		// const slugHeader = slug(header);
+		// const existingArticles = await Article.countDocuments({ slug: slugHeader });
+		// if (existingArticles > 0) {
+		// 	articleData.slug = `${slugHeader}-${existingArticles + 1}`;
+		// } else {
+		// 	articleData.slug = slugHeader;
+		// }
 
-		articleData.dateTag = dateTag ? dateTag : null;
-		articleData.header = header;
-		const article = new Article(articleData);
+		// articleData.dateTag = dateTag ? dateTag : null;
+		// articleData.header = header;
+		const article = new Article(request.all());
 
 		// save images in S3
-		let articleImages: any[] = [];
-		if (images.length > 0) {
-			articleImages = await FileService.upload(images, article);
-		}
+		// let articleImages: any[] = [];
+		// if (images.length > 0) {
+		// 	articleImages = await FileService.upload(images, article);
+		// }
 
-		article.images = articleImages;
+		// article.images = articleImages;
 
 		await article.save();
 		return response.json(article);
