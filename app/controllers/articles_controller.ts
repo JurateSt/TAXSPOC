@@ -167,6 +167,7 @@ export default class ArticlesController {
 	async show({ request, response }: HttpContext) {
 		const { id } = request.params();
 		const article = await Article.findById(id).populate('authors');
+		console.log('SHOW ARTICLE', article);
 		return response.json(article);
 	}
 
@@ -255,9 +256,9 @@ export default class ArticlesController {
 		const { id } = request.params();
 		const {
 			images: _images,
-			authors,
+			// authors,
 			tags,
-			categories,
+			// categories,
 			regions,
 			countries,
 			otherCategories,
@@ -268,42 +269,43 @@ export default class ArticlesController {
 		if (typeof tags === 'string') {
 			articleData.tags = tags.split(',').map((item) => item.trim());
 		}
-		const parsedAuthors = JSON.parse(authors || '[]');
-		const parsedRegions = JSON.parse(regions || '[]');
-		const parsedCountries = JSON.parse(countries || '[]');
-		const parsedOtherCategories = JSON.parse(otherCategories || '[]');
+		// const parsedAuthors = JSON.parse(authors || '[]');
+		// const parsedRegions = JSON.parse(regions || '[]');
+		// const parsedCountries = JSON.parse(countries || '[]');
+		// const parsedOtherCategories = JSON.parse(otherCategories || '[]');
 
-		const mappedAuthors = parsedAuthors?.map((item: any) => ({
-			_id: item._id,
-		}));
+		// const mappedAuthors = parsedAuthors?.map((item: any) => ({
+		// 	_id: item._id,
+		// }));
 
-		const mappedRegions = parsedRegions?.map((item: any) => ({
+		const mappedRegions = regions?.map((item: any) => ({
 			_id: item._id,
 			name: item.name,
 			type: 'region',
 		}));
 
-		const mappedCountries = parsedCountries?.map((item: any) => ({
+		const mappedCountries = countries?.map((item: any) => ({
 			_id: item._id,
 			name: item.name,
 			code: item.code,
 			region: item.region,
 			type: 'country',
 		}));
-		const mappedOtherCategories = parsedOtherCategories?.map((item: any) => ({
+		const mappedOtherCategories = otherCategories?.map((item: any) => ({
 			_id: item._id,
 			name: item.name,
 			type: 'other',
 		}));
 
 		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
-		articleData.authors = mappedAuthors;
+		// articleData.authors = mappedAuthors;
 
 		if (articleData.action === 'deleteFile') {
 			const article = await Article.findById(id);
 			const updatedArticle = await FileService.deleteImage(article, articleData.url);
 			response.json(updatedArticle);
 		}
+		console.log('UPDATE ARTICLE', articleData);
 
 		const article = await Article.findByIdAndUpdate(id, articleData);
 

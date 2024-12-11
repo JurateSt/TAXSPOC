@@ -131,6 +131,7 @@ const Articles = () => {
 								<TableCell>Country</TableCell>
 								<TableCell>Other</TableCell>
 								<TableCell>Author</TableCell>
+								<TableCell>Status</TableCell>
 								<TableCell></TableCell>
 								<TableCell></TableCell>
 							</TableRow>
@@ -163,6 +164,7 @@ const Articles = () => {
 											.join(', ')}
 									</TableCell>
 									<TableCell>{item.authors.length}</TableCell>
+									<TableCell>{item.status}</TableCell>
 									{/* <TableCell>
 										<Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
 											<Box
