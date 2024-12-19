@@ -14,7 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 // api
 import api from '../../../api/axios';
 // modal
-// import EditImageModal from './EditImageModal';
+import EditImageModal from './EditImageModal';
 
 const ImageModal = ({
 	articleId,
@@ -84,7 +84,7 @@ const ImageModal = ({
 	return (
 		<>
 			<Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="md">
-				<DialogTitle>Image</DialogTitle>
+				<DialogTitle>Add Image</DialogTitle>
 				<IconButton
 					aria-label="close"
 					onClick={handleClose}
@@ -102,28 +102,23 @@ const ImageModal = ({
 						sx={{
 							width: '100%',
 							backgroundColor: 'lightgray',
-							height: '200px',
+							height: '400px',
 							display: 'flex',
 							justifyContent: 'center',
 							alignItems: 'center',
 						}}
 					>
-						<figure>
-							<img
-								alt="Article image"
-								src={`${croppedImage}?timestamp=${new Date().getTime()}`}
-								style={{
-									height: '150px',
-									aspectRatio: '16/9',
-									objectFit: 'cover',
-									cursor: 'pointer',
-								}}
-								title="Click to edit the image"
-							/>
-							<figcaption>
-								<p style={{ color: 'red' }}>Credits to dfdg dfdfgdfg dfgdfggdfg s....</p>
-							</figcaption>
-						</figure>
+						<img
+							alt="Article image"
+							src={`${croppedImage}?timestamp=${new Date().getTime()}`}
+							style={{
+								height: '400px',
+								aspectRatio: '16/9',
+								objectFit: 'cover',
+								cursor: 'pointer',
+							}}
+							title="Click to edit the image"
+						/>
 					</Box>
 				</DialogContent>
 				<DialogActions>
@@ -143,15 +138,15 @@ const ImageModal = ({
 				</DialogActions>
 			</Dialog>
 
-			{/* <EditImageModal
+			<EditImageModal
 				open={openEdit}
 				setOpen={setOpenEdit}
 				imageToCrop={imageToCrop}
 				image={image}
-				authorId={authorId}
-				author={author}
-				setAuthor={setAuthor}
-			/> */}
+				articleId={articleId}
+				article={article}
+				setArticle={setArticle}
+			/>
 		</>
 	);
 };

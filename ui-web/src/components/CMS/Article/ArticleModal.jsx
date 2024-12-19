@@ -166,13 +166,13 @@ const ArticleModal = ({ articleId, open, setOpen, setArticles }) => {
 						<Grid item xs={12}>
 							<Box
 								sx={{
-									width: '100%',
-									backgroundColor: 'lightgray',
-									height: '200px',
+									width: 'calc(150px * 16 / 9)',
+									height: '150px',
 									display: 'flex',
 									justifyContent: 'center',
 									alignItems: 'center',
 									marginBottom: 2,
+									backgroundColor: 'lightgray',
 								}}
 							>
 								<img
@@ -396,7 +396,7 @@ const ArticleModal = ({ articleId, open, setOpen, setArticles }) => {
 				open={openImage}
 				setOpen={setOpenImage}
 				croppedImage={article?.images?.[0]?.url}
-				originalImage={article?.images?.[0]?.url}
+				originalImage={article?.images?.[0]?.urlOriginal}
 				article={article}
 				setArticle={setArticle}
 			/>

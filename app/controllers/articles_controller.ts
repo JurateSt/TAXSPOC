@@ -5,6 +5,7 @@ import slug from 'slug';
 // models
 import Article from '#models/Article';
 import FileService from '#services/FileService';
+import { addListener } from 'process';
 
 export default class ArticlesController {
 	async index({ response }: HttpContext) {
@@ -255,7 +256,9 @@ export default class ArticlesController {
 	async update({ request, response }: HttpContext) {
 		const { id } = request.params();
 		const {
-			images: _images,
+			croppedImage,
+			originalImage,
+			// images: _images,
 			// authors,
 			tags,
 			// categories,
@@ -264,7 +267,45 @@ export default class ArticlesController {
 			otherCategories,
 			...articleData
 		} = request.all();
-		const images = request.files('images');
+		// const images = request.files('images');
+		const croppedImageFile = request.file('croppedImage');
+		const originalImageFile = request.file('originalImage');
+		console.log('UPDATE ARTICLE', request.all());
+
+		const article = await Article.findById(id);
+		if (!article) {
+			return response.status(404).json({ message: 'Author not found' });
+		}
+
+		if (articleData.action === 'delete-image') {
+			const updatedArticle = await FileService.deleteArticleImage(article);
+			response.json(updatedArticle);
+		}
+
+		if (articleData.action === 'update-image') {
+			if (article?.images?.length > 0) {
+				await FileService.deleteArticleImage(article);
+			}
+			console.log('UPDATE IMAGE', articleData);
+
+			let urlCropped;
+			let urlOriginal;
+			if (croppedImageFile) {
+				urlCropped = await FileService.uploadArticle(croppedImageFile);
+			}
+			if (originalImageFile) {
+				urlOriginal = await FileService.uploadArticle(originalImageFile);
+			}
+			article.images.push({
+				url: urlCropped,
+				urlOriginal,
+				order: 1,
+				alt: articleData.alt,
+				caption: articleData.caption,
+				captionHtml: articleData.caption_html,
+				linkOriginal: articleData.link_original,
+			});
+		}
 
 		if (typeof tags === 'string') {
 			articleData.tags = tags.split(',').map((item) => item.trim());
@@ -278,20 +319,20 @@ export default class ArticlesController {
 		// 	_id: item._id,
 		// }));
 
-		const mappedRegions = regions?.map((item: any) => ({
+		const mappedRegions = (regions || []).map((item: any) => ({
 			_id: item._id,
 			name: item.name,
 			type: 'region',
 		}));
 
-		const mappedCountries = countries?.map((item: any) => ({
+		const mappedCountries = (countries || []).map((item: any) => ({
 			_id: item._id,
 			name: item.name,
 			code: item.code,
 			region: item.region,
 			type: 'country',
 		}));
-		const mappedOtherCategories = otherCategories?.map((item: any) => ({
+		const mappedOtherCategories = (otherCategories || []).map((item: any) => ({
 			_id: item._id,
 			name: item.name,
 			type: 'other',
@@ -301,21 +342,24 @@ export default class ArticlesController {
 		// articleData.authors = mappedAuthors;
 
 		if (articleData.action === 'deleteFile') {
-			const article = await Article.findById(id);
+			// const article = await Article.findById(id);
 			const updatedArticle = await FileService.deleteImage(article, articleData.url);
 			response.json(updatedArticle);
 		}
 		console.log('UPDATE ARTICLE', articleData);
 
-		const article = await Article.findByIdAndUpdate(id, articleData);
+		article.set(articleData);
+		await article.save();
+
+		// const article = await Article.findByIdAndUpdate(id, articleData);
 
 		// save images in public folder
-		let articleImages: any[] = article?.images || [];
-		if (images.length > 0) {
-			articleImages = await FileService.upload(images, article);
-		}
-		article!.images = articleImages;
-		await article?.save();
+		// let articleImages: any[] = article?.images || [];
+		// if (images.length > 0) {
+		// 	articleImages = await FileService.upload(images, article);
+		// }
+		// article!.images = articleImages;
+		// await article?.save();
 		response.json(article);
 	}
 
