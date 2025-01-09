@@ -50,13 +50,13 @@ const EditImageModal = ({ open, setOpen, image, imageToCrop, articleId, article,
 			});
 
 			const formData = new FormData();
+			formData.append('action', 'update-image');
 			formData.append('croppedImage', croppedFile);
 			formData.append('originalImage', originalFile);
-			formData.append('alt', article?.images[0]?.alt);
-			formData.append('caption', article?.images[0]?.caption);
-			formData.append('caption_html', article?.images[0]?.caption_html);
-			formData.append('link_original', article?.images[0]?.link_original);
-			formData.append('action', 'update-image');
+			formData.append('alt', article?.images[0]?.alt || '');
+			formData.append('caption', article?.images[0]?.caption || '');
+			formData.append('captionHtml', article?.images[0]?.captionHtml || '');
+			formData.append('linkOriginal', article?.images[0]?.linkOriginal || '');
 
 			const { data } = await api.put(`/articles/${articleId}`, formData, {
 				headers: {
@@ -64,7 +64,7 @@ const EditImageModal = ({ open, setOpen, image, imageToCrop, articleId, article,
 				},
 			});
 			console.log('CLOSE MODAL', article, data);
-			setArticle((prev) => ({ images: data.images, ...prev }));
+			setArticle((prev) => ({ ...prev, images: data.images }));
 			setOpen(false);
 		} catch (error) {
 			console.error('Error saving the cropped image:', error);
@@ -74,7 +74,7 @@ const EditImageModal = ({ open, setOpen, image, imageToCrop, articleId, article,
 
 	return (
 		<Dialog open={open} onClose={() => setOpen(false)} fullWidth={true} maxWidth="md">
-			<DialogTitle>Image</DialogTitle>
+			{/* <DialogTitle>Image</DialogTitle> */}
 			<IconButton
 				aria-label="close"
 				onClick={() => setOpen(false)}
@@ -95,12 +95,14 @@ const EditImageModal = ({ open, setOpen, image, imageToCrop, articleId, article,
 			>
 				{/* <DialogContentText>Fill the required fields to add a new author.</DialogContentText> */}
 				<Grid container spacing={2}>
-					<Grid item xs={8}>
+					<Grid item xs={10}>
 						<Box
 							sx={{
 								position: 'relative',
 								width: '100%',
-								height: '300px',
+								aspectRatio: '16/9',
+								// backgroundColor: 'primary.grey200',
+								// height: '300px',
 								// border: '1px solid red',
 							}}
 						>
@@ -111,14 +113,25 @@ const EditImageModal = ({ open, setOpen, image, imageToCrop, articleId, article,
 								rotation={rotation}
 								aspect={16 / 9}
 								cropShape="rect"
+								objectFit="cover"
+								// cropSize={{ width: '90%', height: '90%' }}
 								showGrid={true}
+								// crop background color primary.grey200
+
+								// style={{
+								// 	// width: '100%',
+								// 	cropArea: {
+								// 		border: '1px solid red',
+								// 		width: '50%',
+								// 	},
+								// }}
 								onCropChange={setCrop}
 								onZoomChange={setZoom}
 								onCropComplete={onCropComplete}
 							/>
 						</Box>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={10}>
 						<Box>
 							Zoom:
 							<Slider
@@ -144,6 +157,17 @@ const EditImageModal = ({ open, setOpen, image, imageToCrop, articleId, article,
 							/>
 						</Box>
 					</Grid>
+					{/* <Grid item xs={12}>
+						<TextField
+							margin="dense"
+							label="Caption"
+							name="caption"
+							// value={article.supportingText}
+							onChange={handleChange}
+							variant="outlined"
+							fullWidth
+						/>
+					</Grid>
 					<Grid item xs={12}>
 						<TextField
 							margin="dense"
@@ -155,21 +179,11 @@ const EditImageModal = ({ open, setOpen, image, imageToCrop, articleId, article,
 							fullWidth
 						/>
 					</Grid>
+
 					<Grid item xs={12}>
 						<TextField
 							margin="dense"
-							label="Image credits"
-							name="caption"
-							// value={article.supportingText}
-							onChange={handleChange}
-							variant="outlined"
-							fullWidth
-						/>
-					</Grid>
-					<Grid item xs={12}>
-						<TextField
-							margin="dense"
-							label="Image credits HTML"
+							label="Caption HTML text"
 							name="caption_html"
 							// value={article.supportingText}
 							onChange={handleChange}
@@ -187,7 +201,7 @@ const EditImageModal = ({ open, setOpen, image, imageToCrop, articleId, article,
 							variant="outlined"
 							fullWidth
 						/>
-					</Grid>
+					</Grid> */}
 				</Grid>
 			</DialogContent>
 			<DialogActions>

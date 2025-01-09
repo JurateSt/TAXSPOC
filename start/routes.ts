@@ -40,7 +40,7 @@ router
 
 		router.get('/articles/:slug', [ArticlesController, 'showBySlug']);
 
-		router.get('articles/main', [ArticlesController, 'showMain']);
+		// router.get('articles/main', [ArticlesController, 'showMain']);
 		router.resource('regions', RegionsController);
 		router.resource('countries', CountriesController);
 		router.resource('other-categories', OtherCategoriesController);
