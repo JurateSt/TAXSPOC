@@ -61,7 +61,7 @@ const Article = () => {
 	const [isSaved, setIsSaved] = useState(true);
 
 	const getArticle = async () => {
-		const { data } = await api.get(`/articles/${id}`);
+		const { data } = await api.get(`/cms/auth/articles/${id}`);
 
 		const mapArticle = {
 			...data,
@@ -140,7 +140,7 @@ const Article = () => {
 		console.log('handleSubmit:', article);
 
 		try {
-			const { data } = await api.put(`/articles/${id}`, article);
+			const { data } = await api.put(`/cms/auth/articles/${id}`, article);
 			setArticle((prev) => ({ ...prev, data }));
 			setIsSaved(true);
 			alert('Article updated successfully');

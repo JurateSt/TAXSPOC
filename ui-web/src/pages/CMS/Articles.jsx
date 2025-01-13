@@ -37,7 +37,7 @@ const Articles = () => {
 	const [orderBy, setOrderBy] = useState('dateTag');
 
 	const getArticles = async () => {
-		const { data } = await api.get('/articles');
+		const { data } = await api.get('/cms/auth/articles');
 
 		setArticles(data);
 	};
@@ -93,7 +93,7 @@ const Articles = () => {
 			return;
 		}
 		try {
-			await api.delete(`/articles/${id}`);
+			await api.delete(`/cms/auth/articles/${id}`);
 			setArticles((prev) => prev.filter((item) => item._id !== id));
 		} catch (error) {
 			console.error('Error deleting the artricle:', error);
