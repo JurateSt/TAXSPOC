@@ -235,7 +235,6 @@ export default class ArticlesController {
 		}));
 
 		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
-		articleData.authors = mappedAuthors;
 
 		if (articleData.action === 'deleteFile') {
 			const updatedArticle = await FileService.deleteImage(article, articleData.url);
