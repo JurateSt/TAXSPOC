@@ -58,7 +58,7 @@ const EditImageModal = ({ open, setOpen, image, imageToCrop, articleId, article,
 			formData.append('captionHtml', article?.images[0]?.captionHtml || '');
 			formData.append('linkOriginal', article?.images[0]?.linkOriginal || '');
 
-			const { data } = await api.put(`/articles/${articleId}`, formData, {
+			const { data } = await api.put(`/cms/auth/articles/${articleId}`, formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},

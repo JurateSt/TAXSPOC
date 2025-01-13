@@ -74,7 +74,7 @@ const ImageModal = ({
 		setIsSaved(false);
 	};
 	const handleSubmit = async () => {
-		const { data } = await api.put(`/articles/${articleId}`, article);
+		const { data } = await api.put(`/cms/auth/articles/${articleId}`, article);
 		setArticle((prev) => ({ ...prev, images: data.images }));
 		setIsSaved(true);
 		setOpen(false);
@@ -97,7 +97,7 @@ const ImageModal = ({
 			return;
 		}
 		try {
-			const { data } = await api.put(`/articles/${articleId}`, {
+			const { data } = await api.put(`/cms/auth/articles/${articleId}`, {
 				action: 'delete-image',
 			});
 			setArticle((prev) => ({ ...prev, images: data.images }));

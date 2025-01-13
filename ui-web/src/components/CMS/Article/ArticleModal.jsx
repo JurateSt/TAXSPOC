@@ -63,7 +63,7 @@ const ArticleModal = ({ articleId, open, setOpen, setArticles }) => {
 	const [isSaved, setIsSaved] = useState(true);
 
 	const getArticle = async () => {
-		const { data } = await api.get(`/articles/${articleId}`);
+		const { data } = await api.get(`/cms/auth/articles/${articleId}`);
 
 		const mapArticle = {
 			...data,

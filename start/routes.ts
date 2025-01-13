@@ -30,10 +30,10 @@ router
 				router.get('google/redirect', [AuthController, 'redirect']);
 				router.get('google/callback', [AuthController, 'callback']);
 				// router.get('/articles/:id', [ArticlesController, 'show']);
+				router.resource('articles', ArticlesController);
 			})
 			.prefix('cms/auth');
 		router.resource('authors', AuthorsController);
-		router.resource('articles', ArticlesController);
 
 		router.get('/articles-latest', [ArticlesController, 'getLatest']);
 		router.get('/articles/category', [ArticlesController, 'getByCategory']);
