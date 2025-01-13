@@ -29,18 +29,18 @@ router
 			.group(() => {
 				router.get('google/redirect', [AuthController, 'redirect']);
 				router.get('google/callback', [AuthController, 'callback']);
-				router.get('/articles/:id', [ArticlesController, 'show']);
+				// router.get('/articles/:id', [ArticlesController, 'show']);
 			})
 			.prefix('cms/auth');
 		router.resource('authors', AuthorsController);
+		router.resource('articles', ArticlesController);
 
 		router.get('/articles-latest', [ArticlesController, 'getLatest']);
 		router.get('/articles/category', [ArticlesController, 'getByCategory']);
 
 		router.get('/articles/:slug', [ArticlesController, 'showBySlug']);
 
-		router.get('articles/main', [ArticlesController, 'showMain']);
-		router.resource('articles', ArticlesController);
+		// router.get('articles/main', [ArticlesController, 'showMain']);
 		router.resource('regions', RegionsController);
 		router.resource('countries', CountriesController);
 		router.resource('other-categories', OtherCategoriesController);

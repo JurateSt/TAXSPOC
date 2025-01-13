@@ -8,6 +8,8 @@ import '@fontsource/roboto/700.css';
 import { blueGrey } from '@mui/material/colors';
 import { grey } from '@mui/material/colors';
 import { deepOrange } from '@mui/material/colors';
+//MUI
+import { TextField } from '@mui/material';
 
 const theme = createTheme({
 	typography: {
@@ -58,8 +60,12 @@ const theme = createTheme({
 			deepOrange300: deepOrange[300],
 			deepOrange400: '#FF7043',
 			deepOrange500: '#FF5722',
+			grey50: grey[50],
+			grey100: grey[100],
 			grey200: grey[200],
 			grey300: grey[300],
+			grey400: grey[400],
+			grey500: grey[500],
 		},
 		complementary: {
 			main: '#3c2a1c',
@@ -103,6 +109,45 @@ const theme = createTheme({
 				paper: ({ theme, ownerState }) => ({
 					backgroundColor: theme.palette.primary.midnightBlue200,
 				}),
+			},
+		},
+		MuiTextField: {
+			defaultProps: {
+				InputLabelProps: {
+					// shrink: true,
+					sx: {
+						color: 'grey.500',
+						// '&.Mui-focused': {
+						// 	color: 'primary.main',
+						// },
+					},
+				},
+				InputProps: {
+					sx: {
+						backgroundColor: 'white',
+					},
+				},
+			},
+		},
+		MuiOutlinedInput: {
+			styleOverrides: {
+				root: {
+					backgroundColor: 'white',
+				},
+			},
+		},
+		MuiAutocomplete: {
+			styleOverrides: {
+				root: {
+					'& .MuiInputBase-root': {
+						'& .MuiFormLabel-root': {
+							color: 'grey.500', // Softer label color by default
+						},
+						'& .MuiFormLabel-root.Mui-focused': {
+							color: 'primary.main', // Focused label color
+						},
+					},
+				},
 			},
 		},
 	},

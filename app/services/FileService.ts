@@ -45,6 +45,54 @@ export default new (class FileService {
 		return articleImages;
 	}
 
+	async uploadArticle(image: any): Promise<any> {
+		const uploadedImage: any = {};
+		if (!image) {
+			console.error('S3: No images provided for upload');
+			return;
+		}
+		if (!this.checkBucketName()) return uploadedImage;
+
+		// const randomSix = Math.floor(100000 + Math.random() * 900000);
+		const fileName = `articles/images/${image.clientName}`;
+		// const fileName = `articles/images/${article._id}-${randomSix}.${article.clientName}`;
+
+		try {
+			if (!image.tmpPath) {
+				console.error('S3: No tmpPath available for the uploaded file');
+				return uploadedImage;
+			}
+			const stream = fs.createReadStream(image.tmpPath);
+			const url = await S3Service.uploadAuthorImage(this.bucketName, fileName, stream);
+			return url;
+		} catch (error) {
+			console.error('S3: Failed to upload image', error);
+		}
+	}
+	async deleteArticleImage(article: any): Promise<any> {
+		if (!article || !article?.images) {
+			throw new Error('Author or image data not found');
+		}
+
+		if (!this.checkBucketName()) {
+			return article;
+		}
+
+		for (const image of article.images) {
+			const { url, urlOriginal } = image;
+			if (url) {
+				await S3Service.deleteFile(this.bucketName, url.split('/').pop()!);
+			}
+			if (urlOriginal) {
+				await S3Service.deleteFile(this.bucketName, urlOriginal.split('/').pop()!);
+			}
+		}
+
+		article.images = [];
+		await article.save();
+		return article;
+	}
+
 	async uploadAuthor(image: any): Promise<any> {
 		const uploadedImage: any = {};
 		if (!image) {

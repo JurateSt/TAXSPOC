@@ -5,55 +5,19 @@ import slug from 'slug';
 // models
 import Article from '#models/Article';
 import FileService from '#services/FileService';
+import { addListener } from 'process';
 
 export default class ArticlesController {
 	async index({ response }: HttpContext) {
-		const articles = await Article.find().populate('authors');
+		const articles = await Article.find().populate('authors').sort({ createdAt: -1 });
 
-		articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
-		// console.log(articles, articles);
-		const shortArticles = articles.map((item) => {
-			const {
-				_id,
-				slug,
-				dateTag,
-				subHeader,
-				header,
-				supportingText,
-				tags,
-				categories,
-				images,
-				authors,
-				description,
-			} = item;
-			return {
-				_id,
-				slug,
-				dateTag,
-				subHeader,
-				header,
-				supportingText,
-				tags,
-				categories,
-				images,
-				authors,
-				description,
-			};
-		});
-
-		return response.json(shortArticles);
+		return response.json(articles);
 	}
 
 	async getLatest({ request, response }: HttpContext) {
 		const limit = parseInt(request.input('limit'), 10);
 
-		let articles = await Article.find().limit(limit).sort({ dateTag: -1 });
-		// if (!isNaN(limit)) {
-		// 	articles = articles.slice(0, limit);
-		// }
-		// const latestArticles = articles
-		// 	.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1))
-		// 	.slice(0, 8);
+		let articles = await Article.find({ status: 'Published' }).limit(limit).sort({ dateTag: -1 });
 		const shortArticles = articles.map((item) => {
 			const {
 				_id,
@@ -89,6 +53,7 @@ export default class ArticlesController {
 		const limit = parseInt(request.input('limit'), 10);
 
 		let articles = await Article.find({
+			status: 'Published',
 			categories: {
 				$elemMatch: {
 					type: type,
@@ -176,74 +141,75 @@ export default class ArticlesController {
 	}
 
 	async store({ request, response }: HttpContext) {
-		const {
-			images: _images,
-			tags,
-			authors,
-			categories,
-			regions,
-			countries,
-			otherCategories,
-			header,
-			dateTag,
-			...articleData
-		} = request.all();
+		// const {
+		// 	images: _images,
+		// 	tags,
+		// 	authors,
+		// 	categories,
+		// 	regions,
+		// 	countries,
+		// 	otherCategories,
+		// 	header,
+		// 	dateTag,
+		// 	...articleData
+		// } = request.all();
+		console.log('STORE ARTICLE', request.all());
 
 		const images = request.files('images');
 
-		const parsedAuthors = JSON.parse(authors || '[]');
-		const parsedRegions = JSON.parse(regions || '[]');
-		const parsedCountries = JSON.parse(countries || '[]');
-		const parsedOtherCategories = JSON.parse(otherCategories || '[]');
+		// const parsedAuthors = JSON.parse(authors || '[]');
+		// const parsedRegions = JSON.parse(regions || '[]');
+		// const parsedCountries = JSON.parse(countries || '[]');
+		// const parsedOtherCategories = JSON.parse(otherCategories || '[]');
 
-		const mappedAuthors = parsedAuthors?.map((item: any) => ({
-			_id: item._id,
-		}));
+		// const mappedAuthors = authors?.map((item: any) => ({
+		// 	_id: item._id,
+		// }));
 
-		const mappedRegions = parsedRegions?.map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			type: 'region',
-		}));
+		// const mappedRegions = regions?.map((item: any) => ({
+		// 	_id: item._id,
+		// 	name: item.name,
+		// 	type: 'region',
+		// }));
 
-		const mappedCountries = parsedCountries?.map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			code: item.code,
-			region: item.region,
-			type: 'country',
-		}));
-		const mappedOtherCategories = parsedOtherCategories?.map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			type: 'other',
-		}));
+		// const mappedCountries = countries?.map((item: any) => ({
+		// 	_id: item._id,
+		// 	name: item.name,
+		// 	code: item.code,
+		// 	region: item.region,
+		// 	type: 'country',
+		// }));
+		// const mappedOtherCategories = otherCategories?.map((item: any) => ({
+		// 	_id: item._id,
+		// 	name: item.name,
+		// 	type: 'other',
+		// }));
 
-		if (typeof tags === 'string') {
-			articleData.tags = tags.split(',').map((item) => item.trim());
-		}
-		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
-		articleData.authors = mappedAuthors;
+		// if (typeof tags === 'string') {
+		// 	articleData.tags = tags.split(',').map((item) => item.trim());
+		// }
+		// articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
+		// articleData.authors = mappedAuthors;
 
-		const slugHeader = slug(header);
-		const existingArticles = await Article.countDocuments({ slug: slugHeader });
-		if (existingArticles > 0) {
-			articleData.slug = `${slugHeader}-${existingArticles + 1}`;
-		} else {
-			articleData.slug = slugHeader;
-		}
+		// const slugHeader = slug(header);
+		// const existingArticles = await Article.countDocuments({ slug: slugHeader });
+		// if (existingArticles > 0) {
+		// 	articleData.slug = `${slugHeader}-${existingArticles + 1}`;
+		// } else {
+		// 	articleData.slug = slugHeader;
+		// }
 
-		articleData.dateTag = dateTag ? dateTag : null;
-		articleData.header = header;
-		const article = new Article(articleData);
+		// articleData.dateTag = dateTag ? dateTag : null;
+		// articleData.header = header;
+		const article = new Article(request.all());
 
 		// save images in S3
-		let articleImages: any[] = [];
-		if (images.length > 0) {
-			articleImages = await FileService.upload(images, article);
-		}
+		// let articleImages: any[] = [];
+		// if (images.length > 0) {
+		// 	articleImages = await FileService.upload(images, article);
+		// }
 
-		article.images = articleImages;
+		// article.images = articleImages;
 
 		await article.save();
 		return response.json(article);
@@ -252,43 +218,86 @@ export default class ArticlesController {
 	async update({ request, response }: HttpContext) {
 		const { id } = request.params();
 		const {
-			images: _images,
-			authors,
+			header,
+			croppedImage,
+			originalImage,
+			// images: _images,
+			// authors,
 			tags,
-			categories,
+			// categories,
 			regions,
 			countries,
 			otherCategories,
+			__v,
 			...articleData
 		} = request.all();
-		const images = request.files('images');
+		// const images = request.files('images');
+		const croppedImageFile = request.file('croppedImage');
+		const originalImageFile = request.file('originalImage');
+
+		if (header) {
+			const slugHeader = slug(header);
+			const existingArticles = await Article.countDocuments({ slug: slugHeader });
+			if (existingArticles > 0) {
+				articleData.slug = `${slugHeader}-${existingArticles + 1}`;
+			} else {
+				articleData.slug = slugHeader;
+			}
+			articleData.header = header;
+		}
+
+		const article = await Article.findById(id);
+		if (!article) {
+			return response.status(404).json({ message: 'Article not found' });
+		}
+
+		if (articleData.action === 'delete-image') {
+			const updatedArticle = await FileService.deleteArticleImage(article);
+			response.json(updatedArticle);
+		}
+
+		if (articleData.action === 'update-image') {
+			if (article?.images?.length > 0) {
+				await FileService.deleteArticleImage(article);
+			}
+
+			let urlCropped;
+			let urlOriginal;
+			if (croppedImageFile) {
+				urlCropped = await FileService.uploadArticle(croppedImageFile);
+			}
+			if (originalImageFile) {
+				urlOriginal = await FileService.uploadArticle(originalImageFile);
+			}
+			article.images.push({
+				url: urlCropped,
+				urlOriginal,
+				order: 1,
+				alt: articleData.alt,
+				caption: articleData.caption,
+				captionHtml: articleData.captionHtml,
+				linkOriginal: articleData.linkOriginal,
+			});
+		}
 
 		if (typeof tags === 'string') {
 			articleData.tags = tags.split(',').map((item) => item.trim());
 		}
-		const parsedAuthors = JSON.parse(authors || '[]');
-		const parsedRegions = JSON.parse(regions || '[]');
-		const parsedCountries = JSON.parse(countries || '[]');
-		const parsedOtherCategories = JSON.parse(otherCategories || '[]');
 
-		const mappedAuthors = parsedAuthors?.map((item: any) => ({
-			_id: item._id,
-		}));
-
-		const mappedRegions = parsedRegions?.map((item: any) => ({
+		const mappedRegions = (regions || []).map((item: any) => ({
 			_id: item._id,
 			name: item.name,
 			type: 'region',
 		}));
 
-		const mappedCountries = parsedCountries?.map((item: any) => ({
+		const mappedCountries = (countries || []).map((item: any) => ({
 			_id: item._id,
 			name: item.name,
 			code: item.code,
 			region: item.region,
 			type: 'country',
 		}));
-		const mappedOtherCategories = parsedOtherCategories?.map((item: any) => ({
+		const mappedOtherCategories = (otherCategories || []).map((item: any) => ({
 			_id: item._id,
 			name: item.name,
 			type: 'other',
@@ -298,20 +307,12 @@ export default class ArticlesController {
 		articleData.authors = mappedAuthors;
 
 		if (articleData.action === 'deleteFile') {
-			const article = await Article.findById(id);
 			const updatedArticle = await FileService.deleteImage(article, articleData.url);
 			response.json(updatedArticle);
 		}
 
-		const article = await Article.findByIdAndUpdate(id, articleData);
-
-		// save images in public folder
-		let articleImages: any[] = article?.images || [];
-		if (images.length > 0) {
-			articleImages = await FileService.upload(images, article);
-		}
-		article!.images = articleImages;
-		await article?.save();
+		article.set(articleData);
+		await article.save();
 		response.json(article);
 	}
 
