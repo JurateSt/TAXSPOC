@@ -23,7 +23,6 @@ export default class AuthorsController {
 
 	async store({ request, response }: HttpContext) {
 		const { image, ...authorData } = request.all();
-		const authorImage = request.file('image');
 
 		const author = new Author(authorData);
 
