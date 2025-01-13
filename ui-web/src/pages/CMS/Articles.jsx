@@ -67,7 +67,7 @@ const Articles = () => {
 		};
 
 		try {
-			const { data } = await api.post('/articles', initialData);
+			const { data } = await api.post('/cms/auth/articles', initialData);
 			setArticleId(data._id);
 			console.log('Article created:', data);
 			setArticles((prev) => [data, ...prev]);
