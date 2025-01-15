@@ -51,6 +51,7 @@ function App() {
 									<Route path="/cms/auth/articles/:id" element={<CMSArticle />} />
 									<Route path="/cms/auth/create-article" element={<CreateArticleTinyMCE />} />
 									<Route path="/cms/auth/create-article/:id" element={<EditArticle />} />
+									<Route path="/cms/auth/articles/preview/:slug" element={<Article />} />
 								</Route>
 
 								<Route path="/cms/login" element={<Login />} />

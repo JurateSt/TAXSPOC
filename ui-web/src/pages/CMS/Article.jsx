@@ -33,8 +33,6 @@ const Article = () => {
 	const location = useLocation();
 	// const { setArticles } = location.state || {};
 
-	console.log('ARTICLE ID:', id);
-
 	const [article, setArticle] = useState({
 		dateTag: null,
 		tags: [],
@@ -137,13 +135,13 @@ const Article = () => {
 	};
 
 	const handleSubmit = async () => {
-		console.log('handleSubmit:', article);
-
 		try {
-			const { data } = await api.put(`/cms/auth/articles/${id}`, article);
+			const { data: data } = await api.put(`/cms/auth/articles/${id}`, article);
+			// console.log('Article updated:', data, { ...article, data });
 			setArticle((prev) => ({ ...prev, data }));
 			setIsSaved(true);
 			alert('Article updated successfully');
+			window.location.reload();
 			// setOpen(false);
 		} catch (error) {
 			console.error('Error updating article:', error);
@@ -161,22 +159,18 @@ const Article = () => {
 			return;
 		}
 
-		console.log('handleSubmitStatus:', checked);
 		try {
-			const { data } = await api.put(`/articles/${id}`, {
+			const { data } = await api.put(`/cms/auth/articles/${id}`, {
 				status,
 			});
-			console.log('handleSubmitStatus:', data);
 			setArticle((prev) => ({ ...prev, status: data.status }));
 			setIsSaved(true);
-			// alert(`Article updated to ${status} successfully`);
 		} catch (error) {
 			console.error('Error updating article:', error);
 			alert('Error updating article', error);
 		}
 	};
 	const handleClose = () => {
-		console.log('handleClose:', isSaved);
 		if (isSaved) {
 			// setOpen(false);
 			navigate(`/cms/auth/articles`);
@@ -193,6 +187,13 @@ const Article = () => {
 				setIsSaved(true);
 			}
 		}
+	};
+
+	const handlePreview = () => {
+		console.log('handlePreview:', article);
+		// refresh all browser window
+		const previewUrl = `/cms/auth/articles/preview/${article.slug}`;
+		window.open(previewUrl, '_blank');
 	};
 
 	return (
@@ -470,6 +471,7 @@ const Article = () => {
 																...prev,
 																authors: prev.authors.filter((author) => author._id !== item._id),
 															}));
+															setIsSaved(false);
 														}}
 													>
 														<DeleteOutlineOutlinedIcon />
@@ -729,6 +731,12 @@ const Article = () => {
 					{/* Actions */}
 					<Grid container item xs={12}>
 						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+							<Button
+								onClick={handlePreview}
+								disabled={!isSaved || !article.dateTag || !article.header || !article.subHeader}
+							>
+								Preview Article
+							</Button>
 							<Button onClick={handleClose}>Close</Button>
 							<Button
 								variant="contained"
