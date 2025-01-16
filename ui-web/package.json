@@ -15,6 +15,8 @@
 		"include": [
 			"/",
 			"/home",
+			"/articles/eu-trade-relations-with-the-united-states-facts-and-figures",
+			"/articles/overview-of-chinas-value-added-tax-vat-law",
 			"/articles/netherlands-introduces-new-vat-rules-for-holding-companies-effective-july-2025",
 			"/articles/accenture-secures-landmark-victory-in-the-danish-supreme-courts",
 			"/articles/chinas-new-vat-law-is-set-to-take-effect-january-1-2026",
@@ -283,6 +285,7 @@
 			"--disable-setuid-sandbox",
 			"--disable-web-security"
 		],
+		"concurrency": 1,
 		"puppeteer": {
 			"executablePath": "/usr/bin/chromium-browser",
 			"timeout": 900000
