@@ -8,7 +8,7 @@ import Article from '#models/Article';
 export default class SitemapsController {
 	async generate({ response }: HttpContext): Promise<void> {
 		try {
-			const smStream = new SitemapStream({ hostname: 'https://wwww.taxspoc.com' });
+			const smStream = new SitemapStream({ hostname: 'https://www.taxspoc.com' });
 			smStream.write({ url: '/', changefreq: 'daily', priority: 1.0 });
 			smStream.write({ url: '/home', changefreq: 'daily', priority: 1.0 });
 			smStream.write({ url: '/about-us', changefreq: 'weekly', priority: 0.8 });
