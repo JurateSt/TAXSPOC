@@ -208,7 +208,7 @@ export default class ArticlesController {
 		}
 
 		if (typeof updateData.tags === 'string') {
-			updateData.tags = updateData.split(',').map((item) => item.trim());
+			updateData.tags = updateData.split(',').map((item: string) => item.trim());
 		}
 
 		if (updateData.regions || updateData.countries || updateData.otherCategories) {
