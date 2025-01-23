@@ -63,6 +63,10 @@ export default class ArticlesController {
 			.limit(limit)
 			.sort({ dateTag: -1 });
 		// articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
+		console.log(
+			'ARTICLES',
+			articles.map((item) => item.header)
+		);
 
 		// if (!isNaN(limit)) {
 		// 	articles = articles.slice(0, limit);
@@ -97,7 +101,7 @@ export default class ArticlesController {
 	}
 
 	async showMain({ response }: HttpContext) {
-		const articles = await Article.find();
+		const articles = await Article.find({ status: 'Published' });
 		const latestArticle = articles.sort((a, b) =>
 			(a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1
 		)[0];
@@ -136,19 +140,19 @@ export default class ArticlesController {
 
 	async showBySlug({ request, response }: HttpContext) {
 		const { slug } = request.params();
-		const article = await Article.findOne({ slug }).populate('authors');
+		const article = await Article.findOne({ slug, status: 'Published' }).populate('authors');
 		return response.json(article);
 	}
 
 	async store({ request, response }: HttpContext) {
 		const article = new Article(request.all());
-
 		await article.save();
 		return response.json(article);
 	}
 
 	async update({ request, response }: HttpContext) {
 		const { id } = request.params();
+		console.log('UPDATE ARTICLE', request.all());
 		const {
 			header,
 			croppedImage,
