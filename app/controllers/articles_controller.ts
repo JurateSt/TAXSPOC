@@ -62,11 +62,7 @@ export default class ArticlesController {
 		})
 			.limit(limit)
 			.sort({ dateTag: -1 });
-		// articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
 
-		// if (!isNaN(limit)) {
-		// 	articles = articles.slice(0, limit);
-		// }
 		const shortArticles = articles.map((item) => {
 			const {
 				_id,
@@ -97,7 +93,7 @@ export default class ArticlesController {
 	}
 
 	async showMain({ response }: HttpContext) {
-		const articles = await Article.find();
+		const articles = await Article.find({ status: 'Published' });
 		const latestArticle = articles.sort((a, b) =>
 			(a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1
 		)[0];
@@ -135,59 +131,54 @@ export default class ArticlesController {
 
 	async showBySlug({ request, response }: HttpContext) {
 		const { slug } = request.params();
-		const article = await Article.findOne({ slug }).populate('authors');
+		const article = await Article.findOne({ slug, status: 'Published' }).populate('authors');
 		return response.json(article);
 	}
 
 	async store({ request, response }: HttpContext) {
 		const article = new Article(request.all());
-
 		await article.save();
 		return response.json(article);
 	}
 
 	async update({ request, response }: HttpContext) {
 		const { id } = request.params();
-		const {
-			header,
-			croppedImage,
-			originalImage,
-			// images: _images,
-			// authors,
-			tags,
-			// categories,
-			regions,
-			countries,
-			otherCategories,
-			__v,
-			...articleData
-		} = request.all();
+		const updateData = request.all();
+		// const {
+		// 	header,
+		// 	croppedImage,
+		// 	originalImage,
+		// 	// images: _images,
+		// 	// authors,
+		// 	tags,
+		// 	// categories,
+		// 	regions,
+		// 	countries,
+		// 	otherCategories,
+		// 	__v,
+		// 	...articleData
+		// } = request.all();
 		// const images = request.files('images');
 		const croppedImageFile = request.file('croppedImage');
 		const originalImageFile = request.file('originalImage');
-
-		if (header) {
-			const slugHeader = slug(header);
-			const existingArticles = await Article.countDocuments({ slug: slugHeader });
-			if (existingArticles > 0) {
-				articleData.slug = `${slugHeader}-${existingArticles + 1}`;
-			} else {
-				articleData.slug = slugHeader;
-			}
-			articleData.header = header;
-		}
 
 		const article = await Article.findById(id);
 		if (!article) {
 			return response.status(404).json({ message: 'Article not found' });
 		}
 
-		if (articleData.action === 'delete-image') {
+		if (updateData.header) {
+			const slugHeader = slug(updateData.header);
+			const existingArticles = await Article.countDocuments({ slug: slugHeader });
+			updateData.slug = existingArticles > 0 ? `${slugHeader}-${existingArticles + 1}` : slugHeader;
+		}
+
+		if (updateData.action === 'delete-image') {
 			const updatedArticle = await FileService.deleteArticleImage(article);
 			response.json(updatedArticle);
 		}
 
-		if (articleData.action === 'update-image') {
+		if (updateData.action === 'update-image') {
 			if (article?.images?.length > 0) {
 				await FileService.deleteArticleImage(article);
 			}
@@ -204,44 +195,46 @@ export default class ArticlesController {
 				url: urlCropped,
 				urlOriginal,
 				order: 1,
-				alt: articleData.alt,
-				caption: articleData.caption,
-				captionHtml: articleData.captionHtml,
-				linkOriginal: articleData.linkOriginal,
+				alt: updateData.alt,
+				caption: updateData.caption,
+				captionHtml: updateData.captionHtml,
+				linkOriginal: updateData.linkOriginal,
 			});
 		}
 
-		if (typeof tags === 'string') {
-			articleData.tags = tags.split(',').map((item) => item.trim());
-		}
-
-		const mappedRegions = (regions || []).map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			type: 'region',
-		}));
-
-		const mappedCountries = (countries || []).map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			code: item.code,
-			region: item.region,
-			type: 'country',
-		}));
-		const mappedOtherCategories = (otherCategories || []).map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			type: 'other',
-		}));
-
-		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
-
-		if (articleData.action === 'deleteFile') {
-			const updatedArticle = await FileService.deleteImage(article, articleData.url);
+		if (updateData.action === 'deleteFile') {
+			const updatedArticle = await FileService.deleteImage(article, updateData.url);
 			response.json(updatedArticle);
 		}
 
-		article.set(articleData);
+		if (typeof updateData.tags === 'string') {
+			updateData.tags = updateData.split(',').map((item) => item.trim());
+		}
+
+		if (updateData.regions || updateData.countries || updateData.otherCategories) {
+			const mappedRegions = (updateData.regions || []).map((item: any) => ({
+				_id: item._id,
+				name: item.name,
+				type: 'region',
+			}));
+
+			const mappedCountries = (updateData.countries || []).map((item: any) => ({
+				_id: item._id,
+				name: item.name,
+				code: item.code,
+				region: item.region,
+				type: 'country',
+			}));
+			const mappedOtherCategories = (updateData.otherCategories || []).map((item: any) => ({
+				_id: item._id,
+				name: item.name,
+				type: 'other',
+			}));
+
+			updateData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
+		}
+
+		article.set(updateData);
 		await article.save();
 		response.json(article);
 	}
