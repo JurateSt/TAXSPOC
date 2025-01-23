@@ -165,6 +165,7 @@ const Article = () => {
 			});
 			setArticle((prev) => ({ ...prev, status: data.status }));
 			setIsSaved(true);
+			window.location.reload();
 		} catch (error) {
 			console.error('Error updating article:', error);
 			alert('Error updating article', error);
