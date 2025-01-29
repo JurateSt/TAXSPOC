@@ -35,8 +35,6 @@ const EditImageModal = ({ open, setOpen, image, imageToCrop, articleId, article,
 		setArticle((prev) => ({ ...prev, images: [{ ...prev.images[0], [name]: value }] }));
 	};
 
-	console.log('ARTICLE', article);
-
 	const handleSaveCroppedImage = async () => {
 		try {
 			const croppedImageBlob = await cropImage(imageToCrop, croppedAreaPixels, rotation);

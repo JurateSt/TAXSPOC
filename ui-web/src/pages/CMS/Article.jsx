@@ -150,11 +150,11 @@ const Article = () => {
 	const handleSubmitStatus = async (event) => {
 		const { checked } = event.target;
 		const status = checked ? 'Published' : 'Draft';
-		if (
-			!window.confirm(
-				`Are you sure you want to change the article status to "${status.toLocaleUpperCase()}"?\n\n1. Changing from DRAFT to PUBLISH - This article will be published and will appear PUBLICLY on the website.\n\n2. Changing from PUBLISHED to DRAFT - You are REMOVING from this article from appear publicly from the website. It will still be available in CMS for edit.`
-			)
-		) {
+		const infoText = checked
+			? 'Are you sure you want to change the article status to "PUBLISHED"?\n\nThis article will be published and will appear PUBLICLY on the website.'
+			: 'Are you sure you want to change the article status to "DRAFT"?\n\nYou are REMOVING from this article from appearing publicly on the website. It will still be available in CMS for edit.';
+
+		if (!window.confirm(infoText)) {
 			return;
 		}
 
