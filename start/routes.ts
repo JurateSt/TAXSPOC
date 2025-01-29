@@ -29,7 +29,7 @@ router
 			.group(() => {
 				router.get('google/redirect', [AuthController, 'redirect']);
 				router.get('google/callback', [AuthController, 'callback']);
-				// router.get('/articles/:id', [ArticlesController, 'show']);
+				router.get('/preview/articles/:slug', [ArticlesController, 'showBySlug']);
 				router.resource('articles', ArticlesController);
 			})
 			.prefix('cms/auth');
@@ -38,7 +38,7 @@ router
 		router.get('/articles-latest', [ArticlesController, 'getLatest']);
 		router.get('/articles/category', [ArticlesController, 'getByCategory']);
 
-		router.get('/articles/:slug', [ArticlesController, 'showBySlug']);
+		router.get('/articles/:slug', [ArticlesController, 'showBySlugPublic']);
 
 		// router.get('articles/main', [ArticlesController, 'showMain']);
 		router.resource('regions', RegionsController);

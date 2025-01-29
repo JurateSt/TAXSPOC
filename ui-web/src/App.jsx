@@ -33,6 +33,7 @@ import CMSHome from './pages/CMS/Home.jsx';
 import CMSAuthors from './pages/CMS/Authors.jsx';
 import CMSArticles from './pages/CMS/Articles.jsx';
 import CMSArticle from './pages/CMS/Article.jsx';
+import PreviewArticle from './pages/CMS/PreviewArticle.jsx';
 
 function App() {
 	const [count, setCount] = useState(0);
@@ -51,7 +52,7 @@ function App() {
 									<Route path="/cms/auth/articles/:id" element={<CMSArticle />} />
 									<Route path="/cms/auth/create-article" element={<CreateArticleTinyMCE />} />
 									<Route path="/cms/auth/create-article/:id" element={<EditArticle />} />
-									<Route path="/cms/auth/articles/preview/:slug" element={<Article />} />
+									<Route path="/cms/auth/articles/preview/:slug" element={<PreviewArticle />} />
 								</Route>
 
 								<Route path="/cms/login" element={<Login />} />

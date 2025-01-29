@@ -131,6 +131,12 @@ export default class ArticlesController {
 
 	async showBySlug({ request, response }: HttpContext) {
 		const { slug } = request.params();
+		const article = await Article.findOne({ slug }).populate('authors');
+		return response.json(article);
+	}
+
+	async showBySlugPublic({ request, response }: HttpContext) {
+		const { slug } = request.params();
 		const article = await Article.findOne({ slug, status: 'Published' }).populate('authors');
 		return response.json(article);
 	}
@@ -143,22 +149,9 @@ export default class ArticlesController {
 
 	async update({ request, response }: HttpContext) {
 		const { id } = request.params();
-		const updateData = request.all();
-		// const {
-		// 	header,
-		// 	croppedImage,
-		// 	originalImage,
-		// 	// images: _images,
-		// 	// authors,
-		// 	tags,
-		// 	// categories,
-		// 	regions,
-		// 	countries,
-		// 	otherCategories,
-		// 	__v,
-		// 	...articleData
-		// } = request.all();
-		// const images = request.files('images');
+		// eslint-disable-next-line @typescript-eslint/naming-convention
+		const { __v, ...newData } = request.all();
+
 		const croppedImageFile = request.file('croppedImage');
 		const originalImageFile = request.file('originalImage');
 
@@ -167,18 +160,18 @@ export default class ArticlesController {
 			return response.status(404).json({ message: 'Article not found' });
 		}
 
-		if (updateData.header) {
-			const slugHeader = slug(updateData.header);
+		if (newData.header) {
+			const slugHeader = slug(newData.header);
 			const existingArticles = await Article.countDocuments({ slug: slugHeader });
-			updateData.slug = existingArticles > 0 ? `${slugHeader}-${existingArticles + 1}` : slugHeader;
+			newData.slug = existingArticles > 0 ? `${slugHeader}-${existingArticles + 1}` : slugHeader;
 		}
 
-		if (updateData.action === 'delete-image') {
+		if (newData.action === 'delete-image') {
 			const updatedArticle = await FileService.deleteArticleImage(article);
 			response.json(updatedArticle);
 		}
 
-		if (updateData.action === 'update-image') {
+		if (newData.action === 'update-image') {
 			if (article?.images?.length > 0) {
 				await FileService.deleteArticleImage(article);
 			}
@@ -195,46 +188,46 @@ export default class ArticlesController {
 				url: urlCropped,
 				urlOriginal,
 				order: 1,
-				alt: updateData.alt,
-				caption: updateData.caption,
-				captionHtml: updateData.captionHtml,
-				linkOriginal: updateData.linkOriginal,
+				alt: newData.alt,
+				caption: newData.caption,
+				captionHtml: newData.captionHtml,
+				linkOriginal: newData.linkOriginal,
 			});
 		}
 
-		if (updateData.action === 'deleteFile') {
-			const updatedArticle = await FileService.deleteImage(article, updateData.url);
+		if (newData.action === 'deleteFile') {
+			const updatedArticle = await FileService.deleteImage(article, newData.url);
 			response.json(updatedArticle);
 		}
 
-		if (typeof updateData.tags === 'string') {
-			updateData.tags = updateData.split(',').map((item: string) => item.trim());
+		if (typeof newData.tags === 'string') {
+			newData.tags = newData.tags.split(',').map((item: string) => item.trim());
 		}
 
-		if (updateData.regions || updateData.countries || updateData.otherCategories) {
-			const mappedRegions = (updateData.regions || []).map((item: any) => ({
+		if (newData.regions || newData.countries || newData.otherCategories) {
+			const mappedRegions = (newData.regions || []).map((item: any) => ({
 				_id: item._id,
 				name: item.name,
 				type: 'region',
 			}));
 
-			const mappedCountries = (updateData.countries || []).map((item: any) => ({
+			const mappedCountries = (newData.countries || []).map((item: any) => ({
 				_id: item._id,
 				name: item.name,
 				code: item.code,
 				region: item.region,
 				type: 'country',
 			}));
-			const mappedOtherCategories = (updateData.otherCategories || []).map((item: any) => ({
+			const mappedOtherCategories = (newData.otherCategories || []).map((item: any) => ({
 				_id: item._id,
 				name: item.name,
 				type: 'other',
 			}));
 
-			updateData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
+			newData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
 		}
 
-		article.set(updateData);
+		article.set(newData);
 		await article.save();
 		response.json(article);
 	}
