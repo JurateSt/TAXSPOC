@@ -67,6 +67,7 @@ const ImageModal = ({
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
+		console.log('handleChange:', name, value);
 		setArticle((prev) => ({
 			...prev,
 			images: prev.images.map((item, index) => (index === 0 ? { ...item, [name]: value } : item)),
@@ -93,7 +94,11 @@ const ImageModal = ({
 	};
 
 	const handleDeleteImage = async () => {
-		if (!window.confirm('Are you sure you want to delete the image and all it`s properties?')) {
+		if (
+			!window.confirm(
+				'Image and all associated fields will be deleted.\n\nIf you want just to change image without deleting all associated fields - choose to "UPLOAD IMAGE" instead'
+			)
+		) {
 			return;
 		}
 		try {
@@ -171,7 +176,7 @@ const ImageModal = ({
 									onChange={handleChange}
 									variant="outlined"
 									multiline
-									rows={4}
+									minRows={4}
 									fullWidth
 									size="small"
 								/>
@@ -185,7 +190,7 @@ const ImageModal = ({
 									onChange={handleChange}
 									variant="outlined"
 									multiline
-									rows={4}
+									minRows={4}
 									fullWidth
 									size="small"
 								/>
@@ -201,7 +206,7 @@ const ImageModal = ({
 								onChange={handleChange}
 								variant="outlined"
 								multiline
-								rows={2}
+								minRows={2}
 								fullWidth
 								size="small"
 							/>
@@ -214,7 +219,7 @@ const ImageModal = ({
 								value={article?.images?.[0]?.captionHtml}
 								onChange={handleChange}
 								multiline
-								rows={2}
+								minRows={4}
 								variant="outlined"
 								fullWidth
 								size="small"

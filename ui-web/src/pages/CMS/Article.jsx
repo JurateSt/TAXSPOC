@@ -137,7 +137,6 @@ const Article = () => {
 	const handleSubmit = async () => {
 		try {
 			const { data: data } = await api.put(`/cms/auth/articles/${id}`, article);
-			// console.log('Article updated:', data, { ...article, data });
 			setArticle((prev) => ({ ...prev, data }));
 			setIsSaved(true);
 			alert('Article updated successfully');
@@ -191,8 +190,6 @@ const Article = () => {
 	};
 
 	const handlePreview = () => {
-		console.log('handlePreview:', article);
-		// refresh all browser window
 		const previewUrl = `/cms/auth/articles/preview/${article.slug}`;
 		window.open(previewUrl, '_blank');
 	};
@@ -734,7 +731,7 @@ const Article = () => {
 						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
 							<Button
 								onClick={handlePreview}
-								disabled={!isSaved || !article.dateTag || !article.header || !article.subHeader}
+								// disabled={!isSaved || !article.dateTag || !article.header || !article.subHeader}
 							>
 								Preview Article
 							</Button>

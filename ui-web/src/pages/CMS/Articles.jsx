@@ -45,7 +45,6 @@ const Articles = () => {
 	useEffect(() => {
 		getArticles();
 	}, []);
-	console.log('ARTICLES:', articles);
 
 	const handleAddArticle = async (event) => {
 		event.preventDefault();
@@ -69,17 +68,12 @@ const Articles = () => {
 		try {
 			const { data } = await api.post('/cms/auth/articles', initialData);
 			setArticleId(data._id);
-			console.log('Article created:', data);
 			setArticles((prev) => [data, ...prev]);
 			navigate(`/cms/auth/articles/${data._id}`);
 		} catch (error) {
 			console.error('Error creating article:', error);
 			alert('Error creating article', error);
 		}
-		// finally {
-		// 	navigate(`/cms/auth/articles/${articleId}`);
-		// 	// setOpen(true);
-		// }
 	};
 
 	const handleEdit = (id) => {
