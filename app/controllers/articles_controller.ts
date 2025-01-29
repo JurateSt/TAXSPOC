@@ -8,52 +8,15 @@ import FileService from '#services/FileService';
 
 export default class ArticlesController {
 	async index({ response }: HttpContext) {
-		const articles = await Article.find().populate('authors');
+		const articles = await Article.find().populate('authors').sort({ createdAt: -1 });
 
-		articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
-		// console.log(articles, articles);
-		const shortArticles = articles.map((item) => {
-			const {
-				_id,
-				slug,
-				dateTag,
-				subHeader,
-				header,
-				supportingText,
-				tags,
-				categories,
-				images,
-				authors,
-				description,
-			} = item;
-			return {
-				_id,
-				slug,
-				dateTag,
-				subHeader,
-				header,
-				supportingText,
-				tags,
-				categories,
-				images,
-				authors,
-				description,
-			};
-		});
-
-		return response.json(shortArticles);
+		return response.json(articles);
 	}
 
 	async getLatest({ request, response }: HttpContext) {
-		const limit = parseInt(request.input('limit'), 10);
+		const limit = Number.parseInt(request.input('limit'), 10);
 
-		let articles = await Article.find().limit(limit).sort({ dateTag: -1 });
-		// if (!isNaN(limit)) {
-		// 	articles = articles.slice(0, limit);
-		// }
-		// const latestArticles = articles
-		// 	.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1))
-		// 	.slice(0, 8);
+		let articles = await Article.find({ status: 'Published' }).limit(limit).sort({ dateTag: -1 });
 		const shortArticles = articles.map((item) => {
 			const {
 				_id,
@@ -86,9 +49,10 @@ export default class ArticlesController {
 	async getByCategory({ request, response }: HttpContext) {
 		const type = request.input('type');
 		const category = request.input('category');
-		const limit = parseInt(request.input('limit'), 10);
+		const limit = Number.parseInt(request.input('limit'), 10);
 
 		let articles = await Article.find({
+			status: 'Published',
 			categories: {
 				$elemMatch: {
 					type: type,
@@ -98,11 +62,7 @@ export default class ArticlesController {
 		})
 			.limit(limit)
 			.sort({ dateTag: -1 });
-		// articles.sort((a, b) => ((a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1));
 
-		// if (!isNaN(limit)) {
-		// 	articles = articles.slice(0, limit);
-		// }
 		const shortArticles = articles.map((item) => {
 			const {
 				_id,
@@ -133,7 +93,7 @@ export default class ArticlesController {
 	}
 
 	async showMain({ response }: HttpContext) {
-		const articles = await Article.find();
+		const articles = await Article.find({ status: 'Published' });
 		const latestArticle = articles.sort((a, b) =>
 			(a.dateTag ?? 0) > (b.dateTag ?? 0) ? -1 : 1
 		)[0];
@@ -175,149 +135,106 @@ export default class ArticlesController {
 		return response.json(article);
 	}
 
+	async showBySlugPublic({ request, response }: HttpContext) {
+		const { slug } = request.params();
+		const article = await Article.findOne({ slug, status: 'Published' }).populate('authors');
+		return response.json(article);
+	}
+
 	async store({ request, response }: HttpContext) {
-		const {
-			images: _images,
-			tags,
-			authors,
-			categories,
-			regions,
-			countries,
-			otherCategories,
-			header,
-			dateTag,
-			...articleData
-		} = request.all();
-
-		const images = request.files('images');
-
-		const parsedAuthors = JSON.parse(authors || '[]');
-		const parsedRegions = JSON.parse(regions || '[]');
-		const parsedCountries = JSON.parse(countries || '[]');
-		const parsedOtherCategories = JSON.parse(otherCategories || '[]');
-
-		const mappedAuthors = parsedAuthors?.map((item: any) => ({
-			_id: item._id,
-		}));
-
-		const mappedRegions = parsedRegions?.map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			type: 'region',
-		}));
-
-		const mappedCountries = parsedCountries?.map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			code: item.code,
-			region: item.region,
-			type: 'country',
-		}));
-		const mappedOtherCategories = parsedOtherCategories?.map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			type: 'other',
-		}));
-
-		if (typeof tags === 'string') {
-			articleData.tags = tags.split(',').map((item) => item.trim());
-		}
-		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
-		articleData.authors = mappedAuthors;
-
-		const slugHeader = slug(header);
-		const existingArticles = await Article.countDocuments({ slug: slugHeader });
-		if (existingArticles > 0) {
-			articleData.slug = `${slugHeader}-${existingArticles + 1}`;
-		} else {
-			articleData.slug = slugHeader;
-		}
-
-		articleData.dateTag = dateTag ? dateTag : null;
-		articleData.header = header;
-		const article = new Article(articleData);
-
-		// save images in S3
-		let articleImages: any[] = [];
-		if (images.length > 0) {
-			articleImages = await FileService.upload(images, article);
-		}
-
-		article.images = articleImages;
-
+		const article = new Article(request.all());
 		await article.save();
 		return response.json(article);
 	}
 
 	async update({ request, response }: HttpContext) {
 		const { id } = request.params();
-		const {
-			images: _images,
-			authors,
-			tags,
-			categories,
-			regions,
-			countries,
-			otherCategories,
-			...articleData
-		} = request.all();
-		const images = request.files('images');
+		// eslint-disable-next-line @typescript-eslint/naming-convention
+		const { __v, ...newData } = request.all();
 
-		if (typeof tags === 'string') {
-			articleData.tags = tags.split(',').map((item) => item.trim());
+		const croppedImageFile = request.file('croppedImage');
+		const originalImageFile = request.file('originalImage');
+
+		const article = await Article.findById(id);
+		if (!article) {
+			return response.status(404).json({ message: 'Article not found' });
 		}
-		const parsedAuthors = JSON.parse(authors || '[]');
-		const parsedRegions = JSON.parse(regions || '[]');
-		const parsedCountries = JSON.parse(countries || '[]');
-		const parsedOtherCategories = JSON.parse(otherCategories || '[]');
 
-		const mappedAuthors = parsedAuthors?.map((item: any) => ({
-			_id: item._id,
-		}));
+		if (newData.header) {
+			const slugHeader = slug(newData.header);
+			const existingArticles = await Article.countDocuments({ slug: slugHeader });
+			newData.slug = existingArticles > 0 ? `${slugHeader}-${existingArticles + 1}` : slugHeader;
+		}
 
-		const mappedRegions = parsedRegions?.map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			type: 'region',
-		}));
-
-		const mappedCountries = parsedCountries?.map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			code: item.code,
-			region: item.region,
-			type: 'country',
-		}));
-		const mappedOtherCategories = parsedOtherCategories?.map((item: any) => ({
-			_id: item._id,
-			name: item.name,
-			type: 'other',
-		}));
-
-		articleData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
-		articleData.authors = mappedAuthors;
-
-		if (articleData.action === 'deleteFile') {
-			const article = await Article.findById(id);
-			const updatedArticle = await FileService.deleteImage(article, articleData.url);
+		if (newData.action === 'delete-image') {
+			const updatedArticle = await FileService.deleteArticleImage(article);
 			response.json(updatedArticle);
 		}
 
-		const article = await Article.findByIdAndUpdate(id, articleData);
+		if (newData.action === 'update-image') {
+			if (article?.images?.length > 0) {
+				await FileService.deleteArticleImage(article);
+			}
 
-		// save images in public folder
-		let articleImages: any[] = article?.images || [];
-		if (images.length > 0) {
-			articleImages = await FileService.upload(images, article);
+			let urlCropped;
+			let urlOriginal;
+			if (croppedImageFile) {
+				urlCropped = await FileService.uploadArticle(croppedImageFile);
+			}
+			if (originalImageFile) {
+				urlOriginal = await FileService.uploadArticle(originalImageFile);
+			}
+			article.images.push({
+				url: urlCropped,
+				urlOriginal,
+				order: 1,
+				alt: newData.alt,
+				caption: newData.caption,
+				captionHtml: newData.captionHtml,
+				linkOriginal: newData.linkOriginal,
+			});
 		}
-		article!.images = articleImages;
-		await article?.save();
+
+		if (newData.action === 'deleteFile') {
+			const updatedArticle = await FileService.deleteImage(article, newData.url);
+			response.json(updatedArticle);
+		}
+
+		if (typeof newData.tags === 'string') {
+			newData.tags = newData.tags.split(',').map((item: string) => item.trim());
+		}
+
+		if (newData.regions || newData.countries || newData.otherCategories) {
+			const mappedRegions = (newData.regions || []).map((item: any) => ({
+				_id: item._id,
+				name: item.name,
+				type: 'region',
+			}));
+
+			const mappedCountries = (newData.countries || []).map((item: any) => ({
+				_id: item._id,
+				name: item.name,
+				code: item.code,
+				region: item.region,
+				type: 'country',
+			}));
+			const mappedOtherCategories = (newData.otherCategories || []).map((item: any) => ({
+				_id: item._id,
+				name: item.name,
+				type: 'other',
+			}));
+
+			newData.categories = [...mappedRegions, ...mappedCountries, ...mappedOtherCategories];
+		}
+
+		article.set(newData);
+		await article.save();
 		response.json(article);
 	}
 
 	async destroy({ request, response }: HttpContext) {
 		const { id } = request.params();
-		//find image and delete it in public folder
+		//find image and delete it in S3 folder
 		const article = await Article.findByIdAndDelete(id);
 		if (article) {
 			// for (const image of article?.images) {

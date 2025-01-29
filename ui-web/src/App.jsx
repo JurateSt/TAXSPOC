@@ -31,6 +31,9 @@ import NoPermission from './components/Auth/NoPermission.jsx';
 // CMS
 import CMSHome from './pages/CMS/Home.jsx';
 import CMSAuthors from './pages/CMS/Authors.jsx';
+import CMSArticles from './pages/CMS/Articles.jsx';
+import CMSArticle from './pages/CMS/Article.jsx';
+import PreviewArticle from './pages/CMS/PreviewArticle.jsx';
 
 function App() {
 	const [count, setCount] = useState(0);
@@ -45,8 +48,11 @@ function App() {
 								<Route element={<ProtectedRoute />}>
 									<Route path="/cms/auth/home" element={<CMSHome />} />
 									<Route path="/cms/auth/authors" element={<CMSAuthors />} />
+									<Route path="/cms/auth/articles" element={<CMSArticles />} />
+									<Route path="/cms/auth/articles/:id" element={<CMSArticle />} />
 									<Route path="/cms/auth/create-article" element={<CreateArticleTinyMCE />} />
 									<Route path="/cms/auth/create-article/:id" element={<EditArticle />} />
+									<Route path="/cms/auth/articles/preview/:slug" element={<PreviewArticle />} />
 								</Route>
 
 								<Route path="/cms/login" element={<Login />} />
