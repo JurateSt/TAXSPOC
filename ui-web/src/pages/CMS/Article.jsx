@@ -140,7 +140,7 @@ const Article = () => {
 			setArticle((prev) => ({ ...prev, data }));
 			setIsSaved(true);
 			alert('Article updated successfully');
-			window.location.reload();
+			// window.location.reload();
 			// setOpen(false);
 		} catch (error) {
 			console.error('Error updating article:', error);
@@ -164,7 +164,7 @@ const Article = () => {
 			});
 			setArticle((prev) => ({ ...prev, status: data.status }));
 			setIsSaved(true);
-			window.location.reload();
+			// window.location.reload();
 		} catch (error) {
 			console.error('Error updating article:', error);
 			alert('Error updating article', error);
