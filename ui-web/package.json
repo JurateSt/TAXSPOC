@@ -15,6 +15,18 @@
 		"include": [
 			"/",
 			"/home",
+			"/articles/uncertainty-looms-over-irs-as-trump-speaks-about-terminating-or-repurposing-88000-irs-workers",
+			"/articles/chinas-2025-business-climate-survey-highlights-shifting-sentiments-among-us-companies-in-china",
+			"/articles/egypt-2025-launching-the-strategic-committee-for-digital-economy-and-entrepreneurship",
+			"/articles/hmrc-under-fire-for-poor-customer-service-and-widening-tax-gap",
+			"/articles/eu-criticizes-trump-administrations-withdrawal-from-global-tax-deal",
+			"/articles/us-administration-rejects-oecd-global-tax-deal-to-reassert-sovereignty",
+			"/articles/america-first-trade-policy-a-new-strategy-for-economic-growth-and-security",
+			"/articles/egypt-and-the-sultanate-of-oman-convention-for-the-elimination-of-double-taxation-and-the-prevention-of-tax-evasion-with-respect-to-taxes-on-income",
+			"/articles/us-irs-commissioner-resigns-on-trumps-inauguration-date-democrats-raise-concerns-over-irs-nominee",
+			"/articles/president-elect-trump-announces-creation-of-external-revenue-service-to-collect-tariffs",
+			"/articles/eu-trade-relations-with-the-united-states-facts-and-figures",
+			"/articles/overview-of-chinas-value-added-tax-vat-law",
 			"/articles/netherlands-introduces-new-vat-rules-for-holding-companies-effective-july-2025",
 			"/articles/accenture-secures-landmark-victory-in-the-danish-supreme-courts",
 			"/articles/chinas-new-vat-law-is-set-to-take-effect-january-1-2026",
@@ -283,6 +295,7 @@
 			"--disable-setuid-sandbox",
 			"--disable-web-security"
 		],
+		"concurrency": 1,
 		"puppeteer": {
 			"executablePath": "/usr/bin/chromium-browser",
 			"timeout": 900000
