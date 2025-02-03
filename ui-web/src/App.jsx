@@ -28,6 +28,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import CookiesPolicy from './pages/CookiesPolicy';
 import AdvertiseWithUs from './pages/AdvertiseWithUs';
 import NoPermission from './components/Auth/NoPermission.jsx';
+import NotFound from './pages/NotFound.jsx';
 // CMS
 import CMSHome from './pages/CMS/Home.jsx';
 import CMSAuthors from './pages/CMS/Authors.jsx';
@@ -73,6 +74,7 @@ function App() {
 								<Route path="/privacy-policy" element={<PrivacyPolicy />} />
 								<Route path="/cookies-policy" element={<CookiesPolicy />} />
 								<Route path="/advertise-with-us" element={<AdvertiseWithUs />} />
+								<Route path="*" element={<NotFound />} />
 							</Routes>
 						</AuthProvider>
 					</BrowserRouter>
