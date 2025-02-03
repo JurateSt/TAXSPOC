@@ -18,7 +18,7 @@ const Bar = () => {
 						</Button>
 					</Grid>
 					<Grid item>
-						<Button variant="contained" onClick={() => navigate('/cms/auth/create-article')}>
+						<Button variant="contained" onClick={() => navigate('/cms/auth/articles')}>
 							Articles
 						</Button>
 					</Grid>

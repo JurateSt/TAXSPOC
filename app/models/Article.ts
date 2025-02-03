@@ -17,6 +17,7 @@ const ArticleSchema = new Schema(
 		images: { type: Array },
 		authors: [{ type: Schema.Types.ObjectId, ref: 'Author' }],
 		description: { type: String },
+		status: { type: String, default: 'Draft' },
 	},
 	{ timestamps: true }
 );

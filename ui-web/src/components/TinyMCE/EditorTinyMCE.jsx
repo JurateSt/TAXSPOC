@@ -26,6 +26,7 @@ const EditorTinyMCE = ({ value, onChange }) => {
 				],
 				ai_request: (request, respondWith) =>
 					respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+				height: 600,
 			}}
 			// initialValue={initialValue}
 			value={value}
