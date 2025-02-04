@@ -26,6 +26,7 @@ import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import Bar from '../../components/CMS/Bar';
 import EditorTinyMCE from '../../components/TinyMCE/EditorTinyMCE';
 import ImageModal from '../../components/CMS/Article/ImageModal';
+import slug from 'slug';
 
 const Article = () => {
 	const { id } = useParams();
@@ -42,6 +43,7 @@ const Article = () => {
 		otherCategories: [],
 		subHeader: '',
 		header: '',
+		slug: '',
 		supportingText: '',
 		// source: '',
 	});
@@ -137,7 +139,12 @@ const Article = () => {
 	const handleSubmit = async () => {
 		try {
 			const { data: data } = await api.put(`/cms/auth/articles/${id}`, article);
-			setArticle((prev) => ({ ...prev, data }));
+			console.log('handleSubmit:', data);
+			setArticle((prev) => ({ ...prev, slug: data.slug }));
+			// setArticle((prev) => {
+			// 	console.log('prev:', prev, data);
+			// 	return { ...prev, data };
+			// });
 			setIsSaved(true);
 			alert('Article updated successfully');
 			// window.location.reload();
@@ -659,6 +666,23 @@ const Article = () => {
 											variant="outlined"
 											fullWidth
 											size="small"
+											multiline
+											minRows={2}
+										/>
+									</Grid>
+									<Grid item xs={12}>
+										<TextField
+											margin="dense"
+											label="Slug"
+											name="header"
+											value={article.slug}
+											disabled
+											// onChange={handleChange}
+											variant="outlined"
+											fullWidth
+											size="small"
+											multiline
+											minRows={2}
 										/>
 									</Grid>
 									<Grid item xs={12}>
@@ -671,6 +695,8 @@ const Article = () => {
 											variant="outlined"
 											fullWidth
 											size="small"
+											multiline
+											minRows={2}
 										/>
 									</Grid>
 								</Grid>
