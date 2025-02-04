@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+// Helmet
+import { Helmet } from 'react-helmet-async';
 // MUI
 import { Container, Grid } from '@mui/material';
 // components
@@ -23,6 +25,27 @@ const AboutUs = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>About Us - Taxspoc: Your Trusted Tax News Source</title>
+				<meta
+					name="description"
+					content="Taxspoc is your Single Point of Contact for global and local tax news. We provide clear, logical, and well-organized tax information with timely updates and expert analysis on tax regulations worldwide."
+				/>
+				<link rel="canonical" href="https://taxspoc.com/about-us" />
+				<meta property="og:title" content="About Us - Taxspoc: Your Trusted Tax News Source" />
+				<meta
+					property="og:description"
+					content="Taxspoc is your Single Point of Contact for global and local tax news. We provide clear, logical, and well-organized tax information with timely updates and expert analysis on tax regulations worldwide."
+				/>
+				<meta property="og:url" content="https://taxspoc.com/about-us" />
+				<meta property="og:type" content="website" />
+				<meta name="twitter:card" content="summary_large_image" />
+				<meta name="twitter:title" content="About Us - Taxspoc: Your Trusted Tax News Source" />
+				<meta
+					name="twitter:description"
+					content="Taxspoc is your Single Point of Contact for global and local tax news. We provide clear, logical, and well-organized tax information with timely updates and expert analysis on tax regulations worldwide."
+				/>
+			</Helmet>
 			<MainBar />
 			<Container sx={{ marginTop: '16px' }}>
 				<Grid

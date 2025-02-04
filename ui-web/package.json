@@ -15,6 +15,12 @@
 		"include": [
 			"/",
 			"/home",
+			"/about-us",
+			"/terms-of-use",
+			"/privacy-policy",
+			"/cookies-policy",
+			"/articles/us-announces-new-tariffs-on-canada-mexico-and-china",
+			"/articles/mexico-and-us-reach-last-minute-deal-on-tariffs",
 			"/articles/us-tariff-threats-force-immigration-agreement-with-colombia",
 			"/articles/uncertainty-looms-over-irs-as-trump-speaks-about-terminating-or-repurposing-88000-irs-workers",
 			"/articles/chinas-2025-business-climate-survey-highlights-shifting-sentiments-among-us-companies-in-china",
