@@ -74,6 +74,7 @@ function App() {
 								<Route path="/privacy-policy" element={<PrivacyPolicy />} />
 								<Route path="/cookies-policy" element={<CookiesPolicy />} />
 								<Route path="/advertise-with-us" element={<AdvertiseWithUs />} />
+								<Route path="/404" element={<NotFound />} />
 								<Route path="*" element={<NotFound />} />
 							</Routes>
 						</AuthProvider>
