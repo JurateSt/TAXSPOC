@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+// Helmet
+import { Helmet } from 'react-helmet-async';
 // MUI
 import { Container, Grid } from '@mui/material';
 // components
@@ -16,6 +18,27 @@ const CookiesPolicy = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>Cookie Policy | How Taxspoc Uses Cookies</title>
+				<meta
+					name="description"
+					content="Learn how Taxspoc uses cookies to improve your experience. Review our cookie policy to understand what data is collected and how it’s used."
+				/>
+				<link rel="canonical" href="https://www.taxspoc.com/cookies-policy" />
+				<meta property="og:title" content="Cookie Policy | How Taxspoc Uses Cookies" />
+				<meta
+					property="og:description"
+					content="Learn how Taxspoc uses cookies to improve your experience. Review our cookie policy to understand what data is collected and how it’s used."
+				/>
+				<meta property="og:url" content="https://www.taxspoc.com/cookies-policy" />
+				<meta property="og:type" content="website" />
+				<meta name="twitter:card" content="summary_large_image" />
+				<meta name="twitter:title" content="Cookie Policy | How Taxspoc Uses Cookies" />
+				<meta
+					name="twitter:description"
+					content="Learn how Taxspoc uses cookies to improve your experience. Review our cookie policy to understand what data is collected and how it’s used."
+				/>
+			</Helmet>
 			<MainBar />
 			<Container sx={{ marginTop: '16px' }}>
 				<Grid

@@ -26,24 +26,25 @@ const AboutUs = () => {
 	return (
 		<>
 			<Helmet>
-				<title>About Us - Taxspoc: Your Trusted Tax News Source</title>
+				<title>About Us | Learn About Taxspoc’s Mission and Values</title>
 				<meta
 					name="description"
-					content="Taxspoc is your Single Point of Contact for global and local tax news. We provide clear, logical, and well-organized tax information with timely updates and expert analysis on tax regulations worldwide."
+					content="Discover Taxspoc’s mission to deliver free, high-quality tax news and expert insights. Learn how we are redefining access to global tax knowledge.
+"
 				/>
 				<link rel="canonical" href="https://taxspoc.com/about-us" />
-				<meta property="og:title" content="About Us - Taxspoc: Your Trusted Tax News Source" />
+				<meta property="og:title" content="About Us | Learn About Taxspoc’s Mission and Values" />
 				<meta
 					property="og:description"
-					content="Taxspoc is your Single Point of Contact for global and local tax news. We provide clear, logical, and well-organized tax information with timely updates and expert analysis on tax regulations worldwide."
+					content="Discover Taxspoc’s mission to deliver free, high-quality tax news and expert insights. Learn how we are redefining access to global tax knowledge."
 				/>
 				<meta property="og:url" content="https://taxspoc.com/about-us" />
 				<meta property="og:type" content="website" />
 				<meta name="twitter:card" content="summary_large_image" />
-				<meta name="twitter:title" content="About Us - Taxspoc: Your Trusted Tax News Source" />
+				<meta name="twitter:title" content="About Us | Learn About Taxspoc’s Mission and Values" />
 				<meta
 					name="twitter:description"
-					content="Taxspoc is your Single Point of Contact for global and local tax news. We provide clear, logical, and well-organized tax information with timely updates and expert analysis on tax regulations worldwide."
+					content="Discover Taxspoc’s mission to deliver free, high-quality tax news and expert insights. Learn how we are redefining access to global tax knowledge."
 				/>
 			</Helmet>
 			<MainBar />
