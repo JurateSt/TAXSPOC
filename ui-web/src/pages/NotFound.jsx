@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 // Helmet
 import { Helmet } from 'react-helmet-async';
 // MUI
-import { Box } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 
 const NotFound = () => {
@@ -30,7 +30,7 @@ const NotFound = () => {
 					px: 2,
 				}}
 			>
-				<h1>Page Not Found!</h1>
+				<h1>Sorry, this page could not be found!</h1>
 				<Button variant="outlined" onClick={handleClick}>
 					Return to Home
 				</Button>
