@@ -12,6 +12,9 @@ export default class SitemapsController {
 			smStream.write({ url: '/', changefreq: 'daily', priority: 1.0 });
 			smStream.write({ url: '/home', changefreq: 'daily', priority: 1.0 });
 			smStream.write({ url: '/about-us', changefreq: 'weekly', priority: 0.8 });
+			smStream.write({ url: '/terms-of-use', changefreq: 'weekly', priority: 0.8 });
+			smStream.write({ url: '/cookies-policy', changefreq: 'weekly', priority: 0.8 });
+			smStream.write({ url: '/privacy-policy', changefreq: 'weekly', priority: 0.8 });
 			smStream.write({
 				url: '/articles/category?type=other&category=OECD+BEPS',
 				changefreq: 'daily',
