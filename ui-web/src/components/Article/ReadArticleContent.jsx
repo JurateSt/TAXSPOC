@@ -8,7 +8,9 @@ const ReadArticleContent = ({ article }) => {
 			<Typography
 				sx={{ fontSize: '16px', fontStyle: 'normal', fontWeight: 400, lineHeight: '24px' }}
 			>
-				<div dangerouslySetInnerHTML={{ __html: article.content }} />
+				<div className="prose prose-lg">
+					<div dangerouslySetInnerHTML={{ __html: article.content }} />
+				</div>
 			</Typography>
 		</Grid>
 	);
