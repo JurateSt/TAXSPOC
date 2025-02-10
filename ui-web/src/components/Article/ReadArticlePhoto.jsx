@@ -17,12 +17,9 @@ const ReadArticlePhoto = ({ article }) => {
 				/>
 				{article?.images?.[0]?.caption && (
 					<figcaption
-						style={{ display: 'block', fontSize: '10px', lineHeight: '1.4', marginTop: '-4px' }}
+						style={{ display: 'block', fontSize: '12px', lineHeight: '1.4', marginTop: '-4px' }}
 					>
-						<span style={{ fontStyle: 'italic' }}>
-							<span style={{ color: '#FF5722' }}>|</span>{' '}
-							{article?.images?.[0]?.caption || article?.header}
-						</span>
+						<span>{article?.images?.[0]?.caption || article?.header}</span>
 					</figcaption>
 				)}
 			</figure>
