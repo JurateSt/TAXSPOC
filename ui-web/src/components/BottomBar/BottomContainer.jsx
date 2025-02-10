@@ -82,12 +82,12 @@ const BottomContainer = () => {
 								// rel="noopener noreferrer"
 								style={{ color: 'inherit' }}
 							> */}
-							<a href={VITE_BASE_URL + '/about-us'} style={{ color: 'inherit' }}>
+							<a href={VITE_BASE_URL + '/about'} style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">About us</Typography>
 							</a>
 							{/* </Link> */}
 							{/* <Link to="/contact-us" rel="noopener noreferrer" style={{ color: 'inherit' }}> */}
-							<a href={VITE_BASE_URL + '/contact-us'} style={{ color: 'inherit' }}>
+							<a href={VITE_BASE_URL + '/contact'} style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">Contact us</Typography>
 							</a>
 							{/* </Link> */}

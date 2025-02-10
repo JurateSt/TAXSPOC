@@ -68,8 +68,8 @@ function App() {
 								<Route path="/articles/:slug" element={<Article />} />
 								<Route path="/hot-topics/:number" element={<HotTopic />} />
 
-								<Route path="/about-us" element={<AboutUs />} />
-								<Route path="/contact-us" element={<ContactUs />} />
+								<Route path="/about" element={<AboutUs />} />
+								<Route path="/contact" element={<ContactUs />} />
 								<Route path="/terms-of-use" element={<TermsOfUse />} />
 								<Route path="/privacy-policy" element={<PrivacyPolicy />} />
 								<Route path="/cookies-policy" element={<CookiesPolicy />} />
