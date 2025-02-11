@@ -27,6 +27,23 @@ const Home = () => {
 		{ category: 'Customs', type: 'other' },
 	];
 
+	const jsonLdData = {
+		'@context': 'https://schema.org',
+		'@type': 'NewsMediaOrganization',
+		name: 'Taxspoc',
+		url: 'https://www.taxspoc.com/',
+		logo: 'https://www.taxspoc.com/logo-dark.png',
+		sameAs: ['https://www.linkedin.com/company/taxspoc', 'https://x.com/taxspoc'],
+		publisher: {
+			'@type': 'Organization',
+			name: 'Taxspoc',
+			logo: {
+				'@type': 'ImageObject',
+				url: 'https://www.taxspoc.com/logo-dark.png',
+			},
+		},
+	};
+
 	return (
 		<>
 			<Helmet>
@@ -49,6 +66,7 @@ const Home = () => {
 					content="Taxspoc is your Single Point of Contact for global and local tax news, providing clear, logical, and well-organized tax information."
 				/>
 				<meta name="twitter:image" content="https://www.taxspoc.com/logo-dark.png" />
+				<script type="application/ld+json">{JSON.stringify(jsonLdData)}</script>
 			</Helmet>
 			<MainBar />
 			<Container
