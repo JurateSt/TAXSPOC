@@ -11,7 +11,8 @@ export default class SitemapsController {
 			const smStream = new SitemapStream({ hostname: 'https://www.taxspoc.com' });
 			smStream.write({ url: '/', changefreq: 'daily', priority: 1.0 });
 			smStream.write({ url: '/home', changefreq: 'daily', priority: 1.0 });
-			smStream.write({ url: '/about-us', changefreq: 'weekly', priority: 0.8 });
+			smStream.write({ url: '/about', changefreq: 'weekly', priority: 0.8 });
+			smStream.write({ url: '/contact', changefreq: 'weekly', priority: 0.8 });
 			smStream.write({ url: '/terms-of-use', changefreq: 'weekly', priority: 0.8 });
 			smStream.write({ url: '/cookies-policy', changefreq: 'weekly', priority: 0.8 });
 			smStream.write({ url: '/privacy-policy', changefreq: 'weekly', priority: 0.8 });
