@@ -76,17 +76,10 @@ const BottomContainer = () => {
 								flexWrap: 'wrap',
 							}}
 						>
-							{/* <Link
-								to="/about-us"
-								// target="_blank"
-								// rel="noopener noreferrer"
-								style={{ color: 'inherit' }}
-							> */}
 							<a href={VITE_BASE_URL + '/about'} style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">About us</Typography>
 							</a>
 							{/* </Link> */}
-							{/* <Link to="/contact-us" rel="noopener noreferrer" style={{ color: 'inherit' }}> */}
 							<a href={VITE_BASE_URL + '/contact'} style={{ color: 'inherit' }}>
 								<Typography variant="bottomNavigationText">Contact us</Typography>
 							</a>

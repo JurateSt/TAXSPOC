@@ -15,7 +15,8 @@
 		"include": [
 			"/",
 			"/home",
-			"/about-us",
+			"/about",
+			"/contact",
 			"/terms-of-use",
 			"/privacy-policy",
 			"/cookies-policy",

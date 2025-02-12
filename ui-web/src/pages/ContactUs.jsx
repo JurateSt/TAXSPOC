@@ -68,14 +68,19 @@ const ContactUs = () => {
 				<div className="mt-8">
 					<h2 className="text-primary">REACH US DIRECTLY</h2>
 					<div className="flex items-center space-x-2">
-						<Mail className="w-5 h-5 text-primary mr-1" /> By Email:{' '}
+						<div className="w-8 h-8 flex items-center justify-center border border-solid border-primary rounded-md mr-1">
+							<Mail className="w-5 h-5 text-primary" />
+						</div>{' '}
+						By Email:{' '}
 						<a href="mailto:hello@taxspoc.com" className="text-sky-600  hover:text-sky-800">
 							hello@taxspoc.com
 						</a>
 					</div>
 					<div className="flex items-center space-x-2 mt-3">
-						<LinkedInIcon className="w-5 h-5 text-primary" />
-						Connect with Us on LinkedIn:{' '}
+						<div className="w-8 h-8 flex items-center justify-center border border-solid border-primary rounded-md mr-1">
+							<LinkedInIcon className="w-5 h-5 text-primary" />
+						</div>
+						Connect with Us on LinkedIn:
 						<a
 							href="https://www.linkedin.com/company/taxspoc"
 							className="text-sky-600 hover:text-sky-800"
