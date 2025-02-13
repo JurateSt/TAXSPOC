@@ -22,7 +22,7 @@ const ArticlesCategoryList = ({}) => {
 	const categoryName = searchParams.get('category');
 
 	const [page, setPage] = useState(1);
-	const articlesPerPage = 256;
+	const articlesPerPage = 500;
 
 	const handleLoadMore = () => {
 		setPage((prev) => prev + 1);
