@@ -29,18 +29,23 @@ const ReadArticleCategories = ({ article }) => {
 					flexWrap: 'wrap',
 				}}
 			>
-				{article?.categories?.map((item, index) => (
-					<Chip
-						sx={{
-							borderRadius: 0,
-							// backgroundColor: 'primary.deepOrange300',
-							color: 'primary.darkText',
-						}}
-						key={index}
-						label={item?.name}
-						onClick={() => onClick(item)}
-					/>
-				))}
+				{article?.categories?.map((item, index) => {
+					const categoryUrl = `/articles/category?type=${encodeURIComponent(item.type)}&category=${encodeURIComponent(item.name)}`;
+					return (
+						<a key={index} href={categoryUrl}>
+							<Chip
+								sx={{
+									borderRadius: 0,
+									// backgroundColor: 'primary.deepOrange300',
+									color: 'primary.darkText',
+								}}
+								key={index}
+								label={item?.name}
+								onClick={() => onClick(item)}
+							/>
+						</a>
+					);
+				})}
 			</Grid>
 		</>
 	);
