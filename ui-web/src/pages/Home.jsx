@@ -27,28 +27,55 @@ const Home = () => {
 		{ category: 'Customs', type: 'other' },
 	];
 
+	const jsonLdData = {
+		'@context': 'https://schema.org',
+		'@type': 'NewsMediaOrganization',
+		name: 'Taxspoc',
+		url: 'https://www.taxspoc.com/',
+		logo: 'https://www.taxspoc.com/logo-dark.png',
+		sameAs: ['https://www.linkedin.com/company/taxspoc', 'https://x.com/taxspoc'],
+		publisher: {
+			'@type': 'Organization',
+			name: 'Taxspoc',
+			logo: {
+				'@type': 'ImageObject',
+				url: 'https://www.taxspoc.com/logo-dark.png',
+			},
+		},
+	};
+
 	return (
 		<>
 			<Helmet>
-				<title>Taxspoc | Your Single Source for Global Tax</title>
+				<title>Taxspoc | Latest Global Tax News & Updates</title>
 				<link rel="canonical" href="https://www.taxspoc.com/" />
-				<meta name="title" content="Taxspoc | Your Single Source for Global Tax" />
-				<meta name="description" content="Home description" />
-				<meta property="og:title" content="Taxspoc | Your Single Source for Global Tax" />
+				<meta
+					name="description"
+					content="Stay updated with the latest global and local tax news. Taxspoc provides clear, well-organized tax insights for professionals and businesses."
+				/>
+				<meta property="og:title" content="Taxspoc | Global Tax News & Insights" />
 				<meta
 					property="og:description"
-					content="Taxspoc is your Single Point of Contact for global and local tax news, providing clear, logical, and well-organized tax information."
+					content="Stay informed with expert tax news, trends, and updates. Taxspoc is your single source for global taxation insights."
 				/>
 				<meta property="og:type" content="website" />
 				<meta property="og:url" content="https://www.taxspoc.com/" />
 				<meta property="og:image" content="https://www.taxspoc.com/logo-dark.png" />
 				<meta property="og:site_name" content="Taxspoc" />
-				<meta name="twitter:title" content="Taxspoc | Your Single Source for Global Tax" />
+
+				<meta name="twitter:card" content="summary_large_image" />
+				<meta name="twitter:title" content="Taxspoc | Latest Global Tax News & Insights" />
 				<meta
 					name="twitter:description"
-					content="Taxspoc is your Single Point of Contact for global and local tax news, providing clear, logical, and well-organized tax information."
+					content="Get the latest tax news, updates, and expert insights from Taxspoc. Your single source for global and local taxation."
 				/>
 				<meta name="twitter:image" content="https://www.taxspoc.com/logo-dark.png" />
+
+				<meta
+					name="keywords"
+					content="tax news, global tax updates, taxspoc, taxation trends, indirect tax, direct tax, OECD BEPS, tax technology, e-invoicing, e-reporting, customs, transfer pricing, UAE CIT, Brazil tax reform"
+				/>
+				<script type="application/ld+json">{JSON.stringify(jsonLdData)}</script>
 			</Helmet>
 			<MainBar />
 			<Container
