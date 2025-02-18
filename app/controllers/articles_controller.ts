@@ -47,6 +47,26 @@ export default class ArticlesController {
 	}
 
 	async getByCategory({ request, response }: HttpContext) {
+		const { category } = request.params();
+
+		// Search for articles that match this category name in any type
+		// const articles = await Article.find({ 'categories.name': category.toLowerCase() });
+		const articles = await Article.find({
+			categories: {
+				$elemMatch: { name: new RegExp(`^${category}$`, 'i') }, // Case-insensitive match
+			},
+		});
+
+		console.log('articles', category);
+
+		// if (articles.length === 0) {
+		// 	return response.status(404).json({ message: 'No articles found for this category' });
+		// }
+
+		return response.json(articles);
+	}
+
+	async getByCategoryOld({ request, response }: HttpContext) {
 		const type = request.input('type');
 		const category = request.input('category');
 		const limit = Number.parseInt(request.input('limit'), 10);
