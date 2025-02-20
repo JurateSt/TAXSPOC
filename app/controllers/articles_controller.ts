@@ -4,6 +4,10 @@ import slug from 'slug';
 // import { format } from 'date-fns';
 // models
 import Article from '#models/Article';
+import Country from '#models/Country';
+import OtherCategory from '#models/OtherCategory';
+import Region from '#models/Region';
+// services
 import FileService from '#services/FileService';
 
 export default class ArticlesController {
@@ -46,7 +50,59 @@ export default class ArticlesController {
 		return response.json(shortArticles);
 	}
 
+	async getByCategoryLimited({ request, response }: HttpContext) {
+		const { category } = request.params();
+
+		if (category === 'latest') {
+			const articles = await Article.find({ status: 'Published' }).limit(8).sort({ dateTag: -1 });
+			const matchedCategory = { name: 'Latest News', slug: 'latest' };
+			return response.json({ articles, category: matchedCategory });
+		}
+
+		// Find the category in all three collections
+		const [country, otherCategory, region] = await Promise.all([
+			Country.findOne({ slug: category }),
+			OtherCategory.findOne({ slug: category }),
+			Region.findOne({ slug: category }),
+		]);
+		const matchedCategory = country || otherCategory || region;
+
+		const articles = await Article.find({
+			categories: {
+				$elemMatch: { name: matchedCategory?.name },
+			},
+		}).limit(4);
+
+		return response.json({ articles, category: matchedCategory });
+	}
+
 	async getByCategory({ request, response }: HttpContext) {
+		const { category } = request.params();
+
+		if (category === 'latest') {
+			const articles = await Article.find({ status: 'Published' }).sort({ dateTag: -1 });
+			const matchedCategory = { name: 'Latest News', slug: 'latest' };
+			return response.json({ articles, category: matchedCategory });
+		}
+
+		// Find the category in all three collections
+		const [country, otherCategory, region] = await Promise.all([
+			Country.findOne({ slug: category }),
+			OtherCategory.findOne({ slug: category }),
+			Region.findOne({ slug: category }),
+		]);
+		const matchedCategory = country || otherCategory || region;
+
+		const articles = await Article.find({
+			categories: {
+				$elemMatch: { name: matchedCategory?.name },
+			},
+		});
+
+		return response.json({ articles, category: matchedCategory });
+	}
+
+	async getByCategoryOld({ request, response }: HttpContext) {
 		const type = request.input('type');
 		const category = request.input('category');
 		const limit = Number.parseInt(request.input('limit'), 10);

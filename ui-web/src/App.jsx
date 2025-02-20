@@ -16,6 +16,7 @@ import Home from './pages/Home';
 import Home2 from './pages/Home2';
 import CategoryArticlesList from './pages/CategoryArticlesList.jsx';
 import ArticlesCategoryList from './pages/ArticlesCategoryList.jsx';
+import Category from './pages/Category.jsx';
 import HotTopic from './pages/HotTopic.jsx';
 import Article from './pages/Article.jsx';
 import CreateArticle from './pages/CreateArticle';
@@ -62,8 +63,9 @@ function App() {
 								<Route path="/" element={<Home />} />
 								<Route path="/home" element={<Home />} />
 								<Route path="/home2" element={<Home2 />} />
-								<Route path="/category/articles" element={<CategoryArticlesList />} />
+								{/* <Route path="/category/articles" element={<CategoryArticlesList />} /> */}
 								<Route path="/articles/category" element={<ArticlesCategoryList />} />
+								<Route path="/category/:category" element={<Category />} />
 
 								<Route path="/articles/:slug" element={<Article />} />
 								<Route path="/hot-topics/:number" element={<HotTopic />} />
