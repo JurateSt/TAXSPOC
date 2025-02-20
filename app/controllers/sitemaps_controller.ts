@@ -17,42 +17,47 @@ export default class SitemapsController {
 			smStream.write({ url: '/cookies-policy', changefreq: 'weekly', priority: 0.8 });
 			smStream.write({ url: '/privacy-policy', changefreq: 'weekly', priority: 0.8 });
 			smStream.write({
-				url: '/articles/category?type=other&category=OECD+BEPS',
+				url: '/category/oecd-beps',
 				changefreq: 'daily',
 				priority: 0.9,
 			});
 			smStream.write({
-				url: '/articles/category?type=other&category=E-Invoicing+and+E-Reporting',
+				url: '/category/e-invoicing-and-e-reporting',
 				changefreq: 'daily',
 				priority: 0.9,
 			});
 			smStream.write({
-				url: '/articles/category?type=other&category=Brazil+Tax+Reform',
+				url: '/category/brazil-tax-reform',
 				changefreq: 'daily',
 				priority: 0.9,
 			});
 			smStream.write({
-				url: '/articles/category?type=other&category=UAE+CIT',
+				url: '/category/uae-cit',
 				changefreq: 'daily',
 				priority: 0.9,
 			});
 			smStream.write({
-				url: '/articles/category?type=other&category=Indirect+Tax',
+				url: '/category/indirect-tax',
 				changefreq: 'daily',
 				priority: 0.9,
 			});
 			smStream.write({
-				url: '/articles/category?type=other&category=Direct+Tax',
+				url: '/category/direct-tax',
 				changefreq: 'daily',
 				priority: 0.9,
 			});
 			smStream.write({
-				url: '/articles/category?type=other&category=Transfer+Pricing',
+				url: '/category/transfer-pricing',
 				changefreq: 'daily',
 				priority: 0.9,
 			});
 			smStream.write({
-				url: '/articles/category?type=other&category=Tax+Technology',
+				url: '/category/tax-technology',
+				changefreq: 'daily',
+				priority: 0.9,
+			});
+			smStream.write({
+				url: '/category/customs',
 				changefreq: 'daily',
 				priority: 0.9,
 			});
