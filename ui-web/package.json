@@ -340,7 +340,8 @@
 		"react-easy-crop": "^5.1.0",
 		"react-helmet-async": "^2.0.5",
 		"react-quill": "^2.0.0",
-		"react-router-dom": "^6.22.3"
+		"react-router-dom": "^6.22.3",
+		"slug": "^10.0.0"
 	},
 	"devDependencies": {
 		"@types/react": "^18.2.66",

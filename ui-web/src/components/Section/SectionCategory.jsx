@@ -1,23 +1,19 @@
-import { useNavigate } from 'react-router-dom';
 // MUI
-import { Grid, Typography, Box } from '@mui/material';
-import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
-import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import { Grid } from '@mui/material';
 // Styling
 import SmallOrangeBox from '../StylingComponents/SmallOrangeBox';
 import CategoryArrow from '../StylingComponents/CategoryArrow';
 
-const SectionCategory = ({ section }) => {
-	const navigate = useNavigate();
-
-	const { type, category } = section || {};
-
-	const searchParams = new URLSearchParams({ type, category });
+const SectionCategory = ({ category }) => {
 	return (
 		<Grid item xs={12} sx={{ paddingBottom: '12px' }}>
-			<Box
+			<a
+				href={`/category/${category?.slug}`}
+				className="flex items-center text-inherit no-underline hover:underline"
+			>
+				{/* <Box
 				component="a"
-				href={`/articles/category?${searchParams}`}
+				href={`/category/${category}`}
 				sx={{
 					display: 'flex',
 					alignItems: 'center',
@@ -27,16 +23,12 @@ const SectionCategory = ({ section }) => {
 						textDecoration: 'underline',
 					},
 				}}
-			>
+			> */}
 				<SmallOrangeBox />
-				<Typography sx={{ fontSize: '18px', fontWeight: '700' }}>
-					{/* {category.toUpperCase()} */}
-					{category}
-				</Typography>
+				<h1 className="text-lg font-bold m-0">{category?.name}</h1>
 				<CategoryArrow />
-
-				{/* <ChevronRightOutlinedIcon /> */}
-			</Box>
+			</a>
+			{/* </Box> */}
 		</Grid>
 	);
 };
