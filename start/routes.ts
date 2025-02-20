@@ -37,6 +37,7 @@ router
 
 		router.get('/articles-latest', [ArticlesController, 'getLatest']);
 		router.get('/articles/category', [ArticlesController, 'getByCategoryOld']);
+		router.get('/category/:category/limited', [ArticlesController, 'getByCategoryLimited']);
 		router.get('/category/:category', [ArticlesController, 'getByCategory']);
 
 		router.get('/articles/:slug', [ArticlesController, 'showBySlugPublic']);

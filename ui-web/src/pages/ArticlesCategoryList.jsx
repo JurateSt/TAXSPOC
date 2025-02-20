@@ -12,7 +12,7 @@ import MainArticle from '../components/MainArticle/MainArticle';
 import HotTopics from '../components/HotTopics/HotTopics.jsx';
 import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
 import ArticleCard from '../components/Article/ArticleCard.jsx';
-import Section from '../components/Section/Section.jsx';
+import Section from '../components/Section/SectionOld.jsx';
 import LoadMore from '../components/StylingComponents/LoadMore.jsx';
 
 const ArticlesCategoryList = ({}) => {
