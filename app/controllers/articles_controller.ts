@@ -71,7 +71,9 @@ export default class ArticlesController {
 			categories: {
 				$elemMatch: { name: matchedCategory?.name },
 			},
-		}).limit(4);
+		})
+			.limit(4)
+			.sort({ dateTag: -1 });
 
 		return response.json({ articles, category: matchedCategory });
 	}
@@ -97,7 +99,7 @@ export default class ArticlesController {
 			categories: {
 				$elemMatch: { name: matchedCategory?.name },
 			},
-		});
+		}).sort({ dateTag: -1 });
 
 		return response.json({ articles, category: matchedCategory });
 	}
