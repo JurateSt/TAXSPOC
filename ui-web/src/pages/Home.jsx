@@ -1,20 +1,57 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+// api
+import api from '../api/axios';
 // Helmet
 import { Helmet } from 'react-helmet';
 // MUI
 import { AppBar, Container, Grid, Typography, Box } from '@mui/material';
 // components
 import MainBar from '../components/MainBar.jsx';
+// import SectionLatest from '../components/Section/SectionLatestOld.jsx';
 import SectionLatest from '../components/Section/SectionLatest.jsx';
 import Section from '../components/Section/Section.jsx';
 import BottomContainer from '../components/BottomBar/BottomContainer.jsx';
 
 const Home = () => {
-	const [latestLoaded, setLatestLoaded] = useState(false);
 	const articlesPerPage = 4;
+	const [latestLoaded, setLatestLoaded] = useState(false);
+	const [sectionsData, setSectionsData] = useState({});
 
 	const sections = [
+		{ category: 'latest' },
+		{ category: 'oecd-beps' },
+		{ category: 'e-invoicing-and-e-reporting' },
+		{ category: 'brazil-tax-reform' },
+		{ category: 'uae-cit' },
+		{ category: 'indirect-tax' },
+		{ category: 'direct-tax' },
+		{ category: 'transfer-pricing' },
+		{ category: 'tax-technology' },
+		{ category: 'customs' },
+	];
+
+	const getArticles = async () => {
+		const sectionArticles = {};
+
+		await Promise.all(
+			sections.map(async (item) => {
+				const { data } = await api.get(`/category/${item.category}/limited`);
+				sectionArticles[item.category] = {
+					articles: data.articles,
+					category: data.category,
+				};
+			})
+		);
+
+		setSectionsData(sectionArticles);
+	};
+
+	useEffect(() => {
+		getArticles();
+	}, []);
+
+	const sectionsOld = [
 		// { category: 'Latest News', type: 'latest', param: 'latest' },
 		{ category: 'OECD BEPS', type: 'other' },
 		{ category: 'E-Invoicing and E-Reporting', type: 'other' },
@@ -81,15 +118,29 @@ const Home = () => {
 			<Container
 			// sx={{ border: '1px solid blue' }}
 			>
-				<SectionLatest
+				{/* <SectionLatest
 					key="latest"
 					section={{ category: 'Latest News', type: 'latest' }}
 					onLoaded={() => setLatestLoaded(true)}
+				/> */}
+				<SectionLatest
+					key="latest"
+					category={sectionsData['latest']?.category}
+					articles={sectionsData['latest']?.articles}
 				/>
-				{latestLoaded &&
-					sections.map((item, index) => (
-						<Section key={index} section={item} limit={articlesPerPage} customStyles={{}} />
+				{sections
+					.filter((item) => item.category !== 'latest')
+					.map((item, index) => (
+						<Section
+							key={index}
+							category={sectionsData[item.category]?.category}
+							articles={sectionsData[item.category]?.articles}
+						/>
 					))}
+				{/* {latestLoaded &&
+					sectionsOld.map((item, index) => (
+						<Section key={index} section={item} limit={articlesPerPage} customStyles={{}} />
+					))} */}
 			</Container>
 			<BottomContainer />
 		</>

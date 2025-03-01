@@ -1,5 +1,7 @@
 // React
 import { useNavigate, useLocation } from 'react-router-dom';
+//libraries
+import slug from 'slug';
 // MUI
 import { Typography, Grid, Box, Button, Chip } from '@mui/material';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
@@ -30,7 +32,8 @@ const ReadArticleCategories = ({ article }) => {
 				}}
 			>
 				{article?.categories?.map((item, index) => {
-					const categoryUrl = `/articles/category?type=${encodeURIComponent(item.type)}&category=${encodeURIComponent(item.name)}`;
+					// const categoryUrl = `/articles/category?type=${encodeURIComponent(item.type)}&category=${encodeURIComponent(item.name)}`;
+					const categoryUrl = `/category/${slug(item.name)}`;
 					return (
 						<a key={index} href={categoryUrl}>
 							<Chip
@@ -41,7 +44,7 @@ const ReadArticleCategories = ({ article }) => {
 								}}
 								key={index}
 								label={item?.name}
-								onClick={() => onClick(item)}
+								// onClick={() => onClick(item)}
 							/>
 						</a>
 					);

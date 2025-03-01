@@ -54,13 +54,22 @@ const NavigationBar = () => {
 	};
 
 	const hotTopicsMenuItems = [
-		{ label: 'OECD BEPS', path: generateCategoryPath('other', 'OECD BEPS') },
+		{
+			label: 'OECD BEPS',
+			path: '/category/oecd-beps', //generateCategoryPath('other', 'OECD BEPS')
+		},
 		{
 			label: 'E-Invoicing and E-Reporting',
-			path: generateCategoryPath('other', 'E-Invoicing and E-Reporting'),
+			path: '/category/e-invoicing-and-e-reporting', //generateCategoryPath('other', 'E-Invoicing and E-Reporting'),
 		},
-		{ label: 'Brazil Tax Reform', path: generateCategoryPath('other', 'Brazil Tax Reform') },
-		{ label: 'UAE CIT', path: generateCategoryPath('other', 'UAE CIT') },
+		{
+			label: 'Brazil Tax Reform',
+			path: '/category/brazil-tax-reform', //generateCategoryPath('other', 'Brazil Tax Reform')
+		},
+		{
+			label: 'UAE CIT',
+			path: '/category/uae-cit', //generateCategoryPath('other', 'UAE CIT')
+		},
 	];
 
 	const navigationItems = [
@@ -68,22 +77,30 @@ const NavigationBar = () => {
 		{ label: 'Hot Topics', path: '/hot-topics', menuItems: hotTopicsMenuItems },
 		{
 			label: 'Indirect Tax',
-			path: generateCategoryPath('other', 'Indirect Tax'),
+			path: '/category/indirect-tax', //generateCategoryPath('other', 'Indirect Tax'),
 			menuItems: [],
 		},
-		{ label: 'Direct Tax', path: generateCategoryPath('other', 'Direct Tax'), menuItems: [] },
+		{
+			label: 'Direct Tax',
+			path: '/category/direct-tax', //generateCategoryPath('other', 'Direct Tax'),
+			menuItems: [],
+		},
 
 		{
 			label: 'Transfer Pricing',
-			path: generateCategoryPath('other', 'Transfer Pricing'),
+			path: '/category/transfer-pricing', //generateCategoryPath('other', 'Transfer Pricing'),
 			menuItems: [],
 		},
 		{
 			label: 'Tax Technology',
-			path: generateCategoryPath('other', 'Tax Technology'),
+			path: '/category/tax-technology', //generateCategoryPath('other', 'Tax Technology'),
 			menuItems: [],
 		},
-		{ label: 'Customs', path: generateCategoryPath('other', 'Customs'), menuItems: [] },
+		{
+			label: 'Customs',
+			path: '/category/customs', //generateCategoryPath('other', 'Customs'),
+			menuItems: [],
+		},
 	];
 
 	return (

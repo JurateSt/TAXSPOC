@@ -15,7 +15,7 @@ const ReadArticleSupportingText = ({ article }) => {
 		// 	}}
 		// >
 		<Grid item xs={12}>
-			<Typography
+			{/* <Typography
 				sx={{
 					fontSize: ['20px', '20px', '24px'], // xs, sm, md
 					lineHeight: ['24px', '24px', '28px'], // xs, sm, md
@@ -24,7 +24,10 @@ const ReadArticleSupportingText = ({ article }) => {
 				}}
 			>
 				{article?.supportingText}
-			</Typography>
+			</Typography> */}
+			<h2 className="text-[20px] sm:text-[20px] md:text-[24px] leading-[24px] sm:leading-[24px] md:leading-[28px] font-normal m-0">
+				{article?.supportingText}
+			</h2>
 		</Grid>
 		// </Box>
 	);
