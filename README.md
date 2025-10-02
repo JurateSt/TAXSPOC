@@ -1,29 +1,13 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## TAXSPOC – International Tax News Portal ##
+https://www.taxspoc.com is a full-stack application for publishing and browsing international tax news. It features a Node.js backend (AdonisJS 6 + MongoDB) with REST APIs and a React frontend built with Vite. Images are managed via S3, and key routes are pre-rendered for SEO with react-snap.
 
-### What is this repository for? ###
+### Tech Stack ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Backend: AdonisJS 6, TypeScript, Mongoose, JWT/Ally (Google OAuth)
+* Frontend: React 18, Vite, Tailwind CSS, MUI, react-router, react-helmet-async
+* SEO/Pre-render: react-snap (pre-renders many article and policy routes)
+* Storage: AWS S3
+* int/Format: ESLint + Prettier
 
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
